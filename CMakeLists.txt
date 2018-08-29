@@ -6,5 +6,8 @@ project(GameEngine)
 
 #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -framework GLUT -framework OpenGL")
 
+set(CMAKE_CXX_STANDARD 14)
+set(SOURCE_FILES main.cpp Particule.cpp Particule.h Vecteur3D.cpp Vecteur3D.h)
+
 #Crée l'exécutable pour le projet
-add_executable(Main main.cpp)
+add_executable(2Be3_Engine ${SOURCE_FILES})
