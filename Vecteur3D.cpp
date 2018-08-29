@@ -1,9 +1,5 @@
 //
-// Created by loicsrz on 29/08/2018.
+// Created by Vince on 29/08/2018.
 //
-#include<IOStream>
 
-int main()
-{
-    std::cout << "Hello World!";
-}
+#include "Vecteur3D.h"
