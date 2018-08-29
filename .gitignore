@@ -1,1 +1,2 @@
 .idea/ #IDEA configuration files
+cmake-build-debug/
