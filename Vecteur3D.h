@@ -19,7 +19,7 @@ public:
     // Constructeur par défaut.
     Vecteur3D();
 
-    // Constructeur.
+    // Constructeur connaissant les coordonnées du vecteur.
     Vecteur3D(float x, float y, float z);
 
     // Destructeur.
@@ -49,7 +49,7 @@ public:
     // Méthode qui permet d'obtenir l'angle entre 2 vecteurs.
     float ObtenirAngle(Vecteur3D *v);
 
-    // Méthode qui permet d'obtenir la projection du vecteur sur le vecteur v
+    // Méthode qui permet d'obtenir la projection du vecteur sur le vecteur v.
     Vecteur3D * ObtenirProjection(Vecteur3D *v);
 
     // Méthode qui permet d'obtenir la distance entre 2 vecteurs.
