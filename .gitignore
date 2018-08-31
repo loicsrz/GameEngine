@@ -2,3 +2,9 @@
 cmake-build-debug/
 
 \.idea/workspace\.xml
+
+freeglut/bin/x64/2Be3_Engine\.exe
+
+freeglut/bin/x64/2Be3_Engine\.ilk
+
+freeglut/bin/x64/2Be3_Engine\.pdb
