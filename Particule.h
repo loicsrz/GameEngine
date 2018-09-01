@@ -7,7 +7,18 @@
 
 
 class Particule {
+protected:
+    float pos;
+    float vel;
+    float acc;
+    float inverseMasse;
 
+public:
+    void integrer (float temps);
+
+    float getInverseMasse() const;
+
+    void setInverseMasse(float inverseMasse);
 };
 
 
