@@ -10,7 +10,7 @@
 
 class Vecteur3D {
 protected:
-    // On définit içi les 3 coordonnées du vecteur(x,y,z).
+    // On définit ici les 3 coordonnées du vecteur(x,y,z).
     float x;
     float y;
     float z;
@@ -25,19 +25,19 @@ public:
     // Destructeur.
     virtual ~Vecteur3D();
 
-    // Méthode qui définit l'addition entre 2 vecteurs.
+    // Méthode qui définit l'addition entre le vecteur et un vecteur v.
     Vecteur3D * AjoutVecteur(Vecteur3D *v);
 
-    // Méthode qui définit la soustraction entre 2 vecteurs.
+    // Méthode qui définit la soustraction entre le vecteur et un vecteur v.
     Vecteur3D * SoustraireVecteur(Vecteur3D *v);
 
-    // Méthode qui définit la multiplication du vecteur par un scalaire.
+    // Méthode qui définit la multiplication du vecteur par un scalaire nb.
     Vecteur3D * MultiplierScalaire(float nb);
 
-    // Méthode qui définit le produit de la composante entre 2 vecteurs.
+    // Méthode qui définit le produit de la composante entre le vecteur et un vecteur v.
     Vecteur3D * ProduitComposante(Vecteur3D *v);
 
-    // Méthode qui définit le produit scalaire entre 2 vecteurs.
+    // Méthode qui définit le produit scalaire entre le vecteur et un vecteur v.
     float ProduitScalaire(Vecteur3D *v);
 
     // Méthode qui permet d'obtenir la norme du vecteur.
@@ -46,22 +46,22 @@ public:
     // Méthode qui permet de normaliser le vecteur.
     Vecteur3D * NormaliserVecteur();
 
-    // Méthode qui permet d'obtenir l'angle entre 2 vecteurs.
+    // Méthode qui permet d'obtenir l'angle entre le vecteur et un vecteur v.
     float ObtenirAngle(Vecteur3D *v);
 
-    // Méthode qui permet d'obtenir la projection du vecteur sur le vecteur v.
+    // Méthode qui permet d'obtenir la projection du vecteur sur un vecteur v.
     Vecteur3D * ObtenirProjection(Vecteur3D *v);
 
-    // Méthode qui permet d'obtenir la distance entre 2 vecteurs.
+    // Méthode qui permet d'obtenir la distance entre le vecteur et un vecteur v.
     float Distance(Vecteur3D *v);
 
-    // Méthode qui permet de faire le produit vectoriel entre 2 vecteurs.
+    // Méthode qui permet de faire le produit vectoriel entre le vecteur et un vecteur v.
     Vecteur3D * ProduitVectoriel(Vecteur3D *v);
 
-    // Méthode qui permet de faire le produit mixte entre 3 vecteurs.
+    // Méthode qui permet de faire le produit mixte entre le vecteur, un vecteur v et un vecteur w.
     float ProduitMixte(Vecteur3D *v, Vecteur3D *w);
 
-    // Début de l'ensemble des getteurs et setters de la classe Vector3D.
+    // Début de l'ensemble des getters et setters de la classe Vector3D.
     float getX() const;
 
     void setX(float x);
@@ -73,7 +73,7 @@ public:
     float getZ() const;
 
     void setZ(float z);
-    // Fin de l'ensemble des getteurs et setters de la classe Vector3D.
+    // Fin de l'ensemble des getters et setters de la classe Vector3D.
 };
 
 
