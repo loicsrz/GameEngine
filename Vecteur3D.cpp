@@ -59,9 +59,9 @@ float Vecteur3D::ObtenirAngle(Vecteur3D *v) {
 
 // Méthode qui permet d'obtenir la projection du vecteur sur un vecteur v.
 Vecteur3D * Vecteur3D::ObtenirProjection(Vecteur3D *v) {
-    // On récupère la norme de v
+    // On récupère la norme de v.
     float normeV = v->ObtenirNorme();
-    // On fait le calcul de la partie gauche du produit scalaire (u.v/||v||²)
+    // On fait le calcul de la partie gauche du produit scalaire (u.v/||v||²).
     float proportion = this->ProduitScalaire(v)/(normeV*normeV);
     // On multiplie le scalaire obtenue par le vecteur v sur lequel on projecte notre vecteur.
     return v->MultiplierScalaire(proportion);
