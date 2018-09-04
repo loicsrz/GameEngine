@@ -15,6 +15,7 @@ set(FREEGLUT_LIBRARIES freeglut)
 # Déclaration de la librarie Google Test
 set(GTEST_INCLUDE_DIRS googletest/include)
 set(GTEST_LIBRARIES googletest)
+set(GTEST_LIBRARY_DIRS googletest/lib/x64)
 
 include_directories(${GTEST_INCLUDE_DIRS} ${GTEST_LIBRARIES})
 
@@ -29,7 +30,10 @@ set(SOURCE_FILES main.cpp Particule.cpp Particule.h Test_Particule.cpp Vecteur3D
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${FREEGLUT_INCLUDE_DIRS} )
 
 #Création du lien avec la librairie FreeGLUT
-link_directories(${FREEGLUT_LIBRARY_DIRS})
+link_directories(${FREEGLUT_LIBRARY_DIRS} )
+
+#Création du lien avec la librairie GoogleTest
+link_directories(${GTEST_LIBRARY_DIRS})
 
 # Création de l'exécutable pour le projet
 add_executable(2Be3_Engine ${SOURCE_FILES})
