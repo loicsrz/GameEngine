@@ -16,14 +16,19 @@ void displayMe(void)
     glFlush();
 }
 
-int main(int argc, char** argv)
+void glutDisplayInit(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE);
     glutInitWindowSize(300, 300);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("Hello world :D");
+    glutCreateWindow("2Be3_Engine");
     glutDisplayFunc(displayMe);
     glutMainLoop();
+}
+
+int main(int argc, char** argv)
+{
+    glutDisplayInit(argc, argv);
     return 0;
 }
