@@ -1,7 +1,9 @@
 .idea/ #IDEA configuration files
-cmake-build-debug/
-
 \.idea/workspace\.xml
+CMakeFiles/
+src/CMakeFiles/
+test/CMakeFiles/
+
 
 freeglut/bin/x64/2Be3_Engine\.exe
 
