@@ -16,3 +16,17 @@ cmake_install\.cmake
 GameEngine\.cbp
 
 Makefile
+
+bin/x64/2Be3_Engine_Test\.exe
+
+bin/x64/2Be3_Engine_Test\.ilk
+
+bin/x64/2Be3_Engine_Test\.pdb
+
+bin/x64/2Be3_Engine\.exe
+
+bin/x64/2Be3_Engine\.ilk
+
+bin/x64/2Be3_Engine\.pdb
+
+CMakeCache\.txt

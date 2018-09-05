@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.4)
 # Déclaration du nom du projet
 project(GameEngine)
 
-set(TEST false)
+set(TEST true)
 
 #Déclaration du dossier de sortie
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ../bin/x64)
