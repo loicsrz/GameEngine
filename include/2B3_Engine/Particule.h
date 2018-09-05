@@ -3,6 +3,7 @@
 //
 #include "../include/2B3_Engine/Vecteur3D.h"
 #include "Vecteur3D.h"
+#include <cmath>
 
 #ifndef GAMEENGINE_PARTICULE_H
 #define GAMEENGINE_PARTICULE_H
@@ -10,9 +11,13 @@
 
 class Particule {
 public:
-    Particule(Vecteur3D* position, Vecteur3D* velocite, float inverseMasse, float damping);
-
     Particule();
+
+    Particule(Vecteur3D* position, Vecteur3D* velocite, float masse, float damping);
+
+    Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse, float damping);
+
+    virtual ~Particule();
 
 protected:
     // Position.
@@ -25,13 +30,10 @@ protected:
     float inverseMasse;
     //Damping (forces de frottement)
     float damping;
-public:
-
-
 
 public:
     // Méthode visant à calculer la position et la vitesse de la prochaine frame.
-    void integrer (float temps);
+    void integrateur (float temps);
 
     // Début de l'ensemble des getters et setters de la classe Particule.
     float getInverseMasse() const;
@@ -58,6 +60,11 @@ public:
 
     Vecteur3D *getAcceleration() const;
     // Fin de l'ensemble des getters et setters de la classe Particule.
+
+protected:
+    void UpdateVelocite(float temps);
+
+    void UpdatePosition(float temps);
 
 };
 

@@ -5,6 +5,7 @@
 #include "../include/2B3_Engine/Particule.h"
 #include "../include/2B3_Engine/Vecteur3D.h"
 
+
 Particule::Particule() {
     this->position = new Vecteur3D(0,0,2);
     this->velocite = new Vecteur3D(0,1,1);
@@ -13,14 +14,26 @@ Particule::Particule() {
     this->acceleration = new Vecteur3D(0,0,0);
 }
 
-Particule::Particule(Vecteur3D* position, Vecteur3D* velocite, float Masse, float damping) : position(position), velocite(velocite),
-                                                                    inverseMasse(1/Masse),damping(damping) {
+Particule::Particule(Vecteur3D* position, Vecteur3D* velocite, float masse, float damping) : position(position), velocite(velocite),
+                                                                    inverseMasse(1/masse),damping(damping) {
     this->acceleration = new Vecteur3D(0,0,0);
 }
 
-// Méthode visant à calculer la position et la vitesse de la prochaine frame.
-void Particule::integrer(float temps) {
-    //TODO : Implémenter l'intégrateur (p(t) = p0 + dp/dt + (dv/dt x t²/2))
+Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse,
+                     float damping) : position(position), velocite(velocite), acceleration(acceleration),
+                                      inverseMasse(1/masse), damping(damping) {}
+
+Particule::~Particule() {
+    delete this->position;
+    delete this->velocite;
+    delete this->acceleration;
+}
+
+// Méthode visant à calculer la position et la vélocité de la prochaine frame.
+void Particule::integrateur(float temps) {
+    //Lance consécutivement la m-a-j de la position de la particule puis la m-a-j de sa vélocité
+    UpdatePosition(temps);
+    UpdateVelocite(temps);
 }
 
 // Début de l'ensemble des getters et setters de la classe Particule.
@@ -72,3 +85,16 @@ Vecteur3D *Particule::getAcceleration() const {
     return acceleration;
 }
 // Fin de l'ensemble des getters et setters de la classe Particule.
+
+void Particule::UpdatePosition(float temps) {
+    this->position= this->position->AjoutVecteur(this->velocite->MultiplierScalaire(temps));
+}
+
+void Particule::UpdateVelocite(float temps) {
+    this->velocite= (this->velocite->MultiplierScalaire(pow(this->damping,temps)))
+            ->AjoutVecteur(this->acceleration->MultiplierScalaire(temps));
+}
+
+
+
+
