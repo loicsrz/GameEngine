@@ -7,6 +7,9 @@
 
 
 class Particule {
+public:
+    Particule(float position, float velocite, float inverseMasse);
+
 protected:
     // Position.
     float position;
@@ -25,6 +28,10 @@ public:
     float getInverseMasse() const;
 
     void setInverseMasse(float inverseMasse);
+
+    float getMasse() const;
+
+    void setMasse(float Masse);
     // Fin de l'ensemble des getters et setters de la classe Particule.
 
 };
