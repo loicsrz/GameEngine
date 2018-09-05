@@ -7,21 +7,30 @@
 
 
 Particule::Particule() {
-    this->position = new Vecteur3D(0,0,2);
-    this->velocite = new Vecteur3D(0,1,1);
+    this->position = new Vecteur3D(0, 0, 2);
+    this->velocite = new Vecteur3D(0, 1, 1);
     this->damping = 0.7;
     this->inverseMasse = 1;
-    this->acceleration = new Vecteur3D(0,0,0);
+    this->acceleration = new Vecteur3D(0, 0, 0);
 }
 
-Particule::Particule(Vecteur3D* position, Vecteur3D* velocite, float masse, float damping) : position(position), velocite(velocite),
-                                                                    inverseMasse(1/masse),damping(damping) {
+Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse, float damping) : position(position),
+                                                                                             velocite(velocite),
+                                                                                             inverseMasse(1 / masse),
+                                                                                             damping(damping) {
+    this->acceleration = new Vecteur3D(0, 0, 0);
+}
+
+Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse) : position(position),
+                                                                              velocite(velocite),
+                                                                              inverseMasse(1 / masse) {
+    this->damping = 0.7;
     this->acceleration = new Vecteur3D(0,0,0);
 }
 
 Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse,
                      float damping) : position(position), velocite(velocite), acceleration(acceleration),
-                                      inverseMasse(1/masse), damping(damping) {}
+                                      inverseMasse(1 / masse), damping(damping) {}
 
 Particule::~Particule() {
     delete this->position;
@@ -46,11 +55,11 @@ void Particule::setInverseMasse(float inverseMasse) {
 }
 
 float Particule::getMasse() const {
-    return 1/inverseMasse;
+    return 1 / inverseMasse;
 }
 
 void Particule::setMasse(float Masse) {
-    Particule::inverseMasse = 1/Masse;
+    Particule::inverseMasse = 1 / Masse;
 }
 
 float Particule::getDamping() const {
@@ -87,11 +96,11 @@ Vecteur3D *Particule::getAcceleration() const {
 // Fin de l'ensemble des getters et setters de la classe Particule.
 
 void Particule::UpdatePosition(float temps) {
-    this->position= this->position->AjoutVecteur(this->velocite->MultiplierScalaire(temps));
+    this->position = this->position->AjoutVecteur(this->velocite->MultiplierScalaire(temps));
 }
 
 void Particule::UpdateVelocite(float temps) {
-    this->velocite= (this->velocite->MultiplierScalaire(pow(this->damping,temps)))
+    this->velocite = (this->velocite->MultiplierScalaire(pow(this->damping, temps)))
             ->AjoutVecteur(this->acceleration->MultiplierScalaire(temps));
 }
 

@@ -30,6 +30,8 @@ public:
 
     Particule(Vecteur3D* position, Vecteur3D* velocite, float masse, float damping);
 
+    Particule(Vecteur3D* position, Vecteur3D* velocite, float masse);
+
     Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse, float damping);
 
     virtual ~Particule();
