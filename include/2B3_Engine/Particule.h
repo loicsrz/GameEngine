@@ -10,15 +10,8 @@
 
 
 class Particule {
-public:
-    Particule();
 
-    Particule(Vecteur3D* position, Vecteur3D* velocite, float masse, float damping);
-
-    Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse, float damping);
-
-    virtual ~Particule();
-
+    ///Attributs
 protected:
     // Position.
     Vecteur3D* position;
@@ -32,10 +25,21 @@ protected:
     float damping;
 
 public:
+    /// Début Constructeurs/Destructeur
+    Particule();
+
+    Particule(Vecteur3D* position, Vecteur3D* velocite, float masse, float damping);
+
+    Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse, float damping);
+
+    virtual ~Particule();
+
+    /// Fin Constructeurs/Destructeur
+
     // Méthode visant à calculer la position et la vitesse de la prochaine frame.
     void integrateur (float temps);
 
-    // Début de l'ensemble des getters et setters de la classe Particule.
+    /// Début de l'ensemble des getters et setters de la classe Particule.
     float getInverseMasse() const;
 
     void setInverseMasse(float inverseMasse);
@@ -62,8 +66,10 @@ public:
     // Fin de l'ensemble des getters et setters de la classe Particule.
 
 protected:
+    // Méthode de mise à jour de la vélocité de la particule
     void UpdateVelocite(float temps);
 
+    // Méthode de mise à jour de la position de la particule
     void UpdatePosition(float temps);
 
 };
