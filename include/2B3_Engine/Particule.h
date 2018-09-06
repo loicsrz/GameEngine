@@ -34,6 +34,8 @@ public:
 
     Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse, float damping);
 
+    Particule(const Particule& particule);
+
     virtual ~Particule();
 
     /// Fin Constructeurs/Destructeur

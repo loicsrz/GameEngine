@@ -22,6 +22,8 @@ public:
     // Constructeur connaissant les coordonnées du vecteur.
     Vecteur3D(float x, float y, float z);
 
+    Vecteur3D( const Vecteur3D & vecteur);
+
     // Destructeur.
     virtual ~Vecteur3D();
 

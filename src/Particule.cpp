@@ -9,7 +9,7 @@
 Particule::Particule() {
     this->position = new Vecteur3D(0, 0, 2);
     this->velocite = new Vecteur3D(0, 1, 1);
-    this->damping = 0.7;
+    this->damping = 0.7f;
     this->inverseMasse = 1;
     this->acceleration = new Vecteur3D(0, 0, 0);
 }
@@ -24,13 +24,22 @@ Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse, floa
 Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse) : position(position),
                                                                               velocite(velocite),
                                                                               inverseMasse(1 / masse) {
-    this->damping = 0.7;
+    this->damping = 0.7f;
     this->acceleration = new Vecteur3D(0,0,0);
 }
 
 Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse,
                      float damping) : position(position), velocite(velocite), acceleration(acceleration),
                                       inverseMasse(1 / masse), damping(damping) {}
+
+
+Particule::Particule(const Particule& particule){
+    this->acceleration = particule.acceleration;
+    this->velocite = particule.velocite;
+    this->position = particule.position;
+    this->damping = particule.damping;
+    this->inverseMasse = particule.inverseMasse;
+}
 
 Particule::~Particule() {
     delete this->position;

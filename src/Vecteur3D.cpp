@@ -11,6 +11,11 @@ Vecteur3D::Vecteur3D() : x(0),y(0),z(0) {}
 // Contructeur connaissant les coordonnées du vecteur.
 Vecteur3D::Vecteur3D(float x, float y, float z) : x(x), y(y), z(z) {}
 
+Vecteur3D::Vecteur3D(const Vecteur3D &vecteur) {
+    this->x = vecteur.x;
+    this->y = vecteur.y;
+    this->z = vecteur.z;
+}
 // Destructeur.
 Vecteur3D::~Vecteur3D() = default;
 
