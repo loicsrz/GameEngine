@@ -100,8 +100,8 @@ void timer(int value) {
 void glutDisplayInit(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE);
-    glutInitWindowSize(640, 480);
-    glutInitWindowPosition(640, 240);
+    glutInitWindowSize(1000, 1000);
+    glutInitWindowPosition(320, 0);
     glutCreateWindow("2Be3_Engine");
     glutTimerFunc(0, timer, 0);
     glutDisplayFunc(Rendu);
@@ -110,8 +110,8 @@ void glutDisplayInit(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-    particule = new Particule(new Vecteur3D(static_cast<float>(-0.99), 0.0, 0.0), new Vecteur3D(0.03, 0, 0),
-                              new Vecteur3D(0.0, 0.0001f, 0.0), 2, 0.99);
+    particule = new Particule(new Vecteur3D(static_cast<float>(-0.99), 0.0, 0.0), new Vecteur3D(0.035, 0, 0),
+                              new Vecteur3D(0.0, -0.00001f, 0.0), 2, 0.99);
     particules.push_back(particule);
     glutDisplayInit(argc, argv);
     return 0;

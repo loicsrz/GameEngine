@@ -474,7 +474,7 @@ FGAPI void    FGAPIENTRY glutIdleFunc( void (* callback)( void ) );
 /*
  * Window-specific callback functions, see fg_callbacks.c
  */
-FGAPI void    FGAPIENTRY glutKeyboardFunc( void (* callback)( unsigned char, int, int ) );
+FGAPI void    FGAPIENTRY glutKeyboardFunc( void (* callback)( unsigned char) );
 FGAPI void    FGAPIENTRY glutSpecialFunc( void (* callback)( int, int, int ) );
 FGAPI void    FGAPIENTRY glutReshapeFunc( void (* callback)( int, int ) );
 FGAPI void    FGAPIENTRY glutVisibilityFunc( void (* callback)( int ) );
