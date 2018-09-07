@@ -8,8 +8,8 @@
 
 Particule::Particule() {
     this->position = new Vecteur3D(0, 0, 2);
-    this->velocite = new Vecteur3D(0, 1, 1);
-    this->damping = 0.7f;
+    this->velocite = new Vecteur3D(0, 1, 0);
+    this->damping = 0.5f;
     this->inverseMasse = 1;
     this->acceleration = new Vecteur3D(0, 0, 0);
 }
