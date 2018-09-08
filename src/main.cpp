@@ -50,7 +50,7 @@ void IPS() {
 void integrateur(vector<Particule *> particules, float deltaTemps) {
 
 //    int n = 1;
-    for (auto it = particules.begin(); it != particules.end(); ++it) {
+    for (auto &particule : particules) {
         /*cout << "Particule " << n << " :" << endl;
         cout << "Avant Integration : " << endl;
         cout << "Position : " << endl;
@@ -65,7 +65,7 @@ void integrateur(vector<Particule *> particules, float deltaTemps) {
         cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
         cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
         cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;*/
-        (*it)->integrateur(deltaTemps);
+        particule->integrateur(deltaTemps);
         /*cout << "Après Integration : " << endl;
         cout << "Position : " << endl;
         cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
