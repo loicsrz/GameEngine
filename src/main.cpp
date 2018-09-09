@@ -27,7 +27,6 @@ void Rendu() {
     //cout<<"Entre dans Rendu : "<<endl;
     if(particules.size()>0) {
 
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
@@ -55,6 +54,7 @@ void Rendu() {
 }
 
 void Clavier(unsigned char c) {
+
     switch(c){
         case '1':
             projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.035f,0,0), new Vecteur3D(0,-0.00002f,0),2,0.99f);
@@ -88,6 +88,8 @@ void Clavier(unsigned char c) {
     cout
             << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
             << endl;
+
+
 }
 
 void IPS() {
