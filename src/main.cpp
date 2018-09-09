@@ -10,28 +10,85 @@ using namespace std;
 
 GLint gImagesParSeconde = 0;
 GLfloat dt = 0.0;
-Particule *particule;
+Particule *particule = new Particule(new Vecteur3D(static_cast<float>(-0.99), 0.0, 0.0), new Vecteur3D(0, 0, 0),
+                                                 new Vecteur3D(0.0, 0.0, 0.0), 1, 1);
 vector<Particule *> particules;
 
+void afficherChoix(){
+    cout<<"Veuillez choisir un projectile à lancer en appuyant sur la touche correspondante : "<<endl;
+    cout<<'\t'<<"Balle de pistolet : [1]"<<endl;
+    cout<<'\t'<<"Boulet de canon : [2]"<<endl;
+    cout<<'\t'<<"Boule de feu : [3]"<<endl;
+    cout<<'\t'<<"Laser : [4]"<<endl;
+    cout<<endl;
+}
 void Rendu() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //cout<<"Entre dans Rendu : "<<endl;
+    if(particules.size()>0) {
 
-    //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
-    glPointSize(5);
-    glColor3f(1.0, 0.0, 0.0);
-    glBegin(GL_POINTS);
-    glVertex3f(particule->getPosition()->getX(), particule->getPosition()->getY(), particule->getPosition()->getZ());
-    glEnd();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glutSwapBuffers();
+        //cout << "IPS : " << gImagesParSeconde << "\r\n";
+
+        glPointSize(5);
+        glColor3f(1.0, 0.0, 0.0);
+        glBegin(GL_POINTS);
+        glVertex3f(particules[0]->getPosition()->getX(), particules[0]->getPosition()->getY(),
+                   particules[0]->getPosition()->getZ());
+        if (particules[0]->getPosition()->getX() > 1 || particules[0]->getPosition()->getY() < -1 ||
+            particules[0]->getPosition()->getY() > 1) {
+            particules.pop_back();
+            particules.push_back(particule);
+
+            cout << "La particule s'est envolée vers d'autres horizons ..." << endl;
+            cout << endl;
+            afficherChoix();
+        }
+        glEnd();
+
+        glutSwapBuffers();
+        //cout<<"Fin de Rendu"<<endl;
+        //cout<<endl;
+    }
 }
 
 void Clavier(unsigned char c) {
-    if (c == 'x') //Appuyer sur la touche x permet de quitter l'application
-    {
-        exit(0);
+    Particule * projectile;
+    switch(c){
+        case '1':
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.035f,0,0), new Vecteur3D(0,-0.00002f,0),2,0.99);
+            cout<<"Projectile selectionnee : Balle de pistolet."<<endl;
+            break;
+        case '2':
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.050f,0,0), new Vecteur3D(0,-0.0004f,0),200,0.99);
+            cout<<"Projectile selectionnee  : Boulet de canon."<<endl;
+            break;
+        case '3':
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.01f,0,0), new Vecteur3D(0,0.00006f,0),1,0.9);
+            cout<<"Projectile selectionnee  : Boule de feu."<<endl;
+            break;
+        case '4':
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.1f,0,0), new Vecteur3D(0,0,0),0.1,0.99);
+            cout<<"Projectile selectionnee  : Laser."<<endl;
+            break;
+        case 'c':
+            Clavier(c);
+            break;
+        case 13:
+            cout<<"la"<<endl;
+            particules.pop_back();
+            cout<<"la"<<endl;
+            particules.push_back(projectile);
+            cout<<"la"<<endl;
+            break;
+        case 'x':
+            exit(0);
+        default:
+            break;
     }
+
+    cout<<"Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche 'c'."<<endl;
 }
 
 void IPS() {
@@ -110,9 +167,9 @@ void glutDisplayInit(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-    particule = new Particule(new Vecteur3D(static_cast<float>(-0.99), 0.0, 0.0), new Vecteur3D(0.035, 0, 0),
-                              new Vecteur3D(0.0, -0.00001f, 0.0), 2, 0.99);
     particules.push_back(particule);
+    afficherChoix();
     glutDisplayInit(argc, argv);
+
     return 0;
 }
