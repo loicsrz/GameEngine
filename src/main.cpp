@@ -58,22 +58,19 @@ void Clavier(unsigned char c) {
     switch(c){
         case '1':
             projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.035f,0,0), new Vecteur3D(0,-0.00002f,0),2,0.99);
-            cout<<"Projectile selectionnee : Balle de pistolet."<<endl;
+            cout << "Projectile selectionné : Balle de pistolet." << endl;
             break;
         case '2':
             projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.050f,0,0), new Vecteur3D(0,-0.0004f,0),200,0.99);
-            cout<<"Projectile selectionnee  : Boulet de canon."<<endl;
+            cout << "Projectile selectionné  : Boulet de canon." << endl;
             break;
         case '3':
             projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.01f,0,0), new Vecteur3D(0,0.00006f,0),1,0.9);
-            cout<<"Projectile selectionnee  : Boule de feu."<<endl;
+            cout << "Projectile selectionné  : Boule de feu." << endl;
             break;
         case '4':
             projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.1f,0,0), new Vecteur3D(0,0,0),0.1,0.99);
-            cout<<"Projectile selectionnee  : Laser."<<endl;
-            break;
-        case 'c':
-            Clavier(c);
+            cout << "Projectile selectionné  : Laser." << endl;
             break;
         case 13:
             cout<<"la"<<endl;
@@ -88,7 +85,9 @@ void Clavier(unsigned char c) {
             break;
     }
 
-    cout<<"Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche 'c'."<<endl;
+    cout
+            << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+            << endl;
 }
 
 void IPS() {
