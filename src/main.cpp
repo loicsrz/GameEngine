@@ -11,7 +11,8 @@ using namespace std;
 GLint gImagesParSeconde = 0;
 GLfloat dt = 0.0;
 Particule *particule = new Particule(new Vecteur3D(static_cast<float>(-0.99), 0.0, 0.0), new Vecteur3D(0, 0, 0),
-                                                 new Vecteur3D(0.0, 0.0, 0.0), 1, 1);
+                                                                                                                                new Vecteur3D(0.0, 0.0, 0.0), 1, 1),
+                    *projectile;
 vector<Particule *> particules;
 
 void afficherChoix(){
@@ -54,22 +55,21 @@ void Rendu() {
 }
 
 void Clavier(unsigned char c) {
-    Particule * projectile;
     switch(c){
         case '1':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.035f,0,0), new Vecteur3D(0,-0.00002f,0),2,0.99);
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.035f,0,0), new Vecteur3D(0,-0.00002f,0),2,0.99f);
             cout << "Projectile selectionné : Balle de pistolet." << endl;
             break;
         case '2':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.050f,0,0), new Vecteur3D(0,-0.0004f,0),200,0.99);
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.050f,0,0), new Vecteur3D(0,-0.0004f,0),200,0.99f);
             cout << "Projectile selectionné  : Boulet de canon." << endl;
             break;
         case '3':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.01f,0,0), new Vecteur3D(0,0.00006f,0),1,0.9);
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.01f,0,0), new Vecteur3D(0,0.00006f,0),1,0.9f);
             cout << "Projectile selectionné  : Boule de feu." << endl;
             break;
         case '4':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.1f,0,0), new Vecteur3D(0,0,0),0.1,0.99);
+            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.1f,0,0), new Vecteur3D(0,0,0),0.1f,0.99f);
             cout << "Projectile selectionné  : Laser." << endl;
             break;
         case 13:
