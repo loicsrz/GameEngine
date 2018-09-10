@@ -59,10 +59,11 @@ void Clavier(unsigned char c) {
     switch (c) {
         case '1':
             projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.035f, 0, 0),
-                                       new Vecteur3D(0, -0.00002f, 0), 2, 0.99f);
+                                       new Vecteur3D(0, -0.00004f, 0), 2, 0.99f);
             cout << "Projectile selectionne : Balle de pistolet." << endl;
             cout
-                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << "Appuyez sur la touche ENTREE pour lancer la particule,"
+                    << "\nou selectionnez un autre projectile en appuyant sur la touche correspondante."
                     << endl;
             break;
         case '2':
@@ -70,7 +71,8 @@ void Clavier(unsigned char c) {
                                        new Vecteur3D(0, -0.0004f, 0), 200, 0.99f);
             cout << "Projectile selectionne  : Boulet de canon." << endl;
             cout
-                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << "Appuyez sur la touche ENTREE pour lancer la particule,"
+                    << "\nou selectionnez un autre projectile en appuyant sur la touche correspondante."
                     << endl;
             break;
         case '3':
@@ -78,7 +80,8 @@ void Clavier(unsigned char c) {
                                        new Vecteur3D(0, 0.00006f, 0), 1, 0.99f);
             cout << "Projectile selectionne  : Boule de feu." << endl;
             cout
-                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << "Appuyez sur la touche ENTREE pour lancer la particule,"
+                    << "\nou selectionnez un autre projectile en appuyant sur la touche correspondante."
                     << endl;
             break;
         case '4':
@@ -86,7 +89,8 @@ void Clavier(unsigned char c) {
                                        0.1f, 0.99f);
             cout << "Projectile selectionne  : Laser." << endl;
             cout
-                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << "Appuyez sur la touche ENTREE pour lancer la particule,"
+                    << "\nou selectionnez un autre projectile en appuyant sur la touche correspondante."
                     << endl;
             break;
         case 13:
@@ -168,8 +172,8 @@ void timer(int value) {
 void glutDisplayInit(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE);
-    glutInitWindowSize(1000, 1000);
-    glutInitWindowPosition(320, 0);
+    glutInitWindowSize(960, 960);
+    glutInitWindowPosition(900, 0);
     glutCreateWindow("2Be3_Engine");
     glutTimerFunc(0, timer, 0);
     glutDisplayFunc(Rendu);
