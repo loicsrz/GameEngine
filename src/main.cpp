@@ -74,8 +74,8 @@ void Clavier(unsigned char c) {
                     << endl;
             break;
         case '3':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.01f, 0, 0),
-                                       new Vecteur3D(0, 0.00006f, 0), 1, 0.9f);
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.02f, 0, 0),
+                                       new Vecteur3D(0, 0.00006f, 0), 1, 0.99f);
             cout << "Projectile selectionne  : Boule de feu." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
