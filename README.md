@@ -1,6 +1,6 @@
 # GameEngine
 
-#Comment compiler le projet
+## Comment compiler le projet
 
 Sous Windows : Nécessite d'avoir installé CLion et un compilateur C++ (nous recommandons Visual C++ via Visual Studio 2017).
 
