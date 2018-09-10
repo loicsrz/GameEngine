@@ -11,21 +11,22 @@ using namespace std;
 GLint gImagesParSeconde = 0;
 GLfloat dt = 0.0;
 Particule *particule = new Particule(new Vecteur3D(static_cast<float>(-0.99), 0.0, 0.0), new Vecteur3D(0, 0, 0),
-                                                                                                                                new Vecteur3D(0.0, 0.0, 0.0), 1, 1),
-                    *projectile;
+                                     new Vecteur3D(0.0, 0.0, 0.0), 1, 1),
+        *projectile;
 vector<Particule *> particules;
 
-void afficherChoix(){
-    cout<<"Veuillez choisir un projectile à lancer en appuyant sur la touche correspondante : "<<endl;
-    cout<<'\t'<<"Balle de pistolet : [1]"<<endl;
-    cout<<'\t'<<"Boulet de canon : [2]"<<endl;
-    cout<<'\t'<<"Boule de feu : [3]"<<endl;
-    cout<<'\t'<<"Laser : [4]"<<endl;
-    cout<<endl;
+void afficherChoix() {
+    cout << "Veuillez choisir un projectile à lancer en appuyant sur la touche correspondante : " << endl;
+    cout << '\t' << "Balle de pistolet : [1]" << endl;
+    cout << '\t' << "Boulet de canon : [2]" << endl;
+    cout << '\t' << "Boule de feu : [3]" << endl;
+    cout << '\t' << "Laser : [4]" << endl;
+    cout << endl;
 }
+
 void Rendu() {
     //cout<<"Entre dans Rendu : "<<endl;
-    if(particules.size()>0) {
+    if (!particules.empty()) {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -41,7 +42,7 @@ void Rendu() {
             particules.pop_back();
             particules.push_back(particule);
 
-            cout << "La particule s'est envolée vers d'autres horizons ..." << endl;
+            cout << "La particule s'est envolee vers d'autres horizons ..." << endl;
             cout << endl;
             afficherChoix();
         }
@@ -55,39 +56,48 @@ void Rendu() {
 
 void Clavier(unsigned char c) {
 
-    switch(c){
+    switch (c) {
         case '1':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.035f,0,0), new Vecteur3D(0,-0.00002f,0),2,0.99f);
-            cout << "Projectile selectionné : Balle de pistolet." << endl;
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.035f, 0, 0),
+                                       new Vecteur3D(0, -0.00002f, 0), 2, 0.99f);
+            cout << "Projectile selectionne : Balle de pistolet." << endl;
+            cout
+                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << endl;
             break;
         case '2':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.050f,0,0), new Vecteur3D(0,-0.0004f,0),200,0.99f);
-            cout << "Projectile selectionné  : Boulet de canon." << endl;
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.050f, 0, 0),
+                                       new Vecteur3D(0, -0.0004f, 0), 200, 0.99f);
+            cout << "Projectile selectionne  : Boulet de canon." << endl;
+            cout
+                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << endl;
             break;
         case '3':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.01f,0,0), new Vecteur3D(0,0.00006f,0),1,0.9f);
-            cout << "Projectile selectionné  : Boule de feu." << endl;
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.02f, 0, 0),
+                                       new Vecteur3D(0, 0.00006f, 0), 1, 0.99f);
+            cout << "Projectile selectionne  : Boule de feu." << endl;
+            cout
+                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << endl;
             break;
         case '4':
-            projectile = new Particule(new Vecteur3D(-0.99f,0,0), new Vecteur3D(0.1f,0,0), new Vecteur3D(0,0,0),0.1f,0.99f);
-            cout << "Projectile selectionné  : Laser." << endl;
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.1f, 0, 0), new Vecteur3D(0, 0, 0),
+                                       0.1f, 0.99f);
+            cout << "Projectile selectionne  : Laser." << endl;
+            cout
+                    << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
+                    << endl;
             break;
         case 13:
-            cout<<"la"<<endl;
             particules.pop_back();
-            cout<<"la"<<endl;
             particules.push_back(projectile);
-            cout<<"la"<<endl;
             break;
         case 'x':
             exit(0);
         default:
             break;
     }
-
-    cout
-            << "Appuyez sur la touche ENTREE pour lancer la particule ou selectionnez un autre projectile en appuyant sur la touche correspondante."
-            << endl;
 
 
 }
