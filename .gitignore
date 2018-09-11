@@ -30,3 +30,7 @@ bin/x64/2Be3_Engine\.ilk
 bin/x64/2Be3_Engine\.pdb
 
 CMakeCache\.txt
+
+\.idea/markdown-navigator/
+
+\.idea/markdown-navigator\.xml

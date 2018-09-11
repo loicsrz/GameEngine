@@ -10,7 +10,7 @@ using namespace std;
 
 GLint gImagesParSeconde = 0;
 GLfloat dt = 0.0;
-Particule *particule = new Particule(new Vecteur3D(static_cast<float>(-0.99), 0.0, 0.0), new Vecteur3D(0, 0, 0),
+Particule *particule = new Particule(new Vecteur3D(-0.99f, 0.0, 0.0), new Vecteur3D(0, 0, 0),
                                      new Vecteur3D(0.0, 0.0, 0.0), 1, 1),
         *projectile;
 vector<Particule *> particules;
@@ -30,15 +30,22 @@ void Rendu() {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glMatrixMode(GL_PROJECTION);  //Je met la matrice MODEL_VIEW en utilisation courante.
+        glLoadIdentity();
+        gluPerspective(45.0f, (float)960 / (float)960, 0.1f, 2000.0f);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glTranslatef(-250.0f,0.0f,-700.0f);
+
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
-        glPointSize(5);
+        glPointSize(5.0f);
         glColor3f(1.0, 0.0, 0.0);
         glBegin(GL_POINTS);
         glVertex3f(particules[0]->getPosition()->getX(), particules[0]->getPosition()->getY(),
                    particules[0]->getPosition()->getZ());
-        if (particules[0]->getPosition()->getX() > 1 || particules[0]->getPosition()->getY() < -1 ||
-            particules[0]->getPosition()->getY() > 1) {
+        if (particules[0]->getPosition()->getX() > 500 || particules[0]->getPosition()->getY() < -500 ||
+            particules[0]->getPosition()->getY() > 500) {
             particules.pop_back();
             particules.push_back(particule);
 
@@ -49,6 +56,8 @@ void Rendu() {
         glEnd();
 
         glutSwapBuffers();
+
+        //glFlush();
         //cout<<"Fin de Rendu"<<endl;
         //cout<<endl;
     }
@@ -58,8 +67,8 @@ void Clavier(unsigned char c) {
 
     switch (c) {
         case '1':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.035f, 0, 0),
-                                       new Vecteur3D(0, -0.00004f, 0), 2, 0.99f);
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(35.0f, 0, 0),
+                                       new Vecteur3D(0, -1.0f, 0), 2, 0.99f);
             cout << "Projectile selectionne : Balle de pistolet." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule,"
@@ -67,8 +76,8 @@ void Clavier(unsigned char c) {
                     << endl;
             break;
         case '2':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.050f, 0, 0),
-                                       new Vecteur3D(0, -0.0004f, 0), 200, 0.99f);
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(50.0f, 0, 0),
+                                       new Vecteur3D(0, -20.0f, 0), 200, 0.99f);
             cout << "Projectile selectionne  : Boulet de canon." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule,"
@@ -76,8 +85,8 @@ void Clavier(unsigned char c) {
                     << endl;
             break;
         case '3':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.02f, 0, 0),
-                                       new Vecteur3D(0, 0.00006f, 0), 1, 0.99f);
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(2.0f, 0, 0),
+                                       new Vecteur3D(0, 0.6f, 0), 1, 0.9f);
             cout << "Projectile selectionne  : Boule de feu." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule,"
@@ -85,8 +94,8 @@ void Clavier(unsigned char c) {
                     << endl;
             break;
         case '4':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(0.1f, 0, 0), new Vecteur3D(0, 0, 0),
-                                       0.1f, 0.99f);
+            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(100.0f, 0, 0), new Vecteur3D(0, 0, 0),
+                                       0, 0.99f);
             cout << "Projectile selectionne  : Laser." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule,"
