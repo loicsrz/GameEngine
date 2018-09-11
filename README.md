@@ -12,3 +12,7 @@ Dans Clion, une fois le projet ouvert, aller dans _File -> Settings -> Build, Ex
 
 * Dans _CMake_ :
   * Modifier la valeur de _Generation path_ en la racine du projet (dossier **_GameEngine_** par défaut)
+
+Une fois ceci fait, recompiler projet CMake en allant dans _Tools -> CMake -> Reset Cache and Reload Project_
+
+Vous pouvez à présent compiler le projet.
