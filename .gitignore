@@ -1,10 +1,36 @@
 .idea/ #IDEA configuration files
-cmake-build-debug/
-
 \.idea/workspace\.xml
+CMakeFiles/
+src/CMakeFiles/
+test/CMakeFiles/
+
 
 freeglut/bin/x64/2Be3_Engine\.exe
 
 freeglut/bin/x64/2Be3_Engine\.ilk
 
 freeglut/bin/x64/2Be3_Engine\.pdb
+
+cmake_install\.cmake
+
+GameEngine\.cbp
+
+Makefile
+
+bin/x64/2Be3_Engine_Test\.exe
+
+bin/x64/2Be3_Engine_Test\.ilk
+
+bin/x64/2Be3_Engine_Test\.pdb
+
+bin/x64/2Be3_Engine\.exe
+
+bin/x64/2Be3_Engine\.ilk
+
+bin/x64/2Be3_Engine\.pdb
+
+CMakeCache\.txt
+
+\.idea/markdown-navigator/
+
+\.idea/markdown-navigator\.xml

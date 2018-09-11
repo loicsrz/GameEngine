@@ -371,7 +371,7 @@
 #define  GLUT_BLUE                          0x0002
 
 /*
- * GLUT API macro definitions -- additional keyboard and joystick definitions
+ * GLUT API macro definitions -- additional Clavier and joystick definitions
  */
 #define  GLUT_KEY_REPEAT_OFF                0x0000
 #define  GLUT_KEY_REPEAT_ON                 0x0001
@@ -474,7 +474,7 @@ FGAPI void    FGAPIENTRY glutIdleFunc( void (* callback)( void ) );
 /*
  * Window-specific callback functions, see fg_callbacks.c
  */
-FGAPI void    FGAPIENTRY glutKeyboardFunc( void (* callback)( unsigned char, int, int ) );
+FGAPI void    FGAPIENTRY glutKeyboardFunc( void (* callback)( unsigned char) );
 FGAPI void    FGAPIENTRY glutSpecialFunc( void (* callback)( int, int, int ) );
 FGAPI void    FGAPIENTRY glutReshapeFunc( void (* callback)( int, int ) );
 FGAPI void    FGAPIENTRY glutVisibilityFunc( void (* callback)( int ) );
@@ -573,7 +573,7 @@ FGAPI GLfloat FGAPIENTRY glutGetColor( int color, int component );
 FGAPI void    FGAPIENTRY glutCopyColormap( int window );
 
 /*
- * Misc keyboard and joystick functions, see fg_misc.c
+ * Misc Clavier and joystick functions, see fg_misc.c
  */
 FGAPI void    FGAPIENTRY glutIgnoreKeyRepeat( int ignore );
 FGAPI void    FGAPIENTRY glutSetKeyRepeat( int repeatMode );
