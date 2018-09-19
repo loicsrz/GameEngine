@@ -1,0 +1,14 @@
+//
+// Created by loicsrz on 19/09/2018.
+//
+
+#ifndef GAMEENGINE_PARTICLEFORCEGENERATOR_H
+#define GAMEENGINE_PARTICLEFORCEGENERATOR_H
+
+
+class ParticleForceGenerator {
+
+};
+
+
+#endif //GAMEENGINE_PARTICLEFORCEGENERATOR_H
