@@ -12,6 +12,7 @@ Particule::Particule() {
     this->damping = 0.5f;
     this->inverseMasse = 1;
     this->acceleration = new Vecteur3D(0, 0, 0);
+    this->forcesAccum = new Vecteur3D(0,0,0);
 }
 
 Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse, float damping) : position(position),
@@ -19,6 +20,7 @@ Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse, floa
                                                                                              inverseMasse(1 / masse),
                                                                                              damping(damping) {
     this->acceleration = new Vecteur3D(0, 0, 0);
+    this->forcesAccum = new Vecteur3D(0,0,0);
 }
 
 Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse) : position(position),
@@ -26,11 +28,14 @@ Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, float masse) : po
                                                                               inverseMasse(1 / masse) {
     this->damping = 0.7f;
     this->acceleration = new Vecteur3D(0,0,0);
+    this->forcesAccum = new Vecteur3D(0,0,0);
 }
 
 Particule::Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse,
                      float damping) : position(position), velocite(velocite), acceleration(acceleration),
-                                      inverseMasse(1 / masse), damping(damping) {}
+                                      inverseMasse(1 / masse), damping(damping) {
+    this->forcesAccum = new Vecteur3D(0,0,0);
+}
 
 
 Particule::Particule(const Particule& particule){
@@ -39,12 +44,14 @@ Particule::Particule(const Particule& particule){
     this->position = particule.position;
     this->damping = particule.damping;
     this->inverseMasse = particule.inverseMasse;
+    this->forcesAccum = particule.forcesAccum;
 }
 
 Particule::~Particule() {
     delete this->position;
     delete this->velocite;
     delete this->acceleration;
+    delete this->forcesAccum;
 }
 
 // Méthode visant à calculer la position et la vélocité de la prochaine frame.
@@ -52,6 +59,16 @@ void Particule::integrateur(float temps) {
     //Lance consécutivement la m-a-j de la position de la particule puis la m-a-j de sa vélocité
     UpdatePosition(temps);
     UpdateVelocite(temps);
+}
+
+void Particule::addForce(Vecteur3D * const force) {
+    this->forcesAccum->AjoutVecteur(force);
+}
+
+void Particule::clearAccumulator(){
+    this->forcesAccum->setX(0.0f);
+    this->forcesAccum->setY(0.0f);
+    this->forcesAccum->setZ(0.0f);
 }
 
 // Début de l'ensemble des getters et setters de la classe Particule.

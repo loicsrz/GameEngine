@@ -24,6 +24,8 @@ protected:
     //Damping (forces de frottement)
     float damping;
 
+    Vecteur3D* forcesAccum;
+
 public:
     /// Début Constructeurs/Destructeur
     Particule();
@@ -43,6 +45,9 @@ public:
     // Méthode visant à calculer la position et la vitesse de la prochaine frame.
     void integrateur (float temps);
 
+    void addForce(Vecteur3D * const force);
+
+    void clearAccumulator();
     /// Début de l'ensemble des getters et setters de la classe Particule.
     float getInverseMasse() const;
 
