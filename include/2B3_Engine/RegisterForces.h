@@ -12,12 +12,22 @@
 
 class RegisterForces {
 
+
     struct SaveForce{
         Particule *particule;
         ParticleForceGenerator *forceGenerator;
     };
 
     typedef std::vector<SaveForce> Register;
+
+    void addRegister(Register *aRegister);
+
+    void deleteRegister(Register *aRegister);
+
+    void countRegsiter (Register *aRegister);
+
+
+
 
 
 };
