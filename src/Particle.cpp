@@ -6,31 +6,31 @@
 
 Particle::Particle() {
     this->position = new Vector3D(0, 0, 2);
-    this->speed = new Vector3D(0, 1, 0);
+    this->velocity = new Vector3D(0, 1, 0);
     this->damping = 0.5f;
     this->invertedMass = 1;
     this->acceleration = new Vector3D(0, 0, 0);
     this->forcesAccum = new Vector3D(0, 0, 0);
 }
 
-Particle::Particle(Vector3D *position, Vector3D *speed, float mass, float damping) : position(position),
-                                                                                     speed(speed),
+Particle::Particle(Vector3D *position, Vector3D *velocity, float mass, float damping) : position(position),
+                                                                                     velocity(velocity),
                                                                                      invertedMass(1 / mass),
                                                                                      damping(damping) {
     this->acceleration = new Vector3D(0, 0, 0);
     this->forcesAccum = new Vector3D(0, 0, 0);
 }
 
-Particle::Particle(Vector3D *position, Vector3D *speed, float mass) : position(position),
-                                                                      speed(speed),
+Particle::Particle(Vector3D *position, Vector3D *velocity, float mass) : position(position),
+                                                                      velocity(velocity),
                                                                       invertedMass(1 / mass) {
     this->damping = 0.7f;
     this->acceleration = new Vector3D(0, 0, 0);
     this->forcesAccum = new Vector3D(0, 0, 0);
 }
 
-Particle::Particle(Vector3D *position, Vector3D *speed, Vector3D *acceleration, float mass,
-                   float damping) : position(position), speed(speed), acceleration(acceleration),
+Particle::Particle(Vector3D *position, Vector3D *velocity, Vector3D *acceleration, float mass,
+                   float damping) : position(position), velocity(velocity), acceleration(acceleration),
                                     invertedMass(1 / mass), damping(damping) {
     this->forcesAccum = new Vector3D(0, 0, 0);
 }
@@ -38,7 +38,7 @@ Particle::Particle(Vector3D *position, Vector3D *speed, Vector3D *acceleration, 
 
 Particle::Particle(const Particle &particle) {
     this->acceleration = particle.acceleration;
-    this->speed = particle.speed;
+    this->velocity = particle.velocity;
     this->position = particle.position;
     this->damping = particle.damping;
     this->invertedMass = particle.invertedMass;
@@ -47,7 +47,7 @@ Particle::Particle(const Particle &particle) {
 
 Particle::~Particle() {
     delete this->position;
-    delete this->speed;
+    delete this->velocity;
     delete this->acceleration;
     this->forcesAccum = new Vector3D(0, 0, 0);
 }
@@ -102,12 +102,12 @@ void Particle::setPosition(Vector3D *position) {
     Particle::position = position;
 }
 
-Vector3D *Particle::getSpeed() const {
-    return speed;
+Vector3D *Particle::getVelocity() const {
+    return velocity;
 }
 
-void Particle::setSpeed(Vector3D *speed) {
-    Particle::speed = speed;
+void Particle::setVelocity(Vector3D *velocity) {
+    Particle::velocity = velocity;
 }
 
 Vector3D *Particle::getAcceleration() const {
@@ -128,11 +128,11 @@ void Particle::setForcesAccum(Vector3D *forcesAccum) {
 // Fin de l'ensemble des getters et setters de la classe Particle.
 
 void Particle::UpdatePosition(float time) {
-    this->position = this->position->addVector(this->speed->scalarMultiplier(time));
+    this->position = this->position->addVector(this->velocity->scalarMultiplier(time));
 }
 
 void Particle::UpdateSpeed(float time) {
-    this->speed = (this->speed->scalarMultiplier(pow(this->damping, time)))
+    this->velocity = (this->velocity->scalarMultiplier(pow(this->damping, time)))
             ->addVector(this->acceleration->scalarMultiplier(time));
 }
 

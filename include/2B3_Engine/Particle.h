@@ -16,7 +16,7 @@ protected:
     // Position.
     Vector3D *position;
     // Vélocité.
-    Vector3D *speed;
+    Vector3D *velocity;
     // Accélération.
     Vector3D *acceleration;
     //Inverse Masse
@@ -30,11 +30,11 @@ public:
     /// Début Constructeurs/Destructeur
     Particle();
 
-    Particle(Vector3D *position, Vector3D *speed, float mass, float damping);
+    Particle(Vector3D *position, Vector3D *velocity, float mass, float damping);
 
-    Particle(Vector3D *position, Vector3D *speed, float mass);
+    Particle(Vector3D *position, Vector3D *velocity, float mass);
 
-    Particle(Vector3D *position, Vector3D *speed, Vector3D *acceleration, float mass, float damping);
+    Particle(Vector3D *position, Vector3D *velocity, Vector3D *acceleration, float mass, float damping);
 
     Particle(const Particle &particle);
 
@@ -60,7 +60,7 @@ public:
 
     void setPosition(Vector3D *position);
 
-    void setSpeed(Vector3D *speed);
+    void setVelocity(Vector3D *velocity);
 
     void setAcceleration(Vector3D *acceleration);
 
@@ -70,7 +70,7 @@ public:
 
     Vector3D *getPosition() const;
 
-    Vector3D *getSpeed() const;
+    Vector3D *getVelocity() const;
 
     Vector3D *getAcceleration() const;
 
