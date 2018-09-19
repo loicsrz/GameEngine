@@ -3,7 +3,6 @@
 //
 #include<iostream>
 #include <vector>
-#include <GL/glut.h>
 #include "../include/2B3_Engine/Particle.h"
 
 using namespace std;
