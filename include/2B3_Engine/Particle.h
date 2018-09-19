@@ -1,24 +1,24 @@
 //
 // Created by Vince on 29/08/2018.
 //
-#include "../include/2B3_Engine/Vecteur3D.h"
-#include "Vecteur3D.h"
+#include "../include/2B3_Engine/Vector3D.h"
+#include "Vector3D.h"
 #include <cmath>
 
 #ifndef GAMEENGINE_PARTICULE_H
 #define GAMEENGINE_PARTICULE_H
 
 
-class Particule {
+class Particle {
 
     ///Attributs
 protected:
     // Position.
-    Vecteur3D* position;
+    Vector3D* position;
     // Vélocité.
-    Vecteur3D* velocite;
+    Vector3D* velocite;
     // Accélération.
-    Vecteur3D* acceleration;
+    Vector3D* acceleration;
     //Inverse Masse
     float inverseMasse;
     //Damping (forces de frottement)
@@ -26,17 +26,17 @@ protected:
 
 public:
     /// Début Constructeurs/Destructeur
-    Particule();
+    Particle();
 
-    Particule(Vecteur3D* position, Vecteur3D* velocite, float masse, float damping);
+    Particle(Vector3D* position, Vector3D* velocite, float masse, float damping);
 
-    Particule(Vecteur3D* position, Vecteur3D* velocite, float masse);
+    Particle(Vector3D* position, Vector3D* velocite, float masse);
 
-    Particule(Vecteur3D *position, Vecteur3D *velocite, Vecteur3D *acceleration, float masse, float damping);
+    Particle(Vector3D *position, Vector3D *velocite, Vector3D *acceleration, float masse, float damping);
 
-    Particule(const Particule& particule);
+    Particle(const Particle& particule);
 
-    virtual ~Particule();
+    virtual ~Particle();
 
     /// Fin Constructeurs/Destructeur
 
@@ -52,22 +52,22 @@ public:
 
     void setMasse(float Masse);
 
-    void setPosition(Vecteur3D *position);
+    void setPosition(Vector3D *position);
 
-    void setVelocite(Vecteur3D *velocite);
+    void setVelocite(Vector3D *velocite);
 
-    void setAcceleration(Vecteur3D *acceleration);
+    void setAcceleration(Vector3D *acceleration);
 
     float getDamping() const;
 
     void setDamping(float damping);
 
-    Vecteur3D *getPosition() const;
+    Vector3D *getPosition() const;
 
-    Vecteur3D *getVelocite() const;
+    Vector3D *getVelocite() const;
 
-    Vecteur3D *getAcceleration() const;
-    // Fin de l'ensemble des getters et setters de la classe Particule.
+    Vector3D *getAcceleration() const;
+    // Fin de l'ensemble des getters et setters de la classe Particle.
 
 protected:
     // Méthode de mise à jour de la vélocité de la particule

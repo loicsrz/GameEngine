@@ -4,16 +4,16 @@
 #include<iostream>
 #include <vector>
 #include <GL/glut.h>
-#include "../include/2B3_Engine/Particule.h"
+#include "../include/2B3_Engine/Particle.h"
 
 using namespace std;
 
 GLint gImagesParSeconde = 0;
 GLfloat dt = 0.0;
-Particule *particule = new Particule(new Vecteur3D(-0.99f, 0.0, 0.0), new Vecteur3D(0, 0, 0),
-                                     new Vecteur3D(0.0, 0.0, 0.0), 1, 1),
+Particle *particule = new Particle(new Vector3D(-0.99f, 0.0, 0.0), new Vector3D(0, 0, 0),
+                                     new Vector3D(0.0, 0.0, 0.0), 1, 1),
         *projectile;
-vector<Particule *> particules;
+vector<Particle *> particules;
 
 void afficherChoix() {
     cout << "Veuillez choisir un projectile à lancer en appuyant sur la touche correspondante : " << endl;
@@ -67,8 +67,8 @@ void Clavier(unsigned char c) {
 
     switch (c) {
         case '1':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(35.0f, 0, 0),
-                                       new Vecteur3D(0, -1.0f, 0), 2, 0.99f);
+            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
+                                       new Vector3D(0, -1.0f, 0), 2, 0.99f);
             cout << "Projectile selectionne : Balle de pistolet." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule,"
@@ -76,8 +76,8 @@ void Clavier(unsigned char c) {
                     << endl;
             break;
         case '2':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(50.0f, 0, 0),
-                                       new Vecteur3D(0, -20.0f, 0), 200, 0.99f);
+            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(50.0f, 0, 0),
+                                       new Vector3D(0, -20.0f, 0), 200, 0.99f);
             cout << "Projectile selectionne  : Boulet de canon." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule,"
@@ -85,8 +85,8 @@ void Clavier(unsigned char c) {
                     << endl;
             break;
         case '3':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(2.0f, 0, 0),
-                                       new Vecteur3D(0, 0.6f, 0), 1, 0.9f);
+            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(2.0f, 0, 0),
+                                       new Vector3D(0, 0.6f, 0), 1, 0.9f);
             cout << "Projectile selectionne  : Boule de feu." << endl;
             cout
                     << "Appuyez sur la touche ENTREE pour lancer la particule,"
@@ -94,7 +94,7 @@ void Clavier(unsigned char c) {
                     << endl;
             break;
         case '4':
-            projectile = new Particule(new Vecteur3D(-0.99f, 0, 0), new Vecteur3D(100.0f, 0, 0), new Vecteur3D(0, 0, 0),
+            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(100.0f, 0, 0), new Vector3D(0, 0, 0),
                                        0, 0.99f);
             cout << "Projectile selectionne  : Laser." << endl;
             cout
@@ -128,11 +128,11 @@ void IPS() {
     Images = 0;
 }
 
-void integrateur(vector<Particule *> particules, float deltaTemps) {
+void integrateur(vector<Particle *> particules, float deltaTemps) {
 
 //    int n = 1;
     for (auto &particule : particules) {
-        /*cout << "Particule " << n << " :" << endl;
+        /*cout << "Particle " << n << " :" << endl;
         cout << "Avant Integration : " << endl;
         cout << "Position : " << endl;
         cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
@@ -172,7 +172,7 @@ void timer(int value) {
 
     // Emplacements des calculs à réaliser
     integrateur(particules, dt);
-    //particule->setPosition(new Vecteur3D(particule->getPosition()->getX()+0.01,particule->getPosition()->getY(), particule->getPosition()->getZ()));
+    //particule->setPosition(new Vector3D(particule->getPosition()->getX()+0.01,particule->getPosition()->getY(), particule->getPosition()->getZ()));
 
     IPS(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
     glutPostRedisplay(); // Lance un appel à Rendu() au taux d'IPS voulu
