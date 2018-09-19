@@ -5,8 +5,12 @@
 #ifndef GAMEENGINE_PARTICLEFORCEGENERATOR_H
 #define GAMEENGINE_PARTICLEFORCEGENERATOR_H
 
+#include "Particule.h"
 
 class ParticleForceGenerator {
+
+public:
+    virtual void UpdateForce (Particule *particule, float frame_duration) =0;
 
 };
 
