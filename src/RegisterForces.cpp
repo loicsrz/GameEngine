@@ -12,8 +12,8 @@ void RegisterForces::addRegister(SaveForce saveForce) {
 void RegisterForces::deleteRegister(SaveForce saveForce) {
     Register::iterator iterator;
     int count = 0;
-    for ( iterator= this->m_register.begin(); iterator!=this->m_register.end(); iterator++) {
-        if (iterator->particule == saveForce.particule && iterator->forceGenerator == saveForce.forceGenerator){
+    for (iterator = this->m_register.begin(); iterator != this->m_register.end(); iterator++) {
+        if (iterator->particule == saveForce.particule && iterator->forceGenerator == saveForce.forceGenerator) {
             this->m_register.erase(iterator);
             break;
         }

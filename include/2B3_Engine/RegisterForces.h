@@ -9,30 +9,29 @@
 #include <vector>
 #include "Particle.h"
 #include "ParticleForceGenerator.h"
-struct SaveForce{
+
+struct SaveForce {
     Particle *particule;
     ParticleForceGenerator *forceGenerator;
 };
 
 typedef std::vector<SaveForce> Register;
 
-class RegisterForces{
+class RegisterForces {
 
 protected:
     Register m_register;
 
 public:
     RegisterForces();
+
     ~RegisterForces();
 
     void addRegister(SaveForce saveForce);
 
     void deleteRegister(SaveForce saveForce);
 
-    int countRegister (SaveForce saveForce);
-
-
-
+    int countRegister(SaveForce saveForce);
 
 
 };

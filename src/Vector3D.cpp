@@ -1,7 +1,7 @@
 //
 // Created by Vince on 29/08/2018.
 //
-
+#include <math.h>
 #include "../include/2B3_Engine/Vector3D.h"
 
 // Constructeur par défaut.
