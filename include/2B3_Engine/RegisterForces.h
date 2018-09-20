@@ -11,7 +11,7 @@
 #include "ParticleForceGenerator.h"
 
 struct SaveForce {
-    Particle *particule;
+    Particle *particle;
     ParticleForceGenerator *forceGenerator;
 };
 

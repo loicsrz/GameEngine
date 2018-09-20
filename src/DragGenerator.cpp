@@ -9,15 +9,15 @@ DragGenerator::DragGenerator() {}
 
 DragGenerator::~DragGenerator() {}
 
-void DragGenerator::UpdateForce(Particle *particule, float frame_duration) {
-    float speed = particule->getVelocity()->getNorm();
-    Vector3D* dragVector = particule->getVelocity();
+void DragGenerator::UpdateForce(Particle *particle, float frame_duration) {
+    float speed = particle->getVelocity()->getNorm();
+    Vector3D* dragVector = particle->getVelocity();
     dragVector->normalizeVector();
     dragVector->scalarMultiplier(-1.0f);
     float drag = this->k1*speed + this->k2*pow(speed,2);
     dragVector->scalarMultiplier(drag);
 
-    particule->addForce(dragVector);
+    particle->addForce(dragVector);
 }
 
 float DragGenerator::getK1() const {

@@ -18,7 +18,8 @@ public:
     DragGenerator();
     ~DragGenerator();
 
-    void UpdateForce(Particle *particule, float frame_duration) override;
+    void UpdateForce(Particle *particle, float frame_duration) override;
+
 
     float getK1() const;
 
