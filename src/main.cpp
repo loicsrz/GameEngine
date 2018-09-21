@@ -11,9 +11,10 @@
 GLFWwindow* window;
 
 #include <glm/glm.hpp>
-#include "shader.hpp"
-
+#include <glm/gtc/matrix_transform.hpp>
 using namespace glm;
+
+#include "../include/2B3_Engine/shader.hpp"
 
 int main( void ) {
     // Initialise GLFW
@@ -58,6 +59,11 @@ int main( void ) {
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders( "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader" );
+
+    glm::mat4 myMatrix = glm::translate(glm::mat4(), glm::vec3(10.0f, 0.0f, 0.0f));
+    glm::vec4 myVector(10.0f, 10.0f, 10.0f, 0.0f);
+    glm::vec4 transformedVector = myMatrix * myVector; // guess the result
+    //glm::vec4 transformedVector = myMatrix * myVector; // Again, in this order ! this is important.
 
     // An array of 3 vectors which represents 3 vertices
     static const GLfloat g_vertex_buffer_data[] = {
