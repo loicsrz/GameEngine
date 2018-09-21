@@ -1,7 +1,7 @@
 //
 // Created by Vince on 29/08/2018.
 //
-
+#include<iostream>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,16 +14,175 @@ GLFWwindow* window;
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
+#include <vector>
+
 using namespace glm;
+using namespace std;
 
 #include "../include/2B3_Engine/shader.hpp"
+#include "../include/2B3_Engine/Particle.h"
 
-int main( void ) {
+GLint gFramesPerSecond = 0;
+GLfloat dt = 0.0;
+Particle *particle, *projectile;
+vector<Particle *> particles;
+GLfloat g_vertex_buffer_data[18];
+static const GLfloat verticesCoordinates[]={
+    particle->getPosition()->getX()-1.0f, particle->getPosition()->getY()+1.0f, 0.0f,
+    particle->getPosition()->getX()-1.0f, particle->getPosition()->getY()-1.0f, 0.0f,
+    particle->getPosition()->getX()+1.0f, particle->getPosition()->getY()+1.0f, 0.0f,
+    particle->getPosition()->getX()-1.0f, particle->getPosition()->getY()-1.0f, 0.0f,
+    particle->getPosition()->getX()+1.0f, particle->getPosition()->getY()-1.0f, 0.0f,
+    particle->getPosition()->getX()+1.0f, particle->getPosition()->getY()+1.0f, 0.0f};
+static double limitFPS = 1.0 / 60.0;
+double lastTime = glfwGetTime(), timer = lastTime;
+double deltaTime = 0, nowTime = 0;
+int frames = 0 , updates = 0;
+GLuint programID, MatrixID;
+GLuint vertexbuffer;
+glm::mat4 mvp;
+
+void display();
+
+void displayChoice() {
+    cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
+    cout << '\t' << "Pistol bullet : [1]" << endl;
+    cout << '\t' << "Cannonball : [2]" << endl;
+    cout << '\t' << "Fireball : [3]" << endl;
+    cout << '\t' << "Laser : [4]" << endl;
+    cout << endl;
+}
+
+int main() {
+    particle = new Particle(new Vector3D(-176.5f, 0.0, 0.0), new Vector3D(0, 0, 0), new Vector3D(0.0, 0.0, 0.0), 1, 1);
+    display();
+
+    return 0;
+
+}
+
+void update(){
+    for (auto &particle : particles) {
+        particle->integrator(deltaTime);
+    }
+}
+
+void inline chooseProjectile(){
+    if (glfwGetKey( window, GLFW_KEY_1 ) == GLFW_PRESS){
+        projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
+                                  new Vector3D(0, -1.0f, 0), 2, 0.99f);
+        cout << "Projectile chosen : Pistol bullet" << endl;
+        cout
+                << "Press ENTER to shoot the particle,"
+                << "\nor select another projectile by pressing the corresponding key."
+                << endl;
+    }
+    if (glfwGetKey( window, GLFW_KEY_2 ) == GLFW_PRESS) {
+        projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(50.0f, 0, 0),
+                                  new Vector3D(0, -20.0f, 0), 200, 0.99f);
+        cout << "Projectile chosen : Cannonball." << endl;
+        cout
+                << "Press ENTER to shoot the particle,"
+                << "\nor select another projectile by pressing the corresponding key."
+                << endl;
+    }
+    if (glfwGetKey( window, GLFW_KEY_3 ) == GLFW_PRESS) {
+        projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(2.0f, 0, 0),
+                                  new Vector3D(0, 0.6f, 0), 1, 0.9f);
+        cout << "Projectile chosen : Fireball" << endl;
+        cout
+                << "Press ENTER to shoot the particle,"
+                << "\nor select another projectile by pressing the corresponding key."
+                << endl;
+    }
+    if (glfwGetKey( window, GLFW_KEY_4 ) == GLFW_PRESS) {
+        projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(100.0f, 0, 0), new Vector3D(0, 0, 0),
+                                  0, 0.99f);
+        cout << "Projectile chosen : Laser." << endl;
+        cout << "Press ENTER to shoot the particle,"
+             << "\nor select another projectile by pressing the corresponding key."
+             << endl;
+    }
+    if (glfwGetKey( window, GLFW_KEY_ENTER ) == GLFW_PRESS) {
+            particles.pop_back();
+            particles.push_back(projectile);
+    }
+}
+
+/****************************************/
+/*******OPEN GL WITH GLFW AND GLEW*******/
+/****************************************/
+
+void verticesPositionUpdate(float x, float y, float z){
+    for (int i = 0; i < 18; i+=3) {
+        for (int j = 0; j <3 ; ++j) {
+            cout << i+j << endl;
+            switch (j){
+                case 0 :
+                    g_vertex_buffer_data[i+j] = x + verticesCoordinates[i+j];
+                    break;
+                case 1 :
+                    g_vertex_buffer_data[i+j] = y + verticesCoordinates[i+j];
+                    break;
+                case 2 :
+                    g_vertex_buffer_data[i+j] = z + verticesCoordinates[i+j];
+                    break;
+                default:break;
+            }
+        }
+    }
+}
+
+void render(){
+    glClear(GL_COLOR_BUFFER_BIT);
+    //cout << "IPS : " << gImagesParSeconde << "\r\n";
+
+    verticesPositionUpdate(particles[0]->getPosition()->getX(), particles[0]->getPosition()->getY(),
+                           particles[0]->getPosition()->getZ());
+    if (particles[0]->getPosition()->getX() > 360 || particles[0]->getPosition()->getY() < 200 ||
+        particles[0]->getPosition()->getY() > 200) {
+        particles.pop_back();
+        particles.push_back(particle);
+
+        cout << "The particle blasted off ..." << endl;
+        cout << endl;
+        displayChoice();
+    }
+
+    // Use our shader
+    glUseProgram(programID);
+
+    // Send our transformation to the currently bound shader, in the "MVP" uniform
+    // This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+
+    // 1rst attribute buffer : vertices
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glVertexAttribPointer(
+            0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+            3,                  // size
+            GL_FLOAT,           // type
+            GL_FALSE,           // normalized?
+            0,                  // stride
+            (void*)0            // array buffer offset
+    );
+    // Draw the triangle !
+    glDrawArrays(GL_TRIANGLES, 0, 2*3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+
+    glDisableVertexAttribArray(0);
+
+    // Swap buffers
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+
+void display(){
     // Initialise GLFW
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");
         getchar();
-        return -1;
+        return;
     }
 
     glfwWindowHint(GLFW_SAMPLES, 4);
@@ -39,9 +198,10 @@ int main( void ) {
                 "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
         getchar();
         glfwTerminate();
-        return -1;
+        return;
     }
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
 
     // Initialize GLEW
     glewExperimental = true; // Needed for core profile
@@ -49,7 +209,7 @@ int main( void ) {
         fprintf(stderr, "Failed to initialize GLEW\n");
         getchar();
         glfwTerminate();
-        return -1;
+        return;
     }
 
     // Assure que l'on peut capturer la touche d'échappement enfoncée ci-dessous
@@ -63,13 +223,13 @@ int main( void ) {
     glBindVertexArray(VertexArrayID);
 
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders( "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader" );
+    programID = LoadShaders( "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader" );
 
     // Get a handle for our "MVP" uniform
-    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+    MatrixID = glGetUniformLocation(programID, "mvp");
 
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-   glm::mat4 Projection = glm::perspective(glm::radians(90.0f), 16.0f / 9.0f, 0.1f, 100.0f);
+    glm::mat4 Projection = glm::perspective(glm::radians(90.0f), 16.0f/9.0f, 0.1f, 100.0f);
 
     // Or, for an ortho camera :
 //    glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
@@ -83,19 +243,13 @@ int main( void ) {
 
     // Model matrix : an identity matrix (model will be at the origin)
 //    glm::mat4 Model      = glm::mat4(1.0f);
-    glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(5.0f, 0.0f, 0.0f));
+    glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
     // Our ModelViewProjection : multiplication of our 3 matrices
-    glm::mat4 mvp = Projection * View * Model; // Remember, matrix multiplication is the other way around
+    mvp = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
     // An array of 3 vectors which represents 3 vertices
-    static const GLfloat g_vertex_buffer_data[] = {
-            -1.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f,
-            0.0f,  1.0f, 0.0f,
-    };
+    verticesPositionUpdate(particle->getPosition()->getX(),particle->getPosition()->getY(),particle->getPosition()->getZ());
 
-    // This will identify our vertex buffer
-    GLuint vertexbuffer;
     // Generate 1 buffer, put the resulting identifier in vertexbuffer
     glGenBuffers(1, &vertexbuffer);
     // The following commands will talk about our 'vertexbuffer' buffer
@@ -104,35 +258,32 @@ int main( void ) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
     do{
-        glClear(GL_COLOR_BUFFER_BIT);
 
-        // Use our shader
-        glUseProgram(programID);
+        // - Measure time
+        nowTime = glfwGetTime();
+        deltaTime += (nowTime - lastTime) / limitFPS;
+        lastTime = nowTime;
 
-        // Send our transformation to the currently bound shader, in the "MVP" uniform
-        // This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+// - Only update at 60 frames / s
+        while (deltaTime >= 1.0){
+            update();   // - Update function
+            updates++;
+            deltaTime--;
+        }
+// - Render at maximum possible frames
+        render(); // - Render function
+        frames++;
 
-        // 1rst attribute buffer : vertices
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(
-                0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-                3,                  // size
-                GL_FLOAT,           // type
-                GL_FALSE,           // normalized?
-                0,                  // stride
-                (void*)0            // array buffer offset
-        );
-        // Draw the triangle !
-        glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+// - Reset after one second
+        if (glfwGetTime() - timer > 1.0) {
+            timer ++;
+            std::cout << "FPS: " << frames << " Updates:" << updates << std::endl;
+            updates = 0, frames = 0;
+        }
 
-        glDisableVertexAttribArray(0);
-
-        // Swap buffers
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-
+        if(particles[0]==particle){
+            chooseProjectile();
+        }
     } // Vérifie si on a appuyé sur la touche échap (ESC) ou si la fenêtre a été fermée
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0 );
@@ -144,69 +295,8 @@ int main( void ) {
 
     // Close OpenGL window and terminate GLFW
     glfwTerminate();
-
-    return 0;
-
 }
-/*#include<iostream>
-#include <vector>
-#include <GL/glut.h>
-#include "../include/2B3_Engine/Particle.h"
-
-using namespace std;
-
-GLint gFramesPerSecond = 0;
-GLfloat dt = 0.0;
-Particle *particle, *projectile;
-vector<Particle *> particles;
-
-void displayChoice() {
-    cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
-    cout << '\t' << "Pistol bullet : [1]" << endl;
-    cout << '\t' << "Cannonball : [2]" << endl;
-    cout << '\t' << "Fireball : [3]" << endl;
-    cout << '\t' << "Laser : [4]" << endl;
-    cout << endl;
-}
-
-void render() {
-    //cout<<"Entre dans Rendu : "<<endl;
-    if (!particles.empty()) {
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        glMatrixMode(GL_PROJECTION);  //Je mets la matrice MODEL_VIEW en utilisation courante.
-        glLoadIdentity();
-        gluPerspective(45.0f, (float) 960 / (float) 960, 0.1f, 2000.0f);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glTranslatef(-250.0f, 0.0f, -700.0f);
-
-        //cout << "IPS : " << gImagesParSeconde << "\r\n";
-
-        glPointSize(5.0f);
-        glColor3f(1.0, 0.0, 0.0);
-        glBegin(GL_POINTS);
-        glVertex3f(particles[0]->getPosition()->getX(), particles[0]->getPosition()->getY(),
-                   particles[0]->getPosition()->getZ());
-        if (particles[0]->getPosition()->getX() > 500 || particles[0]->getPosition()->getY() < -500 ||
-            particles[0]->getPosition()->getY() > 500) {
-            particles.pop_back();
-            particles.push_back(particle);
-
-            cout << "The particle blasted off ..." << endl;
-            cout << endl;
-            displayChoice();
-        }
-        glEnd();
-
-        glutSwapBuffers();
-
-        //glFlush();
-        //cout<<"Fin de Rendu"<<endl;
-        //cout<<endl;
-    }
-}
+/*
 
 void keyboard(unsigned char c) {
 
