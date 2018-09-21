@@ -4,6 +4,6 @@ set(SOURCE_FILES main.cpp Particle.cpp ../include/2B3_Engine/Particle.h Vector3D
     GravityGenerator.cpp ../include/2B3_Engine/GravityGenerator.h shader.cpp shader.hpp)
 
 # Création de l'exécutable pour le projet
-add_executable(2Be3_Engine ${SOURCE_FILES})
+add_executable(2Be3_Engine ${SOURCE_FILES} SimpleFragmentShader.fragmentshader SimpleVertexShader.vertexshader)
 
 target_link_libraries(2Be3_Engine ${OPENGL_LIBRARIES} glfw3 glew32)
