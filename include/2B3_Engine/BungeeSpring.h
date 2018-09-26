@@ -6,7 +6,33 @@
 #define GAMEENGINE_BUNGEESPRING_H
 
 
-class BungeeSpring {
+#include "ParticleForceGenerator.h"
+
+class BungeeSpring : ParticleForceGenerator {
+
+protected:
+    Particle secondParticle;
+    float K;
+    float l0;
+
+public:
+    BungeeSpring();
+
+    virtual ~BungeeSpring();
+
+    void UpdateForce(Particle *particle, float frame_duration) override;
+
+    const Particle &getSecondParticle() const;
+
+    void setSecondParticle(const Particle &secondParticle);
+
+    float getK() const;
+
+    void setK(float K);
+
+    float getL0() const;
+
+    void setL0(float l0);
 
 };
 
