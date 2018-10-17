@@ -6,7 +6,9 @@
 #define GAMEENGINE_PARTICLESTIFFSPRING_H
 
 
-class ParticleStiffSpring {
+#include "ParticleForceGenerator.h"
+
+class ParticleStiffSpring : public ParticleForceGenerator {
 protected:
     float anchor;
     float K;
@@ -16,6 +18,21 @@ public:
     ParticleStiffSpring();
 
     virtual ~ParticleStiffSpring();
+
+    void UpdateForce(Particle *particle, float frame_duration) override;
+
+    float getAnchor() const;
+
+    void setAnchor(float anchor);
+
+    float getK() const;
+
+    void setK(float K);
+
+    float getDamping() const;
+
+    void setDamping(float damping);
+
 };
 
 
