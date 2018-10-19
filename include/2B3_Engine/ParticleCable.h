@@ -6,7 +6,13 @@
 #define GAMEENGINE_PARTICLECABLE_H
 
 
-class ParticleCable {
+#include "ParticleLink.h"
+
+class ParticleCable : public ParticleLink {
+protected:
+
+    float maxLenght;
+    float restitutionCoefficient;
 
 };
 

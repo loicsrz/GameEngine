@@ -6,7 +6,17 @@
 #define GAMEENGINE_PARTICLELINK_H
 
 
-class ParticleLink {
+#include "Particle.h"
+#include "ParticleContactGenerator.h"
+
+class ParticleLink : public ParticleContactGenerator {
+
+protected:
+    Particle* particle[2];
+
+public:
+
+    float cableLenght();
 
 };
 
