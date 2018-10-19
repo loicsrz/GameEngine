@@ -16,7 +16,7 @@ protected:
     vector<ParticleContact*> particleContact;
 
 public:
-    void AddContact(vector<Particle*> allparticle);
+    void addContact(vector<Particle*> allparticle, World world);
 
 
 };

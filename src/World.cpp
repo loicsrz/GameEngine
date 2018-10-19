@@ -30,3 +30,11 @@ void World::eraseParticle(Particle *particle) {
         }
     }
 }
+
+const int *World::getGroundX() const {
+    return groundX;
+}
+
+const int *World::getGroundY() const {
+    return groundY;
+}

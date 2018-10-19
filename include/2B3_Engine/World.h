@@ -12,8 +12,12 @@ class World {
 
 protected:
     vector<Particle*> worldParticles;
-    vector<int> groundX;
-    vector<int> groundY;
+    int groundX[2];
+    int groundY[3];
+public:
+    const int *getGroundX() const;
+
+    const int *getGroundY() const;
 
 public:
     World();
