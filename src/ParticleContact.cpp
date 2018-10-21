@@ -36,3 +36,47 @@ void ParticleContact::InterpenetrationResolve(float duration) {
     A->setPosition(A->getPosition()->addVector(deltaPosA));
     B->setPosition(B->getPosition()->addVector(deltaPosB));
 }
+
+ParticleContact::ParticleContact(Particle **mParticles, float restitution, Vector3D *perpendicularAngle,
+                                 float penetration) : restitution(restitution),
+                                                      perpendicularAngle(perpendicularAngle),
+                                                      penetration(penetration) {
+    ParticleContact::particles[0]= mParticles[0];
+    ParticleContact::particles[1]= mParticles[1];
+}
+
+ParticleContact::~ParticleContact() {
+
+}
+
+Particle *const *ParticleContact::getParticles() const {
+    return particles;
+}
+
+float ParticleContact::getRestitution() const {
+    return restitution;
+}
+
+void ParticleContact::setRestitution(float restitution) {
+    ParticleContact::restitution = restitution;
+}
+
+Vector3D *ParticleContact::getPerpendicularAngle() const {
+    return perpendicularAngle;
+}
+
+void ParticleContact::setPerpendicularAngle(Vector3D *perpendicularAngle) {
+    ParticleContact::perpendicularAngle = perpendicularAngle;
+}
+
+float ParticleContact::getPenetration() const {
+    return penetration;
+}
+
+void ParticleContact::setPenetration(float penetration) {
+    ParticleContact::penetration = penetration;
+}
+
+bool ParticleContact::operator<(ParticleContact const &b) {
+    return this->SpeedCompute() < b.SpeedCompute();
+}

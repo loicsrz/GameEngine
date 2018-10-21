@@ -18,10 +18,30 @@ protected:
     //Vector3D* interpenetrationResolvingMovement;
 
 public:
+    ParticleContact(Particle **mParticles, float restitution, Vector3D *perpendicularAngle, float penetration);
+
+    virtual ~ParticleContact();
+
     void Resolve(float duration);
     float SpeedCompute() const;
     void ImpulsionResolve(float duration);
     void InterpenetrationResolve(float duration);
+
+    Particle *const *getParticles() const;
+
+    float getRestitution() const;
+
+    void setRestitution(float restitution);
+
+    Vector3D *getPerpendicularAngle() const;
+
+    void setPerpendicularAngle(Vector3D *perpendicularAngle);
+
+    float getPenetration() const;
+
+    void setPenetration(float penetration);
+
+    bool operator<(ParticleContact const &b);
 };
 
 #endif //GAMEENGINE_PARTICLECONTACT_H

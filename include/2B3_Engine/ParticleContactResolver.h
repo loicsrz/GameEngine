@@ -15,11 +15,22 @@ class ParticleContactResolver {
 
 protected:
     int iterationsMax;
-    int usedInterations;
+    int consumedIterations;
 
 public:
+    ParticleContactResolver(int iterationsMax);
+
+    virtual ~ParticleContactResolver();
+
+    int getIterationsMax() const;
+
+    int getConsumedIterations() const;
+
     void setIterationsMax(int iterationsMax);
-    void resolveContact(vector<ParticleContact*> contactVector);
+
+    void resolveContact(vector<ParticleContact*> contactVector,float duration);
+
+
 };
 
 
