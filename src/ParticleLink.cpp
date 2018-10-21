@@ -4,7 +4,7 @@
 
 #include "../include/2B3_Engine/ParticleLink.h"
 
-float ParticleLink::cableLenght() {
+float ParticleLink::linkLength() {
     float xLenght = fabs(particle[0]->getPosition()->getX() - particle[1]->getPosition()->getX());
 
     float yLenght = fabs(particle[0]->getPosition()->getY() - particle[1]->getPosition()->getY());
@@ -12,4 +12,5 @@ float ParticleLink::cableLenght() {
     return sqrt((xLenght*xLenght)+(yLenght*yLenght));
 
 }
+
 

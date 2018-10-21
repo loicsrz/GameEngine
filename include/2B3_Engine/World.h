@@ -26,7 +26,7 @@ public:
     virtual ~World();
 
 public:
-    const vector<Particle*> &getWorldParticles() const;
+    vector<Particle*> &getWorldParticles() const;
 
     void setWorldParticles(const vector<Particle*> &worldParticles);
 

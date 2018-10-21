@@ -136,6 +136,14 @@ void Particle::UpdateSpeed(float time) {
             ->addVector(this->acceleration->scalarMultiplier(time));
 }
 
+float Particle::getRadius() const {
+    return radius;
+}
+
+void Particle::setRadius(float radius) {
+    Particle::radius = radius;
+}
+
 
 
 

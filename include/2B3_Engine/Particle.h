@@ -23,6 +23,14 @@ protected:
     float invertedMass;
     //Damping (forces de frottement)
     float damping;
+    // radius
+    float radius;
+public:
+    float getRadius() const;
+
+    void setRadius(float radius);
+
+protected:
 
     Vector3D *forcesAccum;
 

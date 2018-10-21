@@ -5,7 +5,7 @@ set(SOURCE_FILES main.cpp Particle.cpp ../include/2B3_Engine/Particle.h Vector3D
     ../include/2B3_Engine/DragGenerator.h BungeeSpring.cpp ../include/2B3_Engine/BungeeSpring.h 
     ParticleStiffSpring.cpp ../include/2B3_Engine/ParticleStiffSpring.h
     AnchoredParticle.cpp ../include/2B3_Engine/AnchoredParticle.h ParticleFloating.cpp ../include/2B3_Engine/ParticleFloating.h
-    ParticleContact.cpp ../include/2B3_Engine/ParticleContact.h ParticleContactResolver.cpp ../include/2B3_Engine/ParticleContactResolver.h)
+    ParticleContact.cpp ../include/2B3_Engine/ParticleContact.h ParticleContactResolver.cpp ../include/2B3_Engine/ParticleContactResolver.h
     World.cpp ../include/2B3_Engine/World.h ParticleContactGenerator.cpp ../include/2B3_Engine/ParticleContactGenerator.h 
     ParticleLink.cpp ../include/2B3_Engine/ParticleLink.h ParticleCable.cpp ../include/2B3_Engine/ParticleCable.h)
 
