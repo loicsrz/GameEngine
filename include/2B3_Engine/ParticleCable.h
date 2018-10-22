@@ -16,7 +16,7 @@ protected:
 
 public:
 
-    void AddContact(World world);
+    void addContact();
 
 };
 
