@@ -8,6 +8,7 @@
 
 #include "Particle.h"
 #include "World.h"
+#include "ParticleContact.h"
 #include <vector>
 using namespace std;
 

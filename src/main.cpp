@@ -8,7 +8,7 @@
 #include <vector>
 #include <GL/glut.h>
 #include <math.h>
-#include "../include/2B3_Engine/Particule.h"
+#include "../include/2B3_Engine/Particle.h"
 
 using namespace std;
 
@@ -46,14 +46,14 @@ void render() {
         glPointSize(5.0f);
         glColor3f(1.0, 0.0, 0.0);
         glBegin(GL_POINTS);
-        glVertex3f(particules[0]->getPosition()->getX(), particules[0]->getPosition()->getY(),
-                   particules[0]->getPosition()->getZ());
-        glVertex3f(particules[0]->getPosition()->getX()+50.0f, particules[0]->getPosition()->getY()+50.0f,
-                   particules[0]->getPosition()->getZ());
-        if (particules[0]->getPosition()->getX() > 500 || particules[0]->getPosition()->getY() < -500 ||
-            particules[0]->getPosition()->getY() > 500) {
-            particules.pop_back();
-            particules.push_back(particule);
+        glVertex3f(particles[0]->getPosition()->getX(), particles[0]->getPosition()->getY(),
+                   particles[0]->getPosition()->getZ());
+        glVertex3f(particles[0]->getPosition()->getX()+50.0f, particles[0]->getPosition()->getY()+50.0f,
+                   particles[0]->getPosition()->getZ());
+        if (particles[0]->getPosition()->getX() > 500 || particles[0]->getPosition()->getY() < -500 ||
+            particles[0]->getPosition()->getY() > 500) {
+            particles.pop_back();
+            particles.push_back(particle);
 
             cout << "The particle blasted off ..." << endl;
             cout << endl;
@@ -64,7 +64,7 @@ void render() {
         glColor3f(0.2, 0.3, 0.5);
         glBegin(GL_LINE_LOOP);
         for(double d = 0; d < max; d += inc) {
-            glVertex2f(cos(d) * 10.0f + particules[0]->getPosition()->getX(), sin(d) * 10.0f + particules[0]->getPosition()->getY());
+            glVertex2f(cos(d) * 10.0f + particles[0]->getPosition()->getX(), sin(d) * 10.0f + particles[0]->getPosition()->getY());
         }
         glEnd();
 
