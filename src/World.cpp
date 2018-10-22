@@ -38,3 +38,7 @@ const int *World::getGroundX() const {
 const int *World::getGroundY() const {
     return groundY;
 }
+
+vector<ParticleLink> World::getParticleLink() {
+    return particleLinks;
+}

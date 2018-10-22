@@ -7,16 +7,20 @@
 
 #include <vector>
 #include "Particle.h"
+#include "ParticleLink.h"
+
 using namespace std;
+
 class World {
 
 protected:
     vector<Particle*> worldParticles;
     int groundX[2];
     int groundY[3];
+    vector<ParticleLink> particleLinks;
+
 public:
     const int *getGroundX() const;
-
     const int *getGroundY() const;
 
 public:
@@ -29,6 +33,8 @@ public:
     vector<Particle*> &getWorldParticles() const;
 
     void setWorldParticles(const vector<Particle*> &worldParticles);
+
+    vector<ParticleLink> getParticleLink();
 
     void addParticleToWorld(Particle* particle);
 

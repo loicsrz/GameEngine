@@ -18,7 +18,7 @@ public:
 
     float linkLength();
 
-    virtual void addContact( World world);
+    void addContact(World world)=0;
 
 
 };

@@ -14,6 +14,10 @@ protected:
     float maxLenght;
     float restitutionCoefficient;
 
+public:
+
+    void AddContact(World world);
+
 };
 
 

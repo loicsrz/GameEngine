@@ -17,9 +17,10 @@ protected:
     vector<ParticleContact*> particleContact;
 
 public:
-    virtual void addContact( World world);
+    virtual void addContact(Particle* particle, Particle* particle1);
 
 
+    ParticleContactGenerator(vector<ParticleContact *> vector);
 };
 
 
