@@ -5,6 +5,7 @@
 #include <vector>
 #include <GL/glut.h>
 #include "../include/2B3_Engine/Particle.h"
+#include "../include/2B3_Engine/World.h"
 
 using namespace std;
 
@@ -12,6 +13,8 @@ GLint gFramesPerSecond = 0;
 GLfloat dt = 0.0;
 Particle *particle, *projectile;
 vector<Particle *> particles;
+vector<ParticleContact*> particlesContact;
+ParticleContactGenerator* particleContactGenerator = new ParticleContactGenerator(particlesContact);
 
 void displayChoice() {
     cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
@@ -20,6 +23,40 @@ void displayChoice() {
     cout << '\t' << "Fireball : [3]" << endl;
     cout << '\t' << "Laser : [4]" << endl;
     cout << endl;
+}
+
+void SearchContact(World world, vector<ParticleContact*> particleContact){
+
+    vector<Particle*>::iterator iterator;
+    vector<Particle*>::iterator iterator1;
+
+    for (iterator = world.getWorldParticles().begin(); iterator != world.getWorldParticles().end(); iterator++) {
+
+        if ((*iterator)->getPosition()->getX() < world.getGroundX()[0]) {
+
+            if ((*iterator)->getPosition()->getY() < world.getGroundY()[0]) {
+                (*iterator)->getPosition()->setY(world.getGroundY()[0] + (*iterator)->getRadius());
+
+            }
+        } else if ((*iterator)->getPosition()->getX() < world.getGroundX()[1]) {
+
+            if ((*iterator)->getPosition()->getY() < world.getGroundY()[1]) {
+                (*iterator)->getPosition()->setY(world.getGroundY()[1] + (*iterator)->getRadius());
+            }
+        } else {
+            if ((*iterator)->getPosition()->getY() < world.getGroundX()[2]) {
+                (*iterator)->getPosition()->setY(world.getGroundY()[2] + (*iterator)->getRadius());
+            }
+        }
+    }
+
+    for (iterator = world.getWorldParticles().begin();iterator != world.getWorldParticles().end(); iterator++){
+
+        for (iterator1 = world.getWorldParticles().begin();iterator1 != world.getWorldParticles().end(); iterator1++){
+
+            particleContactGenerator->addContact((*iterator), (*iterator1));
+        }
+    }
 }
 
 void render() {

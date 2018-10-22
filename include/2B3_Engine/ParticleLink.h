@@ -16,7 +16,10 @@ protected:
 
 public:
 
-    float cableLenght();
+    float linkLength();
+
+    void addContact(World world)=0;
+
 
 };
 

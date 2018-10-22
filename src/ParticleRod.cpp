@@ -1,11 +1,12 @@
 //
-// Created by loicsrz on 19/10/2018.
+// Created by loicsrz on 21/10/2018.
 //
 
-#include "../include/2B3_Engine/ParticleCable.h"
+#include "../include/2B3_Engine/ParticleRod.h"
+#include "../include/2B3_Engine/Vector3D.h"
+#include "../include/2B3_Engine/ParticleContact.h"
 
-void ParticleCable::addContact() {
-
+void ParticleRod::addContact() {
 
     if (linkLength() >= maxLenght)
     {

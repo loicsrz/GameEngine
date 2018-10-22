@@ -8,6 +8,7 @@
 
 #include "Particle.h"
 #include "World.h"
+#include "ParticleContact.h"
 #include <vector>
 using namespace std;
 
@@ -16,9 +17,10 @@ protected:
     vector<ParticleContact*> particleContact;
 
 public:
-    void addContact(vector<Particle*> allparticle, World world);
+    virtual void addContact(Particle* particle, Particle* particle1);
 
 
+    ParticleContactGenerator(vector<ParticleContact *> vector);
 };
 
 
