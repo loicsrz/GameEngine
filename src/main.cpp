@@ -1,10 +1,14 @@
 //
 // Created by Vince on 29/08/2018.
 //
+
+#define _USE_MATH_DEFINES
+
 #include<iostream>
 #include <vector>
 #include <GL/glut.h>
-#include "../include/2B3_Engine/Particle.h"
+#include <math.h>
+#include "../include/2B3_Engine/Particule.h"
 
 using namespace std;
 
@@ -12,6 +16,8 @@ GLint gFramesPerSecond = 0;
 GLfloat dt = 0.0;
 Particle *particle, *projectile;
 vector<Particle *> particles;
+static const double inc = M_PI / 12;
+static const double max = 2 * M_PI;
 
 void displayChoice() {
     cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
@@ -40,16 +46,25 @@ void render() {
         glPointSize(5.0f);
         glColor3f(1.0, 0.0, 0.0);
         glBegin(GL_POINTS);
-        glVertex3f(particles[0]->getPosition()->getX(), particles[0]->getPosition()->getY(),
-                   particles[0]->getPosition()->getZ());
-        if (particles[0]->getPosition()->getX() > 500 || particles[0]->getPosition()->getY() < -500 ||
-            particles[0]->getPosition()->getY() > 500) {
-            particles.pop_back();
-            particles.push_back(particle);
+        glVertex3f(particules[0]->getPosition()->getX(), particules[0]->getPosition()->getY(),
+                   particules[0]->getPosition()->getZ());
+        glVertex3f(particules[0]->getPosition()->getX()+50.0f, particules[0]->getPosition()->getY()+50.0f,
+                   particules[0]->getPosition()->getZ());
+        if (particules[0]->getPosition()->getX() > 500 || particules[0]->getPosition()->getY() < -500 ||
+            particules[0]->getPosition()->getY() > 500) {
+            particules.pop_back();
+            particules.push_back(particule);
 
             cout << "The particle blasted off ..." << endl;
             cout << endl;
             displayChoice();
+        }
+        glEnd();
+        glLineWidth(2.0f);
+        glColor3f(0.2, 0.3, 0.5);
+        glBegin(GL_LINE_LOOP);
+        for(double d = 0; d < max; d += inc) {
+            glVertex2f(cos(d) * 10.0f + particules[0]->getPosition()->getX(), sin(d) * 10.0f + particules[0]->getPosition()->getY());
         }
         glEnd();
 
