@@ -32,13 +32,6 @@ void World::eraseParticle(Particle *particle) {
     }
 }
 
-const int *World::getGroundX() const {
-    return groundX;
-}
-
-const int *World::getGroundY() const {
-    return groundY;
-}
 
 vector<ParticleLink*> World::getParticleLinks() {
     return particleLinks;
@@ -47,32 +40,55 @@ vector<ParticleLink*> World::getParticleLinks() {
 void World::initWorld1() {
     //init world for test 1
 
-    //Init ground
-    groundX[0]=10;
-    groundX[1]=20;
+    //Init ground and separations
+    groundSeparations.push_back(0.0f);
+    groundSeparations.push_back(0.5f);
 
-    groundY[0]=30;
-    groundY[1]=20;
-    groundY[2]=10;
+    grounds.push_back(0.5f);
+    grounds.push_back(0.0f);
+    grounds.push_back(-0.5f);
 
     //Init linkedParticles
-    Vector3D* positionA = new Vector3D(2,31,1);
+    Vector3D* positionA = new Vector3D(-0.99f,0.51f,0.0f);
     Particle* a = new Particle();
     a->setDamping(0.99);
     a->setInvertedMass(1);
     a->setPosition(positionA);
-    a->setRadius(1);
+    a->setRadius(5.0f);
 
-    Vector3D* positionB = new Vector3D(0,31,1);
+    Vector3D* positionB = new Vector3D(-0.97f,0.54f,0.0f);
     Particle* b = new Particle();
     b->setDamping(0.99);
     b->setInvertedMass(1);
     b->setPosition(positionB);
-    b->setRadius(1);
+    b->setRadius(5.0f);
 
     worldParticles.push_back(a);
     worldParticles.push_back(b);
 
     //Init special links
 //    ParticleLink* linkAB = new ParticleCable(10,0.5);
+}
+
+void World::eraseWorld() {
+    worldParticles.clear();
+    particleLinks.clear();
+    groundSeparations.clear();
+    grounds.clear();
+}
+
+vector<float> &World::getGroundSeparations()  {
+    return groundSeparations;
+}
+
+void World::setGroundSeparations(const vector<float> &groundSeparations) {
+    World::groundSeparations = groundSeparations;
+}
+
+vector<float> &World::getGrounds()  {
+    return grounds;
+}
+
+void World::setGrounds(const vector<float> &grounds) {
+    World::grounds = grounds;
 }

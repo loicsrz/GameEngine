@@ -48,6 +48,8 @@ public:
 
     void setContactResolver(const ParticleContactResolver &contactResolver);
 
+    void erasePhysics();
+
 };
 
 
