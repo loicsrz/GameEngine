@@ -81,7 +81,6 @@ void render() {
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
         Particle* currentParticle;
-        int count = 0;
         for (auto &i : world.getWorldParticles()) {
             currentParticle = i;
 
@@ -103,6 +102,26 @@ void render() {
             }
             glEnd();
         }
+
+        glPointSize(3.0f);
+        glColor3f(0.0, 1.0, 0.0);
+        glBegin(GL_POINTS);
+        glVertex3f(250.0f,150.0f,0.0f);
+        glEnd();
+
+        vector<float> &grounds = world.getGrounds();
+        vector<float> &walls = world.getGroundSeparations();
+        glLineWidth(1.0f);
+        glColor3f(1.0, 1.0, 1.0);
+        glBegin(GL_LINES);
+        glVertex3f(-100.0f,grounds[0],0.0f);
+        glVertex3f(500.0f,grounds[0],0.0f);
+        glEnd();
+
+//        int current=0;
+//        for(auto &i : grounds){
+//
+//        }
 
         ParticleLink* currentLink;
         for (auto &i : world.getParticleLinks()) {
@@ -130,13 +149,8 @@ void keyboard(unsigned char c) {
     if(!isSceneLoaded){
         switch (c) {
             case '1':
-//            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
-//                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
-                cout<<"World init"<<endl;
-
+                cout<<"World init for bungee spring"<<endl;
                 world.initWorld1();
-                cout<<"Particule A : "<<world.getWorldParticles()[0]->getPosition()->getX()<<endl;
-                cout<<"Particule B : "<<world.getWorldParticles()[1]->getPosition()->getX()<<endl;
                 physics.initWorldPhysics1(world);
                 cout<<"init finished"<<endl;
                 isSceneLoaded = true;
@@ -147,6 +161,12 @@ void keyboard(unsigned char c) {
 
                 break;
             case '3':
+
+                cout<<"World init for anchored particle"<<endl;
+                world.initWorld3();
+                physics.initWorldPhysics3(world);
+                cout<<"init finished"<<endl;
+                isSceneLoaded = true;
 
                 break;
             case '4':

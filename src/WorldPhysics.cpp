@@ -9,6 +9,7 @@
 #include "../include/2B3_Engine/BungeeSpring.h"
 #include "../include/2B3_Engine/GravityGenerator.h"
 #include "../include/2B3_Engine/DragGenerator.h"
+#include "../include/2B3_Engine/ParticleAnchoredSpring.h"
 
 using namespace std;
 
@@ -195,6 +196,29 @@ void WorldPhysics::initWorldPhysics1(World world) {
     registerForces.addRegister(grav2);
     registerForces.addRegister(drag1);
     registerForces.addRegister(drag2);
+}
+
+void WorldPhysics::initWorldPhysics3(World world) {
+    ParticleForceGenerator* aps = new ParticleAnchoredSpring();
+    dynamic_cast<ParticleAnchoredSpring*>(aps)->setK(0.08f);
+    dynamic_cast<ParticleAnchoredSpring*>(aps)->setL0(50.0f);
+    dynamic_cast<ParticleAnchoredSpring*>(aps)->setAnchoredPoint(new Vector3D(250.0f,150.0f,0.0f));
+
+    ParticleForceGenerator* grav = new GravityGenerator();
+    Vector3D * gravity = new Vector3D(0,-10.0f,0);
+    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
+
+    ParticleForceGenerator* drag = new DragGenerator();
+    dynamic_cast<DragGenerator*>(drag)->setK1(0.1f);
+    dynamic_cast<DragGenerator*>(drag)->setK2(0.04f);
+
+    SaveForce sfaps{world.getWorldParticles()[0],aps};
+    SaveForce grav1{world.getWorldParticles()[0],grav};
+    SaveForce drag1{world.getWorldParticles()[0],drag};
+
+    registerForces.addRegister(sfaps);
+    registerForces.addRegister(grav1);
+    registerForces.addRegister(drag1);
 }
 
 const ParticleContactResolver &WorldPhysics::getContactResolver() const {
