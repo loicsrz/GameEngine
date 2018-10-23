@@ -40,7 +40,7 @@ const int *World::getGroundY() const {
     return groundY;
 }
 
-vector<ParticleLink*> World::getParticleLink() {
+vector<ParticleLink*> World::getParticleLinks() {
     return particleLinks;
 }
 
@@ -55,7 +55,7 @@ void World::initWorld1() {
     groundY[1]=20;
     groundY[2]=10;
 
-    //Init particles
+    //Init linkedParticles
     Vector3D* positionA = new Vector3D(2,31,1);
     Particle* a = new Particle();
     a->setDamping(0.99);

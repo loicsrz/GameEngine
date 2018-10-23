@@ -97,7 +97,7 @@ void WorldPhysics::searchContacts(World world){
     }
 
     // Ajout contacts Rod and cables
-    vector<ParticleLink*> links = world.getParticleLink();
+    vector<ParticleLink*> links = world.getParticleLinks();
     for(auto it = links.begin();it != links.end();it++){
         ParticleContact* contact = (*it)->addContact();
         if(contact != nullptr){

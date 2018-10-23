@@ -12,7 +12,7 @@
 class ParticleLink : public ParticleContactGenerator {
 
 protected:
-    Particle* particle[2];
+    Particle* linkedParticles[2];
 
 public:
 
@@ -20,7 +20,7 @@ public:
 
     virtual ParticleContact* addContact()=0;
 
-
+    Particle *const *getLinkedParticles() const;
 };
 
 

@@ -34,7 +34,7 @@ public:
 
     void setWorldParticles(const vector<Particle*> &worldParticles);
 
-    vector<ParticleLink*> getParticleLink();
+    vector<ParticleLink*> getParticleLinks();
 
     void addParticleToWorld(Particle* particle);
 

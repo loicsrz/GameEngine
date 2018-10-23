@@ -11,10 +11,10 @@ ParticleContact* ParticleRod::addContact() {
     ParticleContact *contact = nullptr;
     if (linkLength() >= maxLenght)
     {
-        Vector3D* perpendicularAngle = (particle[0])->getPosition()->substractVector((particle[1])->getPosition())
+        Vector3D* perpendicularAngle = (linkedParticles[0])->getPosition()->substractVector((linkedParticles[1])->getPosition())
                 ->normalizeVector();
         float penetration = 0;
-        ParticleContact *contact = new ParticleContact(particle, 0.5,perpendicularAngle, penetration );
+        ParticleContact *contact = new ParticleContact(linkedParticles, 0.5,perpendicularAngle, penetration );
     }
 
     return contact;
