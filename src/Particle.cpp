@@ -3,6 +3,9 @@
 //
 
 #include "../include/2B3_Engine/Particle.h"
+#include <iostream>
+
+using namespace std;
 
 Particle::Particle() {
     this->position = new Vector3D(0, 0, 2);
@@ -59,8 +62,8 @@ void Particle::integrator(float time) {
     UpdateSpeed(time);
 }
 
-void Particle::addForce(Vector3D *const force) {
-    this->forcesAccum->addVector(force);
+void Particle::addForce(Vector3D * force) {
+    forcesAccum = this->forcesAccum->addVector(force);
 }
 
 void Particle::clearAccumulator() {

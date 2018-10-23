@@ -11,17 +11,18 @@
 class GravityGenerator : public ParticleForceGenerator {
     ///Attributs
 protected:
-    Vector3D gravity;
+    Vector3D* gravity;
 
 public:
     GravityGenerator();
+
     ~GravityGenerator();
 
     void UpdateForce(Particle *particle, float frame_duration) override;
 
-    const Vector3D &getGravity() const;
+    Vector3D *getGravity() const;
 
-    void setGravity(const Vector3D &gravity);
+    void setGravity(Vector3D *gravity);
 };
 
 

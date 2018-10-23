@@ -46,6 +46,8 @@ public:
     vector<float> &getGrounds() ;
 
     void setGrounds(const vector<float> &grounds);
+
+    void clearForceAccums();
 };
 
 

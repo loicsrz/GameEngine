@@ -243,8 +243,10 @@ void timer(int value) {
 
     // Emplacements des calculs à réaliser
 
-    physics.applyForces(dt);
-    physics.particlesIntegrator(world.getWorldParticles(),dt);
+    if(isSceneLoaded){
+        physics.applyForces(dt);
+        physics.particlesIntegrator(world.getWorldParticles(),dt);
+        world.clearForceAccums();
 //    physics.searchAndResolveContactsWithGround(world);
 //    physics.searchContacts(world);
 //    if(physics.getContacts().size()>0){
@@ -260,6 +262,8 @@ void timer(int value) {
 //            break;
 //        }
 //    }
+    }
+
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
     glutPostRedisplay(); // Lance un appel à Rendu() au taux d'IPS voulu

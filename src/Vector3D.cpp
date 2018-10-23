@@ -3,7 +3,9 @@
 //
 #include <math.h>
 #include "../include/2B3_Engine/Vector3D.h"
+#include <iostream>
 
+using namespace std;
 // Constructeur par défaut.
 Vector3D::Vector3D() : x(0), y(0), z(0) {}
 
@@ -21,7 +23,12 @@ Vector3D::~Vector3D() = default;
 
 // Méthode qui définit l'addition entre le vecteur et un vecteur v.
 Vector3D *Vector3D::addVector(Vector3D *v) {
+//    cout<<"forceToAdd : "<<v->getY()<<endl;
+//    cout<<"forceAccum : "<<this->getY()<<endl;
     return new Vector3D(this->x + v->x, this->y + v->y, this->z + v->z);
+//    Vector3D * test = new Vector3D(this->x + v->x, this->y + v->y, this->z + v->z);
+//    cout<<"forceAccum after : "<<test->getY()<<endl;
+//    return test;
 }
 
 // Méthode qui définit la soustraction entre le vecteur et un vecteur v.

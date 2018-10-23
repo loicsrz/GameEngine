@@ -2,6 +2,7 @@
 // Created by totoa on 22/10/2018.
 //
 
+#include <iostream>
 #include "../include/2B3_Engine/WorldPhysics.h"
 #include "../include/2B3_Engine/Particle.h"
 #include "../include/2B3_Engine/World.h"
@@ -112,7 +113,34 @@ void WorldPhysics::searchContacts(World world){
 
 void WorldPhysics::applyForces(float duration) {
     for(auto it = registerForces.m_register.begin();it != registerForces.m_register.end();it++){
+//        cout << "Avant Application des forces : " << endl;
+//        cout << "Forces Accum : " << endl;
+//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
+//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
+//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
+//        cout << "Force à appliquer : " << endl;
+//        ParticleForceGenerator* pointer = it->forceGenerator;
+//        cout << '\t' << "x : " << dynamic_cast<GravityGenerator*>(pointer)->getGravity()->getX() << endl;
+//        cout << '\t' << "y : " << dynamic_cast<GravityGenerator*>(pointer)->getGravity()->getY() << endl;
+//        cout << '\t' << "z : " << dynamic_cast<GravityGenerator*>(pointer)->getGravity()->getZ() << endl;
+//        cout << "Acceleration : " << endl;
+//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
+//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
+//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
         it->forceGenerator->UpdateForce(it->particle,duration);
+//        cout << "Après Application des forces : " << endl;
+//        cout << "ForceAccum : " << endl;
+//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
+//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
+//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
+//        cout << "Velocite : " << endl;
+//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
+//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
+//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
+//        cout << "Acceleration : " << endl;
+//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
+//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
+//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
     }
 }
 
@@ -145,25 +173,25 @@ void WorldPhysics::initWorldPhysics1(World world) {
 
     ParticleForceGenerator* grav = new GravityGenerator();
     Vector3D * gravity = new Vector3D(0,-10.0f,0);
-    dynamic_cast<GravityGenerator*>(grav)->setGravity(*gravity);
+    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
 
-    ParticleForceGenerator* drag = new DragGenerator();
-    dynamic_cast<DragGenerator*>(drag)->setK1(1);
-    dynamic_cast<DragGenerator*>(drag)->setK2(0);
+//    ParticleForceGenerator* drag = new DragGenerator();
+//    dynamic_cast<DragGenerator*>(drag)->setK1(1);
+//    dynamic_cast<DragGenerator*>(drag)->setK2(0);
 
 //    SaveForce sfbs1{world.getWorldParticles()[0],bs1};
 //    SaveForce sfbs2{world.getWorldParticles()[1],bs2};
     SaveForce grav1{world.getWorldParticles()[0],grav};
     SaveForce grav2{world.getWorldParticles()[1],grav};
-    SaveForce drag1{world.getWorldParticles()[0],drag};
-    SaveForce drag2{world.getWorldParticles()[1],grav};
+//    SaveForce drag1{world.getWorldParticles()[0],drag};
+//    SaveForce drag2{world.getWorldParticles()[1],drag};
 
 //    registerForces.addRegister(sfbs1);
 //    registerForces.addRegister(sfbs2);
     registerForces.addRegister(grav1);
     registerForces.addRegister(grav2);
-    registerForces.addRegister(drag1);
-    registerForces.addRegister(drag2);
+//    registerForces.addRegister(drag1);
+//    registerForces.addRegister(drag2);
 }
 
 const ParticleContactResolver &WorldPhysics::getContactResolver() const {

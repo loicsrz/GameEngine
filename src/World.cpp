@@ -55,6 +55,7 @@ void World::initWorld1() {
     Particle* a = new Particle();
     a->setDamping(0.99);
     a->setInvertedMass(1);
+    a->setMass(1);
     a->setPosition(positionA);
     a->setVelocity(speedA);
     a->setAcceleration(accA);
@@ -67,6 +68,7 @@ void World::initWorld1() {
     Particle* b = new Particle();
     b->setDamping(0.99);
     b->setInvertedMass(1);
+    b->setMass(1);
     b->setPosition(positionB);
     b->setVelocity(speedB);
     b->setAcceleration(accB);
@@ -100,4 +102,10 @@ vector<float> &World::getGrounds()  {
 
 void World::setGrounds(const vector<float> &grounds) {
     World::grounds = grounds;
+}
+
+void World::clearForceAccums() {
+    for(vector<Particle*>::iterator it = worldParticles.begin();it != worldParticles.end();++it){
+        (*it)->clearAccumulator();
+    }
 }
