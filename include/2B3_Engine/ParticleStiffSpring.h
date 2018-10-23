@@ -10,7 +10,7 @@
 
 class ParticleStiffSpring : public ParticleForceGenerator {
 protected:
-    float anchor;
+    Vector3D* anchor;
     float K;
     float damping;
 
@@ -21,9 +21,9 @@ public:
 
     void UpdateForce(Particle *particle, float frame_duration) override;
 
-    float getAnchor() const;
+    Vector3D* getAnchor() const;
 
-    void setAnchor(float anchor);
+    void setAnchor(Vector3D* anchor);
 
     float getK() const;
 

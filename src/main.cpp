@@ -24,11 +24,12 @@ bool isSceneLoaded;
 bool isAnchored;
 
 void displayChoice() {
-    cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
-    cout << '\t' << "Pistol bullet : [1]" << endl;
-    cout << '\t' << "Cannonball : [2]" << endl;
-    cout << '\t' << "Fireball : [3]" << endl;
-    cout << '\t' << "Laser : [4]" << endl;
+    cout << "Please choose a scenario by pressing one of the following keys : " << endl;
+    cout << '\t' << "Bungee Spring : [1]" << endl;
+    cout << '\t' << "Anchored Spring : [2]" << endl;
+    cout << '\t' << "Floating Point (buoyancy) : [3]" << endl;
+    cout << '\t' << "Stiff Spring : [4]" << endl;
+    cout << '\t' << "Blob (Springs and cables) : [5]" << endl;
     cout << endl;
 }
 
@@ -81,6 +82,24 @@ void render() {
 
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
+        if(isAnchored)
+        {
+            //Display spring
+            glLineWidth(1.0f);
+            glColor3f(0.0, 1.0, 0.0);
+            glBegin(GL_LINES);
+            glVertex3f(world.getWorldParticles()[0]->getPosition()->getX(),world.getWorldParticles()[0]->getPosition()->getY(),world.getWorldParticles()[0]->getPosition()->getZ());
+            glVertex3f(250.0f,150.0f,0.0f);
+            glEnd();
+
+            //Display anchor
+            glPointSize(3.0f);
+            glColor3f(1.0, 1.0, 0.0);
+            glBegin(GL_POINTS);
+            glVertex3f(250.0f,150.0f,0.0f);
+            glEnd();
+        }
+
         Particle* currentParticle;
         for (auto &i : world.getWorldParticles()) {
             currentParticle = i;
@@ -104,15 +123,6 @@ void render() {
             glEnd();
         }
 
-        if(isAnchored)
-        {
-            //Display anchor
-            glPointSize(3.0f);
-            glColor3f(0.0, 1.0, 0.0);
-            glBegin(GL_POINTS);
-            glVertex3f(250.0f,150.0f,0.0f);
-            glEnd();
-        }
 
         vector<float> &grounds = world.getGrounds();
         vector<float> &walls = world.getGroundSeparations();
@@ -191,6 +201,23 @@ void keyboard(unsigned char c) {
 
                 break;
             case '4':
+
+                cout<<"World init for stiff spring"<<endl;
+                world.initWorld4();
+                physics.initWorldPhysics4(world);
+                cout<<"init finished"<<endl;
+                isAnchored = true;
+                isSceneLoaded = true;
+
+                break;
+            case '5':
+
+                cout<<"World init for blob"<<endl;
+                world.initWorld5();
+                physics.initWorldPhysics5(world);
+                cout<<"init finished"<<endl;
+                isAnchored = true;
+                isSceneLoaded = true;
 
                 break;
             case 'x':

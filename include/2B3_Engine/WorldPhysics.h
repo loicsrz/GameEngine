@@ -51,6 +51,10 @@ public:
     void erasePhysics();
 
     void initWorldPhysics3(World world);
+
+    void initWorldPhysics4(World world);
+
+    void initWorldPhysics5(World world);
 };
 
 

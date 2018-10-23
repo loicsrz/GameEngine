@@ -50,6 +50,10 @@ public:
     void clearForceAccums();
 
     void initWorld3();
+
+    void initWorld4();
+
+    void initWorld5();
 };
 
 

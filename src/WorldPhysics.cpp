@@ -10,6 +10,7 @@
 #include "../include/2B3_Engine/GravityGenerator.h"
 #include "../include/2B3_Engine/DragGenerator.h"
 #include "../include/2B3_Engine/ParticleAnchoredSpring.h"
+#include "../include/2B3_Engine/ParticleStiffSpring.h"
 
 using namespace std;
 
@@ -202,7 +203,7 @@ void WorldPhysics::initWorldPhysics3(World world) {
     ParticleForceGenerator* aps = new ParticleAnchoredSpring();
     dynamic_cast<ParticleAnchoredSpring*>(aps)->setK(0.08f);
     dynamic_cast<ParticleAnchoredSpring*>(aps)->setL0(50.0f);
-    dynamic_cast<ParticleAnchoredSpring*>(aps)->setAnchoredPoint(new Vector3D(250.0f,150.0f,0.0f));
+    dynamic_cast<ParticleAnchoredSpring*>(aps)->setAnchoredPoint(new Vector3D(250.0f,100.0f,0.0f));
 
     ParticleForceGenerator* grav = new GravityGenerator();
     Vector3D * gravity = new Vector3D(0,-10.0f,0);
@@ -219,6 +220,33 @@ void WorldPhysics::initWorldPhysics3(World world) {
     registerForces.addRegister(sfaps);
     registerForces.addRegister(grav1);
     registerForces.addRegister(drag1);
+}
+
+void WorldPhysics::initWorldPhysics4(World world) {
+    ParticleForceGenerator* ss1 = new ParticleStiffSpring();
+    dynamic_cast<ParticleStiffSpring*>(ss1)->setK(0.20f);
+    dynamic_cast<ParticleStiffSpring*>(ss1)->setDamping(0.8f);
+    dynamic_cast<ParticleStiffSpring*>(ss1)->setAnchor(new Vector3D(250.0f,100.0f,0.0f));
+
+    ParticleForceGenerator* grav = new GravityGenerator();
+    Vector3D * gravity = new Vector3D(0,-10.0f,0);
+    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
+
+    ParticleForceGenerator* drag = new DragGenerator();
+    dynamic_cast<DragGenerator*>(drag)->setK1(0.02f);
+    dynamic_cast<DragGenerator*>(drag)->setK2(0.0f);
+
+    SaveForce sfss1{world.getWorldParticles()[0],ss1};
+    SaveForce grav1{world.getWorldParticles()[0],grav};
+    SaveForce drag1{world.getWorldParticles()[0],drag};
+
+    registerForces.addRegister(sfss1);
+    registerForces.addRegister(grav1);
+    registerForces.addRegister(drag1);
+}
+
+void WorldPhysics::initWorldPhysics5(World world) {
+
 }
 
 const ParticleContactResolver &WorldPhysics::getContactResolver() const {
