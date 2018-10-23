@@ -8,7 +8,7 @@
 
 #include "ParticleForceGenerator.h"
 
-class ParticleFloating : ParticleForceGenerator {
+class ParticleFloating : public ParticleForceGenerator {
 protected:
     float depth;
     float volume;

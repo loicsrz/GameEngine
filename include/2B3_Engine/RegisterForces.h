@@ -19,7 +19,7 @@ typedef std::vector<SaveForce> Register;
 
 class RegisterForces {
 
-protected:
+public:
     Register m_register;
 
 public:
@@ -31,9 +31,7 @@ public:
 
     void deleteRegister(SaveForce saveForce);
 
-    int countRegister(SaveForce saveForce);
-
-
+    int countRegister();
 };
 
 

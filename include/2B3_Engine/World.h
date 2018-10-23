@@ -17,7 +17,7 @@ protected:
     vector<Particle*> worldParticles;
     int groundX[2];
     int groundY[3];
-    vector<ParticleLink> particleLinks;
+    vector<ParticleLink*> particleLinks;
 
 public:
     const int *getGroundX() const;
@@ -30,15 +30,17 @@ public:
     virtual ~World();
 
 public:
-    vector<Particle*> &getWorldParticles() const;
+    vector<Particle*> &getWorldParticles();
 
     void setWorldParticles(const vector<Particle*> &worldParticles);
 
-    vector<ParticleLink> getParticleLink();
+    vector<ParticleLink*> getParticleLink();
 
     void addParticleToWorld(Particle* particle);
 
     void eraseParticle(Particle* particle);
+
+    void initWorld1();
 };
 
 

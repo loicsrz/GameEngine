@@ -18,7 +18,7 @@ public:
 
     float linkLength();
 
-    void addContact(World world)=0;
+    virtual ParticleContact* addContact()=0;
 
 
 };

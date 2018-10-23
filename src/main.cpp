@@ -18,9 +18,10 @@ GLfloat dt = 0.0;
 Particle *particle, *projectile;
 vector<Particle *> particles;
 vector<ParticleContact*> particlesContact;
-ParticleContactGenerator* particleContactGenerator = new ParticleContactGenerator(particlesContact);
+ParticleContactGenerator* particleContactGenerator = new ParticleContactGenerator();
 static const double inc = M_PI / 12;
 static const double max = 2 * M_PI;
+
 
 void displayChoice() {
     cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
@@ -31,39 +32,39 @@ void displayChoice() {
     cout << endl;
 }
 
-void SearchContact(World world, vector<ParticleContact*> particleContact){
-
-    vector<Particle*>::iterator iterator;
-    vector<Particle*>::iterator iterator1;
-
-    for (iterator = world.getWorldParticles().begin(); iterator != world.getWorldParticles().end(); iterator++) {
-
-        if ((*iterator)->getPosition()->getX() < world.getGroundX()[0]) {
-
-            if ((*iterator)->getPosition()->getY() < world.getGroundY()[0]) {
-                (*iterator)->getPosition()->setY(world.getGroundY()[0] + (*iterator)->getRadius());
-
-            }
-        } else if ((*iterator)->getPosition()->getX() < world.getGroundX()[1]) {
-
-            if ((*iterator)->getPosition()->getY() < world.getGroundY()[1]) {
-                (*iterator)->getPosition()->setY(world.getGroundY()[1] + (*iterator)->getRadius());
-            }
-        } else {
-            if ((*iterator)->getPosition()->getY() < world.getGroundX()[2]) {
-                (*iterator)->getPosition()->setY(world.getGroundY()[2] + (*iterator)->getRadius());
-            }
-        }
-    }
-
-    for (iterator = world.getWorldParticles().begin();iterator != world.getWorldParticles().end(); iterator++){
-
-        for (iterator1 = world.getWorldParticles().begin();iterator1 != world.getWorldParticles().end(); iterator1++){
-
-            particleContactGenerator->addContact((*iterator), (*iterator1));
-        }
-    }
-}
+//void SearchContact(World world, vector<ParticleContact*> particleContact){
+//
+//    vector<Particle*>::iterator iterator;
+//    vector<Particle*>::iterator iterator1;
+//
+//    for (iterator = world.getWorldParticles().begin(); iterator != world.getWorldParticles().end(); iterator++) {
+//
+//        if ((*iterator)->getPosition()->getX() < world.getGroundX()[0]) {
+//
+//            if ((*iterator)->getPosition()->getY() < world.getGroundY()[0]) {
+//                (*iterator)->getPosition()->setY(world.getGroundY()[0] + (*iterator)->getRadius());
+//
+//            }
+//        } else if ((*iterator)->getPosition()->getX() < world.getGroundX()[1]) {
+//
+//            if ((*iterator)->getPosition()->getY() < world.getGroundY()[1]) {
+//                (*iterator)->getPosition()->setY(world.getGroundY()[1] + (*iterator)->getRadius());
+//            }
+//        } else {
+//            if ((*iterator)->getPosition()->getY() < world.getGroundX()[2]) {
+//                (*iterator)->getPosition()->setY(world.getGroundY()[2] + (*iterator)->getRadius());
+//            }
+//        }
+//    }
+//
+//    for (iterator = world.getWorldParticles().begin();iterator != world.getWorldParticles().end(); iterator++){
+//
+//        for (iterator1 = world.getWorldParticles().begin();iterator1 != world.getWorldParticles().end(); iterator1++){
+//
+//            particleContactGenerator->addContact((*iterator), (*iterator1));
+//        }
+//    }
+//}
 
 void render() {
     //cout<<"Entre dans Rendu : "<<endl;
@@ -185,42 +186,42 @@ void fps() {
     Frames = 0;
 }
 
-void vectorIntegrator(vector<Particle *> particles, float deltaTime) {
-
-//    int n = 1;
-    for (auto &particle : particles) {
-        /*cout << "Particle " << n << " :" << endl;
-        cout << "Avant Integration : " << endl;
-        cout << "Position : " << endl;
-        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
-        cout << "Velocite : " << endl;
-        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
-        cout << "Acceleration : " << endl;
-        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;*/
-        particle->integrator(deltaTime);
-        /*cout << "Après Integration : " << endl;
-        cout << "Position : " << endl;
-        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
-        cout << "Velocite : " << endl;
-        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
-        cout << "Acceleration : " << endl;
-        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;
-        cout << endl;
-        n++;*/
-    }
-}
+//void vectorIntegrator(vector<Particle *> particles, float deltaTime) {
+//
+////    int n = 1;
+//    for (auto &particle : particles) {
+//        /*cout << "Particle " << n << " :" << endl;
+//        cout << "Avant Integration : " << endl;
+//        cout << "Position : " << endl;
+//        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
+//        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
+//        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
+//        cout << "Velocite : " << endl;
+//        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
+//        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
+//        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
+//        cout << "Acceleration : " << endl;
+//        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
+//        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
+//        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;*/
+//        particle->integrator(deltaTime);
+//        /*cout << "Après Integration : " << endl;
+//        cout << "Position : " << endl;
+//        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
+//        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
+//        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
+//        cout << "Velocite : " << endl;
+//        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
+//        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
+//        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
+//        cout << "Acceleration : " << endl;
+//        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
+//        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
+//        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;
+//        cout << endl;
+//        n++;*/
+//    }
+//}
 
 void timer(int value) {
     const int FPSwanted = 60;
@@ -228,7 +229,7 @@ void timer(int value) {
     dt = static_cast<float>(gFramesPerSecond > 0 ? 1.0 / static_cast<float>(gFramesPerSecond) : 1.0);
 
     // Emplacements des calculs à réaliser
-    vectorIntegrator(particles, dt);
+    //vectorIntegrator(particles, dt);
     //particule->setPosition(new Vector3D(particule->getPosition()->getX()+0.01,particule->getPosition()->getY(), particule->getPosition()->getZ()));
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS

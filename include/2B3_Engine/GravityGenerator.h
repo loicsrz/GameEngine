@@ -8,7 +8,7 @@
 
 #include "ParticleForceGenerator.h"
 
-class GravityGenerator : ParticleForceGenerator {
+class GravityGenerator : public ParticleForceGenerator {
     ///Attributs
 protected:
     Vector3D gravity;
