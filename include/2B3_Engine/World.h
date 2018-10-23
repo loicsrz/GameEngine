@@ -48,6 +48,8 @@ public:
     void setGrounds(const vector<float> &grounds);
 
     void clearForceAccums();
+
+    void initWorld3();
 };
 
 

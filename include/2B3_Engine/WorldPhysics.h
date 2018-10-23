@@ -50,6 +50,7 @@ public:
 
     void erasePhysics();
 
+    void initWorldPhysics3(World world);
 };
 
 
