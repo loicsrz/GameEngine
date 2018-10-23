@@ -37,6 +37,8 @@ public:
 
     void initWorld1();
 
+    void initWorld2();
+
     void eraseWorld();
 
     vector<float> &getGroundSeparations() ;

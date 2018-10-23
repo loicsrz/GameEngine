@@ -9,6 +9,7 @@
 #include "../include/2B3_Engine/BungeeSpring.h"
 #include "../include/2B3_Engine/GravityGenerator.h"
 #include "../include/2B3_Engine/DragGenerator.h"
+#include "../include/2B3_Engine/ParticleFloating.h"
 
 using namespace std;
 
@@ -191,6 +192,35 @@ void WorldPhysics::initWorldPhysics1(World world) {
 
     registerForces.addRegister(sfbs1);
     registerForces.addRegister(sfbs2);
+    registerForces.addRegister(grav1);
+    registerForces.addRegister(grav2);
+    registerForces.addRegister(drag1);
+    registerForces.addRegister(drag2);
+}
+
+void WorldPhysics::initWorldPhysics2(World world) {
+    ParticleForceGenerator* bs1 = new ParticleFloating();
+    dynamic_cast<ParticleFloating*>(bs1)->setDepth(10.0f);
+    dynamic_cast<ParticleFloating*>(bs1)->setLiquidDensity(1000.0f);
+    dynamic_cast<ParticleFloating*>(bs1)->setVolume(0.012f);
+    dynamic_cast<ParticleFloating*>(bs1)->setLiquidLevel(100.0f);
+
+
+    ParticleForceGenerator* grav = new GravityGenerator();
+    Vector3D * gravity = new Vector3D(0,-10.0f,0);
+    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
+
+    ParticleForceGenerator* drag = new DragGenerator();
+    dynamic_cast<DragGenerator*>(drag)->setK1(1.5f);
+    dynamic_cast<DragGenerator*>(drag)->setK2(0.04f);
+
+    SaveForce sfbs1{world.getWorldParticles()[0],bs1};
+    SaveForce grav1{world.getWorldParticles()[0],grav};
+    SaveForce grav2{world.getWorldParticles()[1],grav};
+    SaveForce drag1{world.getWorldParticles()[0],drag};
+    SaveForce drag2{world.getWorldParticles()[1],drag};
+
+    registerForces.addRegister(sfbs1);
     registerForces.addRegister(grav1);
     registerForces.addRegister(grav2);
     registerForces.addRegister(drag1);

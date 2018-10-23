@@ -80,6 +80,14 @@ void render() {
 
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
+        //Display of links
+        glLineWidth(2.0f);
+        glColor3f(0.0, 0.0, 0.8f);
+        glBegin(GL_LINES);
+        glVertex3f(-100.0f, 100.0f, 0.0f);
+        glVertex3f(600.0f, 100.0f, 0.0f);
+        glEnd();
+
         Particle* currentParticle;
         int count = 0;
         for (auto &i : world.getWorldParticles()) {
@@ -117,6 +125,7 @@ void render() {
             glEnd();
         }
 
+
         glutSwapBuffers();
 
         //glFlush();
@@ -144,6 +153,11 @@ void keyboard(unsigned char c) {
 
                 break;
             case '2':
+                cout<<"init begin"<<endl;
+                world.initWorld2();
+                physics.initWorldPhysics2(world);
+                isSceneLoaded = true;
+                cout<<"init finished"<<endl;
 
                 break;
             case '3':
@@ -245,7 +259,7 @@ void timer(int value) {
 
     if(isSceneLoaded){
         physics.applyForces(dt);
-
+        cout << "MA BITE : " <<world.getWorldParticles()[0]->getForcesAccum()->getY()<< endl;
         physics.particlesIntegrator(world.getWorldParticles(),dt);
 
         world.clearForceAccums();
