@@ -139,10 +139,25 @@ void render() {
                 glLineWidth(1.0f);
                 glColor3f(1.0, 1.0, 1.0);
                 glBegin(GL_LINES);
+                glVertex3f(walls[i-1],grounds[i-1],0.0f);
+                glVertex3f(walls[i-1],grounds[i],0.0f);
+                glEnd();
+
+                glLineWidth(1.0f);
+                glColor3f(1.0, 1.0, 1.0);
+                glBegin(GL_LINES);
                 glVertex3f(walls[i-1],grounds[i],0.0f);
                 glVertex3f(walls[i],grounds[i],0.0f);
                 glEnd();
             }
+
+            glLineWidth(1.0f);
+            glColor3f(1.0, 1.0, 1.0);
+            glBegin(GL_LINES);
+            glVertex3f(walls[walls.size()-1],grounds[grounds.size()-2],0.0f);
+            glVertex3f(walls[walls.size()-1],grounds[grounds.size()-1],0.0f);
+            glEnd();
+
             glLineWidth(1.0f);
             glColor3f(1.0, 1.0, 1.0);
             glBegin(GL_LINES);
@@ -216,7 +231,6 @@ void keyboard(unsigned char c) {
                 world.initWorld5();
                 physics.initWorldPhysics5(world);
                 cout<<"init finished"<<endl;
-                isAnchored = true;
                 isSceneLoaded = true;
 
                 break;
@@ -354,6 +368,7 @@ void glutDisplayInit(int argc, char **argv) {
 
 int main(int argc, char **argv) {
     isSceneLoaded=false;
+    isAnchored=false;
     displayChoice();
     glutDisplayInit(argc, argv);
 
