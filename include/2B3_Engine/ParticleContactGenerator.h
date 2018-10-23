@@ -7,21 +7,20 @@
 
 
 #include "Particle.h"
-#include "World.h"
 #include "ParticleContact.h"
 #include <vector>
+
 using namespace std;
 
 class ParticleContactGenerator {
-protected:
-    vector<ParticleContact*> particleContact;
 
 public:
-    virtual void addContact(Particle* particle, Particle* particle1);
+    virtual ParticleContact* addContact(Particle* particle, Particle* particle1);
 
+    ParticleContactGenerator();
 
-    ParticleContactGenerator(vector<ParticleContact *> vector);
+    virtual ~ParticleContactGenerator();
 };
+#endif
 
 
-#endif //GAMEENGINE_PARTICLECONTACTGENERATOR_H

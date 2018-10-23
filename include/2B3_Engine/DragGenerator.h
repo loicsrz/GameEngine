@@ -8,7 +8,7 @@
 
 #include "ParticleForceGenerator.h"
 
-class DragGenerator : ParticleForceGenerator {
+class DragGenerator : public ParticleForceGenerator {
     ///Attributs
 protected:
     float k1;

@@ -8,7 +8,7 @@
 
 #include "ParticleForceGenerator.h"
 
-class ParticleSpring : ParticleForceGenerator {
+class ParticleSpring : public ParticleForceGenerator {
 
 protected:
 Particle secondParticle;

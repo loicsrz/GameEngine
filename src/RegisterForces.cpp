@@ -21,8 +21,17 @@ void RegisterForces::deleteRegister(SaveForce saveForce) {
     }
 }
 
-int RegisterForces::countRegister(SaveForce saveForce) {
+int RegisterForces::countRegister() {
     return (int) this->m_register.size();
 
 }
+
+RegisterForces::RegisterForces() {
+
+}
+
+RegisterForces::~RegisterForces() {
+
+}
+
 

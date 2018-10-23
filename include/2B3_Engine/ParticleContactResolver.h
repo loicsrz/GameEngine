@@ -18,6 +18,8 @@ protected:
     int consumedIterations;
 
 public:
+    ParticleContactResolver();
+
     ParticleContactResolver(int iterationsMax);
 
     virtual ~ParticleContactResolver();
@@ -27,6 +29,8 @@ public:
     int getConsumedIterations() const;
 
     void setIterationsMax(int iterationsMax);
+
+    void setConsumedIterations(int consumedIterations);
 
     void resolveContact(vector<ParticleContact*> contactVector,float duration);
 

@@ -16,7 +16,11 @@ protected:
     float restitutionCoefficient;
 
 public:
-    void addContact();
+    ParticleRod(float maxLenght, float restitutionCoefficient);
+
+    virtual ~ParticleRod();
+
+    virtual ParticleContact* addContact();
 
 
 };

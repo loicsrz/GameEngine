@@ -15,8 +15,11 @@ protected:
     float restitutionCoefficient;
 
 public:
+    ParticleCable(float maxLenght, float restitutionCoefficient);
 
-    void addContact();
+    virtual ~ParticleCable();
+
+    virtual ParticleContact* addContact();
 
 };
 

@@ -8,7 +8,7 @@
 
 #include "ParticleForceGenerator.h"
 
-class AnchoredParticle : ParticleForceGenerator  {
+class AnchoredParticle : public ParticleForceGenerator  {
 
 protected:
     Vector3D* anchoredPoint;

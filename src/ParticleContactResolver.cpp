@@ -41,4 +41,12 @@ ParticleContactResolver::~ParticleContactResolver() {
 
 }
 
+void ParticleContactResolver::setConsumedIterations(int consumedIterations) {
+    ParticleContactResolver::consumedIterations = consumedIterations;
+}
+
+ParticleContactResolver::ParticleContactResolver() {
+
+}
+
 
