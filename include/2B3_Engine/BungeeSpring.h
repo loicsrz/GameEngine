@@ -11,9 +11,9 @@
 class BungeeSpring : public ParticleForceGenerator {
 
 protected:
-    Particle secondParticle;
+    Particle* secondParticle;
     float K;
-    float l0;
+    float L0;
 
 public:
     BungeeSpring();
@@ -22,9 +22,9 @@ public:
 
     void UpdateForce(Particle *particle, float frame_duration) override;
 
-    const Particle &getSecondParticle() const;
+    Particle *getSecondParticle() const;
 
-    void setSecondParticle(const Particle &secondParticle);
+    void setSecondParticle(Particle *secondParticle);
 
     float getK() const;
 
@@ -32,7 +32,7 @@ public:
 
     float getL0() const;
 
-    void setL0(float l0);
+    void setL0(float L0);
 
 };
 
