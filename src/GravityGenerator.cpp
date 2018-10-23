@@ -14,7 +14,7 @@ GravityGenerator::~GravityGenerator() {
 }
 
 void GravityGenerator::UpdateForce(Particle *particle, float frame_duration) {
-    cout<<"UpdateForce gravity"<<endl;
+//    cout<<"UpdateForce gravity"<<endl;
     if(particle->getMass()==0) return;
 //    cout<<gravity->getY()<<endl;
 //    cout<<"Particle Y before : "<<particle->getForcesAccum()->getY()<<endl;

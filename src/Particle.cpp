@@ -58,6 +58,7 @@ Particle::~Particle() {
 // Méthode visant à calculer la position et la vélocité de la prochaine frame.
 void Particle::integrator(float time) {
     //Lance consécutivement la m-a-j de la position de la particule puis la m-a-j de sa vélocité
+    this->acceleration = this->forcesAccum->scalarMultiplier(invertedMass);
     UpdatePosition(time);
     UpdateSpeed(time);
 }

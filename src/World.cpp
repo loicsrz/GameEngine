@@ -44,9 +44,9 @@ void World::initWorld1() {
     groundSeparations.push_back(150.0f);
     groundSeparations.push_back(300.0f);
 
-    grounds.push_back(0.5f);
+    grounds.push_back(100.0f);
     grounds.push_back(0.0f);
-    grounds.push_back(-0.5f);
+    grounds.push_back(-200.0f);
 
     //Init linkedParticles
     Vector3D* positionA = new Vector3D(-0.5f,0.51f,0.0f);
@@ -54,8 +54,7 @@ void World::initWorld1() {
     Vector3D* accA = new Vector3D(0.0f,0.0f,0.0f);
     Particle* a = new Particle();
     a->setDamping(0.99);
-    a->setInvertedMass(1);
-    a->setMass(1);
+    a->setInvertedMass(10);
     a->setPosition(positionA);
     a->setVelocity(speedA);
     a->setAcceleration(accA);
@@ -67,8 +66,7 @@ void World::initWorld1() {
     Vector3D* accB = new Vector3D(0.0f,0.0f,0.0f);
     Particle* b = new Particle();
     b->setDamping(0.99);
-    b->setInvertedMass(1);
-    b->setMass(1);
+    b->setInvertedMass(10);
     b->setPosition(positionB);
     b->setVelocity(speedB);
     b->setAcceleration(accB);

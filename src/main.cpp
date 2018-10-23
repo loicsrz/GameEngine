@@ -247,7 +247,7 @@ void timer(int value) {
         physics.applyForces(dt);
         physics.particlesIntegrator(world.getWorldParticles(),dt);
         world.clearForceAccums();
-//    physics.searchAndResolveContactsWithGround(world);
+        physics.searchAndResolveContactsWithGround(world);
 //    physics.searchContacts(world);
 //    if(physics.getContacts().size()>0){
 //        physics.initFrameContactResolver(physics.getContacts().size());

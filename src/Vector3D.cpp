@@ -60,6 +60,9 @@ float Vector3D::getNorm() {
 Vector3D *Vector3D::normalizeVector() {
     // On récupère la norme du vecteur.
     float norm = this->getNorm();
+    if (norm == 0) {
+        norm = 1;
+    }
     // On normalise le vecteur.
     return new Vector3D(this->x / norm, this->y / norm, this->z / norm);
 }
