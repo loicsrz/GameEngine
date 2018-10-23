@@ -58,23 +58,25 @@ void WorldPhysics::setContacts(const vector<ParticleContact *> &contacts) {
 
 void WorldPhysics::searchAndResolveContactsWithGround(World world) {
     vector<Particle*>::iterator iterator;
-
+    vector<float>::iterator separations;
+    bool isLastValue = true;
+    int currentIndex = 0;
     for (iterator = world.getWorldParticles().begin(); iterator != world.getWorldParticles().end(); iterator++) {
 
-        if ((*iterator)->getPosition()->getX() < world.getGroundX()[0]) {
-
-            if ((*iterator)->getPosition()->getY() < world.getGroundY()[0]) {
-                (*iterator)->getPosition()->setY(world.getGroundY()[0] + (*iterator)->getRadius());
-
+        for (separations = world.getGroundSeparations().begin();
+             separations != world.getGroundSeparations().end(); ++separations) {
+            if ((*iterator)->getPosition()->getX() < (*separations)) {
+                if ((*iterator)->getPosition()->getY() < world.getGrounds()[currentIndex]) {
+                    (*iterator)->getPosition()->setY(world.getGrounds()[currentIndex] + (*iterator)->getRadius());
+                }
+                isLastValue = false;
+                break;
             }
-        } else if ((*iterator)->getPosition()->getX() < world.getGroundX()[1]) {
-
-            if ((*iterator)->getPosition()->getY() < world.getGroundY()[1]) {
-                (*iterator)->getPosition()->setY(world.getGroundY()[1] + (*iterator)->getRadius());
-            }
-        } else {
-            if ((*iterator)->getPosition()->getY() < world.getGroundX()[2]) {
-                (*iterator)->getPosition()->setY(world.getGroundY()[2] + (*iterator)->getRadius());
+            currentIndex++;
+        }
+        if (isLastValue) {
+            if ((*iterator)->getPosition()->getY() < world.getGrounds()[currentIndex]) {
+                (*iterator)->getPosition()->setY(world.getGrounds()[currentIndex] + (*iterator)->getRadius());
             }
         }
     }
@@ -97,7 +99,7 @@ void WorldPhysics::searchContacts(World world){
     }
 
     // Ajout contacts Rod and cables
-    vector<ParticleLink*> links = world.getParticleLink();
+    vector<ParticleLink*> links = world.getParticleLinks();
     for(auto it = links.begin();it != links.end();it++){
         ParticleContact* contact = (*it)->addContact();
         if(contact != nullptr){
@@ -170,4 +172,9 @@ const ParticleContactResolver &WorldPhysics::getContactResolver() const {
 
 void WorldPhysics::setContactResolver(const ParticleContactResolver &contactResolver) {
     WorldPhysics::contactResolver = contactResolver;
+}
+
+void WorldPhysics::erasePhysics() {
+    contacts.clear();
+    registerForces.clearRegister();
 }

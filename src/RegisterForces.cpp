@@ -34,4 +34,8 @@ RegisterForces::~RegisterForces() {
 
 }
 
+void RegisterForces::clearRegister() {
+    m_register.clear();
+}
+
 

@@ -69,7 +69,7 @@ void displayChoice() {
 
 void render() {
     //cout<<"Entre dans Rendu : "<<endl;
-    if (!particles.empty()) {
+    if (isSceneLoaded) {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -82,38 +82,42 @@ void render() {
 
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
-        glLineWidth(2.0f);
-        glColor3f(0.0, 1.0, 0.0);
-        glBegin(GL_LINES);
-            glVertex3f(particles[0]->getPosition()->getX(),particles[0]->getPosition()->getY(),particles[0]->getPosition()->getZ());
-            glVertex3f(particles[0]->getPosition()->getX()+50.0f,particles[0]->getPosition()->getY()+50.0f,particles[0]->getPosition()->getZ());
-        glEnd();
+        Particle* currentParticle;
+        int count = 0;
+        for (auto &i : world.getWorldParticles()) {
+            currentParticle = i;
 
-        glPointSize(5.0f);
-        glColor3f(1.0, 0.0, 0.0);
-        glBegin(GL_POINTS);
-            glVertex3f(particles[0]->getPosition()->getX(), particles[0]->getPosition()->getY(),
-                       particles[0]->getPosition()->getZ());
-            glVertex3f(particles[0]->getPosition()->getX()+50.0f, particles[0]->getPosition()->getY()+50.0f,
-                       particles[0]->getPosition()->getZ());
-            if (particles[0]->getPosition()->getX() > 500 || particles[0]->getPosition()->getY() < -500 ||
-                particles[0]->getPosition()->getY() > 500) {
-                particles.pop_back();
-                particles.push_back(particle);
+            //Particle display
+            glPointSize(5.0f);
+            glColor3f(1.0, 0.0, 0.0);
+            glBegin(GL_POINTS);
+            glVertex3f(currentParticle->getPosition()->getX(),currentParticle->getPosition()->getY(),currentParticle->getPosition()->getZ());
+            glEnd();
 
-                cout << "The particle blasted off ..." << endl;
-                cout << endl;
-                displayChoice();
-            }
-        glEnd();
+            //Particle radius display
+            glLineWidth(2.0f);
+            glColor3f(0.2, 0.3, 0.5);
+            glBegin(GL_LINE_LOOP);
 
-        glLineWidth(2.0f);
-        glColor3f(0.2, 0.3, 0.5);
-        glBegin(GL_LINE_LOOP);
             for(double d = 0; d < max; d += inc) {
-                glVertex2f(cos(d) * 10.0f + particles[0]->getPosition()->getX(), sin(d) * 10.0f + particles[0]->getPosition()->getY());
+                glVertex2f(static_cast<GLfloat>(cos(d) * currentParticle->getRadius() + currentParticle->getPosition()->getX()),
+                           static_cast<GLfloat>(sin(d) * currentParticle->getRadius() + currentParticle->getPosition()->getY()));
             }
-        glEnd();
+            glEnd();
+        }
+
+        ParticleLink* currentLink;
+        for (auto &i : world.getParticleLinks()) {
+            currentLink = i;
+
+            //Display of links
+            glLineWidth(2.0f);
+            glColor3f(0.0, 1.0, 0.0);
+            glBegin(GL_LINES);
+            glVertex3f(currentLink->getLinkedParticles()[0]->getPosition()->getX(), currentLink->getLinkedParticles()[0]->getPosition()->getY(), currentLink->getLinkedParticles()[0]->getPosition()->getZ());
+            glVertex3f(currentLink->getLinkedParticles()[1]->getPosition()->getX(), currentLink->getLinkedParticles()[1]->getPosition()->getY(), currentLink->getLinkedParticles()[1]->getPosition()->getZ());
+            glEnd();
+        }
 
         glutSwapBuffers();
 
@@ -130,13 +134,14 @@ void keyboard(unsigned char c) {
             case '1':
 //            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
 //                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
-                cout << "Projectile chosen : Pistol bullet" << endl;
-                cout
-                        << "Press ENTER to shoot the particle,"
-                        << "\nor select another projectile by pressing the corresponding key."
-                        << endl;
+                cout<<"World init"<<endl;
 
+                world.initWorld1();
+                cout<<"WorldPhy init"<<endl;
+                physics.initWorldPhysics1(world);
+                cout<<"init finished"<<endl;
                 isSceneLoaded = true;
+
 
                 break;
             case '2':
@@ -191,6 +196,8 @@ void keyboard(unsigned char c) {
                 break;
             case 'x':
                 isSceneLoaded = false;
+                world.eraseWorld();
+                physics.erasePhysics();
                 displayChoice();
             default:
                 break;
@@ -214,10 +221,10 @@ void fps() {
     Frames = 0;
 }
 
-//void vectorIntegrator(vector<Particle *> particles, float deltaTime) {
+//void vectorIntegrator(vector<Particle *> linkedParticles, float deltaTime) {
 //
 ////    int n = 1;
-//    for (auto &particle : particles) {
+//    for (auto &particle : linkedParticles) {
 //        /*cout << "Particle " << n << " :" << endl;
 //        cout << "Avant Integration : " << endl;
 //        cout << "Position : " << endl;
@@ -257,23 +264,23 @@ void timer(int value) {
     dt = static_cast<float>(gFramesPerSecond > 0 ? 1.0 / static_cast<float>(gFramesPerSecond) : 1.0);
 
     // Emplacements des calculs à réaliser
-        physics.applyForces(dt);
-        physics.particlesIntegrator(world.getWorldParticles(),dt);
-        physics.searchAndResolveContactsWithGround(world);
+    physics.applyForces(dt);
+    physics.particlesIntegrator(world.getWorldParticles(),dt);
+    physics.searchAndResolveContactsWithGround(world);
+    physics.searchContacts(world);
+    if(physics.getContacts().size()>0){
+        physics.initFrameContactResolver(physics.getContacts().size());
+        physics.resolveContacts(dt);
+    }
+    while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
         physics.searchContacts(world);
         if(physics.getContacts().size()>0){
-            physics.initFrameContactResolver(physics.getContacts().size());
             physics.resolveContacts(dt);
         }
-        while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
-            physics.searchContacts(world);
-            if(physics.getContacts().size()>0){
-                physics.resolveContacts(dt);
-            }
-            else{
-                break;
-            }
+        else{
+            break;
         }
+    }
     //particule->setPosition(new Vector3D(particule->getPosition()->getX()+0.01,particule->getPosition()->getY(), particule->getPosition()->getZ()));
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
@@ -295,10 +302,8 @@ void glutDisplayInit(int argc, char **argv) {
 int main(int argc, char **argv) {
 //    particle = new Particle(new Vector3D(-0.99f, 0.0, 0.0), new Vector3D(0, 0, 0),
 //                            new Vector3D(0.0, 0.0, 0.0), 1, 1);
-//    particles.push_back(particle);
+//    linkedParticles.push_back(particle);
     isSceneLoaded=false;
-    world.initWorld1();
-    physics.initWorldPhysics1(world);
     displayChoice();
     glutDisplayInit(argc, argv);
 

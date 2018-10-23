@@ -32,6 +32,8 @@ public:
     void deleteRegister(SaveForce saveForce);
 
     int countRegister();
+
+    void clearRegister();
 };
 
 

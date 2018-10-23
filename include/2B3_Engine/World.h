@@ -15,13 +15,9 @@ class World {
 
 protected:
     vector<Particle*> worldParticles;
-    int groundX[2];
-    int groundY[3];
+    vector<float > groundSeparations;
+    vector<float> grounds;
     vector<ParticleLink*> particleLinks;
-
-public:
-    const int *getGroundX() const;
-    const int *getGroundY() const;
 
 public:
     World();
@@ -29,18 +25,27 @@ public:
 
     virtual ~World();
 
-public:
     vector<Particle*> &getWorldParticles();
 
     void setWorldParticles(const vector<Particle*> &worldParticles);
 
-    vector<ParticleLink*> getParticleLink();
+    vector<ParticleLink*> getParticleLinks();
 
     void addParticleToWorld(Particle* particle);
 
     void eraseParticle(Particle* particle);
 
     void initWorld1();
+
+    void eraseWorld();
+
+    vector<float> &getGroundSeparations() ;
+
+    void setGroundSeparations(const vector<float> &groundSeparations);
+
+    vector<float> &getGrounds() ;
+
+    void setGrounds(const vector<float> &grounds);
 };
 
 
