@@ -60,8 +60,8 @@ void WorldPhysics::setContacts(const vector<ParticleContact *> &contacts) {
 void WorldPhysics::searchAndResolveContactsWithGround(World world) {
     vector<Particle*>::iterator iterator;
     vector<float>::iterator separations;
-    bool isLastValue;
-    int currentIndex;
+    bool isLastValue = true;
+    int currentIndex =0;
     for (iterator = world.getWorldParticles().begin(); iterator != world.getWorldParticles().end(); iterator++) {
         isLastValue = true;
         currentIndex = 0;
@@ -89,6 +89,8 @@ void WorldPhysics::searchContacts(World world){
     vector<Particle*>::iterator iterator;
     vector<Particle*>::iterator iterator1;
 
+    contacts.clear();
+
     for (iterator = world.getWorldParticles().begin();iterator != world.getWorldParticles().end(); iterator++){
 
         for (iterator1 = iterator+1 ;iterator1 != world.getWorldParticles().end(); iterator1++){
@@ -113,7 +115,6 @@ void WorldPhysics::searchContacts(World world){
 }
 
 void WorldPhysics::applyForces(float duration) {
-    cout<<"Enter applyForces"<<endl;
     for(auto it = registerForces.m_register.begin();it != registerForces.m_register.end();it++){
 //        cout << "Avant Application des forces : " << endl;
 //        cout << "Forces Accum : " << endl;
@@ -144,7 +145,6 @@ void WorldPhysics::applyForces(float duration) {
 //        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
 //        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
     }
-    cout<<"Fin ApplyForces"<<endl;
 }
 
 void WorldPhysics::resolveContacts(float duration) {
@@ -165,13 +165,13 @@ WorldPhysics::~WorldPhysics() {
 
 void WorldPhysics::initWorldPhysics1(World world) {
     ParticleForceGenerator* bs1 = new BungeeSpring();
-    dynamic_cast<BungeeSpring*>(bs1)->setK(0.001f);
-    dynamic_cast<BungeeSpring*>(bs1)->setL0(50.0f);
+    dynamic_cast<BungeeSpring*>(bs1)->setK(0.01f);
+    dynamic_cast<BungeeSpring*>(bs1)->setL0(70.0f);
     dynamic_cast<BungeeSpring*>(bs1)->setSecondParticle(world.getWorldParticles()[1]);
 
     ParticleForceGenerator* bs2 = new BungeeSpring();
-    dynamic_cast<BungeeSpring*>(bs2)->setK(0.001f);
-    dynamic_cast<BungeeSpring*>(bs2)->setL0(50);
+    dynamic_cast<BungeeSpring*>(bs2)->setK(0.01f);
+    dynamic_cast<BungeeSpring*>(bs2)->setL0(70.0f);
     dynamic_cast<BungeeSpring*>(bs2)->setSecondParticle(world.getWorldParticles()[0]);
 
     ParticleForceGenerator* grav = new GravityGenerator();
@@ -179,22 +179,22 @@ void WorldPhysics::initWorldPhysics1(World world) {
     dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
 
     ParticleForceGenerator* drag = new DragGenerator();
-    dynamic_cast<DragGenerator*>(drag)->setK1(0.1f);
+    dynamic_cast<DragGenerator*>(drag)->setK1(0.04f);
     dynamic_cast<DragGenerator*>(drag)->setK2(0);
 
     SaveForce sfbs1{world.getWorldParticles()[0],bs1};
-//    SaveForce sfbs2{world.getWorldParticles()[1],bs2};
+    SaveForce sfbs2{world.getWorldParticles()[1],bs2};
     SaveForce grav1{world.getWorldParticles()[0],grav};
     SaveForce grav2{world.getWorldParticles()[1],grav};
-//    SaveForce drag1{world.getWorldParticles()[0],drag};
-//    SaveForce drag2{world.getWorldParticles()[1],drag};
+    SaveForce drag1{world.getWorldParticles()[0],drag};
+    SaveForce drag2{world.getWorldParticles()[1],drag};
 
     registerForces.addRegister(sfbs1);
-//    registerForces.addRegister(sfbs2);
+    registerForces.addRegister(sfbs2);
     registerForces.addRegister(grav1);
     registerForces.addRegister(grav2);
-//    registerForces.addRegister(drag1);
-//    registerForces.addRegister(drag2);
+    registerForces.addRegister(drag1);
+    registerForces.addRegister(drag2);
 }
 
 const ParticleContactResolver &WorldPhysics::getContactResolver() const {

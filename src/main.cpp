@@ -244,28 +244,26 @@ void timer(int value) {
     // Emplacements des calculs à réaliser
 
     if(isSceneLoaded){
-        cout<<"Début main"<<endl;
         physics.applyForces(dt);
 
         physics.particlesIntegrator(world.getWorldParticles(),dt);
 
         world.clearForceAccums();
-        cout<<"Fin main" <<endl;
         physics.searchAndResolveContactsWithGround(world);
-        //    physics.searchContacts(world);
-//    if(physics.getContacts().size()>0){
-//        physics.initFrameContactResolver(physics.getContacts().size());
-//        physics.resolveContacts(dt);
-//    }
-//    while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
-//        physics.searchContacts(world);
-//        if(physics.getContacts().size()>0){
-//            physics.resolveContacts(dt);
-//        }
-//        else{
-//            break;
-//        }
-//    }
+        physics.searchContacts(world);
+    if(!physics.getContacts().empty()){
+        physics.initFrameContactResolver(physics.getContacts().size());
+        physics.resolveContacts(dt);
+    }
+    while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
+        physics.searchContacts(world);
+        if(physics.getContacts().size()>0){
+            physics.resolveContacts(dt);
+        }
+        else{
+            break;
+        }
+    }
     }
 
 

@@ -11,16 +11,13 @@ BungeeSpring::BungeeSpring() {}
 BungeeSpring::~BungeeSpring() {}
 
 void BungeeSpring::UpdateForce(Particle *particle, float frame_duration) {
-    cout<<"Enter in bungeeSpring"<<endl;
     Vector3D *d = particle->getPosition()->substractVector(secondParticle->getPosition());
     float springLength = d->getNorm();
     if(springLength>L0){
-        cout<<"Trop loin"<<endl;
         float coef = -K*(springLength-L0);
         d = d->normalizeVector();
         particle->addForce(d->scalarMultiplier(coef));
     }
-    cout<<"End function"<<endl;
 }
 
 float BungeeSpring::getK() const {
