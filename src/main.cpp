@@ -21,6 +21,7 @@ static const double max = 2 * M_PI;
 World world;
 WorldPhysics physics;
 bool isSceneLoaded;
+bool isAnchored;
 
 void displayChoice() {
     cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
@@ -103,11 +104,15 @@ void render() {
             glEnd();
         }
 
-        glPointSize(3.0f);
-        glColor3f(0.0, 1.0, 0.0);
-        glBegin(GL_POINTS);
-        glVertex3f(250.0f,150.0f,0.0f);
-        glEnd();
+        if(isAnchored)
+        {
+            //Display anchor
+            glPointSize(3.0f);
+            glColor3f(0.0, 1.0, 0.0);
+            glBegin(GL_POINTS);
+            glVertex3f(250.0f,150.0f,0.0f);
+            glEnd();
+        }
 
         vector<float> &grounds = world.getGrounds();
         vector<float> &walls = world.getGroundSeparations();
@@ -115,13 +120,28 @@ void render() {
         glColor3f(1.0, 1.0, 1.0);
         glBegin(GL_LINES);
         glVertex3f(-100.0f,grounds[0],0.0f);
-        glVertex3f(500.0f,grounds[0],0.0f);
+        if(!walls.empty())
+        {
+            glVertex3f(walls[0],grounds[0],0.0f);
+            glEnd();
+
+            for (int i = 1; i < grounds.size()-1; ++i) {
+                glLineWidth(1.0f);
+                glColor3f(1.0, 1.0, 1.0);
+                glBegin(GL_LINES);
+                glVertex3f(walls[i-1],grounds[i],0.0f);
+                glVertex3f(walls[i],grounds[i],0.0f);
+                glEnd();
+            }
+            glLineWidth(1.0f);
+            glColor3f(1.0, 1.0, 1.0);
+            glBegin(GL_LINES);
+            glVertex3f(walls[walls.size()-1],grounds[grounds.size()-1],0.0f);
+
+        }
+        glVertex3f(600.0f,grounds[grounds.size()-1],0.0f);
         glEnd();
 
-//        int current=0;
-//        for(auto &i : grounds){
-//
-//        }
 
         ParticleLink* currentLink;
         for (auto &i : world.getParticleLinks()) {
@@ -166,6 +186,7 @@ void keyboard(unsigned char c) {
                 world.initWorld3();
                 physics.initWorldPhysics3(world);
                 cout<<"init finished"<<endl;
+                isAnchored = true;
                 isSceneLoaded = true;
 
                 break;
@@ -194,6 +215,7 @@ void keyboard(unsigned char c) {
                 break;
             case 'x':
                 isSceneLoaded = false;
+                isAnchored = false;
                 world.eraseWorld();
                 physics.erasePhysics();
                 displayChoice();
