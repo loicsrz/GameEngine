@@ -133,33 +133,33 @@ WorldPhysics::~WorldPhysics() {
 }
 
 void WorldPhysics::initWorldPhysics1(World world) {
-    ParticleForceGenerator* bs1 = new BungeeSpring();
-    dynamic_cast<BungeeSpring*>(bs1)->setK(2);
-    dynamic_cast<BungeeSpring*>(bs1)->setL0(4);
-    dynamic_cast<BungeeSpring*>(bs1)->setSecondParticle(*(world.getWorldParticles()[1]));
-
-    ParticleForceGenerator* bs2 = new BungeeSpring();
-    dynamic_cast<BungeeSpring*>(bs2)->setK(2);
-    dynamic_cast<BungeeSpring*>(bs2)->setL0(4);
-    dynamic_cast<BungeeSpring*>(bs2)->setSecondParticle(*(world.getWorldParticles()[0]));
+//    ParticleForceGenerator* bs1 = new BungeeSpring();
+//    dynamic_cast<BungeeSpring*>(bs1)->setK(2);
+//    dynamic_cast<BungeeSpring*>(bs1)->setL0(4);
+//    dynamic_cast<BungeeSpring*>(bs1)->setSecondParticle(*(world.getWorldParticles()[1]));
+//
+//    ParticleForceGenerator* bs2 = new BungeeSpring();
+//    dynamic_cast<BungeeSpring*>(bs2)->setK(2);
+//    dynamic_cast<BungeeSpring*>(bs2)->setL0(4);
+//    dynamic_cast<BungeeSpring*>(bs2)->setSecondParticle(*(world.getWorldParticles()[0]));
 
     ParticleForceGenerator* grav = new GravityGenerator();
-    Vector3D * gravity = new Vector3D(0,-10,0);
+    Vector3D * gravity = new Vector3D(0,-10.0f,0);
     dynamic_cast<GravityGenerator*>(grav)->setGravity(*gravity);
 
     ParticleForceGenerator* drag = new DragGenerator();
     dynamic_cast<DragGenerator*>(drag)->setK1(1);
     dynamic_cast<DragGenerator*>(drag)->setK2(0);
 
-    SaveForce sfbs1{world.getWorldParticles()[0],bs1};
-    SaveForce sfbs2{world.getWorldParticles()[1],bs2};
+//    SaveForce sfbs1{world.getWorldParticles()[0],bs1};
+//    SaveForce sfbs2{world.getWorldParticles()[1],bs2};
     SaveForce grav1{world.getWorldParticles()[0],grav};
     SaveForce grav2{world.getWorldParticles()[1],grav};
     SaveForce drag1{world.getWorldParticles()[0],drag};
     SaveForce drag2{world.getWorldParticles()[1],grav};
 
-    registerForces.addRegister(sfbs1);
-    registerForces.addRegister(sfbs2);
+//    registerForces.addRegister(sfbs1);
+//    registerForces.addRegister(sfbs2);
     registerForces.addRegister(grav1);
     registerForces.addRegister(grav2);
     registerForces.addRegister(drag1);

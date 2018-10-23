@@ -16,8 +16,6 @@ using namespace std;
 
 GLint gFramesPerSecond = 0;
 GLfloat dt = 0.0;
-Particle *particle, *projectile;
-vector<Particle *> particles;
 static const double inc = M_PI / 12;
 static const double max = 2 * M_PI;
 World world;
@@ -88,7 +86,7 @@ void render() {
             currentParticle = i;
 
             //Particle display
-            glPointSize(5.0f);
+            glPointSize(3.0f);
             glColor3f(1.0, 0.0, 0.0);
             glBegin(GL_POINTS);
             glVertex3f(currentParticle->getPosition()->getX(),currentParticle->getPosition()->getY(),currentParticle->getPosition()->getZ());
@@ -137,7 +135,8 @@ void keyboard(unsigned char c) {
                 cout<<"World init"<<endl;
 
                 world.initWorld1();
-                cout<<"WorldPhy init"<<endl;
+                cout<<"Particule A : "<<world.getWorldParticles()[0]->getPosition()->getX()<<endl;
+                cout<<"Particule B : "<<world.getWorldParticles()[1]->getPosition()->getX()<<endl;
                 physics.initWorldPhysics1(world);
                 cout<<"init finished"<<endl;
                 isSceneLoaded = true;
@@ -145,34 +144,13 @@ void keyboard(unsigned char c) {
 
                 break;
             case '2':
-                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(50.0f, 0, 0),
-                                          new Vector3D(0, -20.0f, 0), 200, 0.99f);
-                cout << "Projectile chosen : Cannonball." << endl;
-                cout
-                        << "Press ENTER to shoot the particle,"
-                        << "\nor select another projectile by pressing the corresponding key."
-                        << endl;
+
                 break;
             case '3':
-                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(2.0f, 0, 0),
-                                          new Vector3D(0, 0.6f, 0), 1, 0.9f);
-                cout << "Projectile chosen : Fireball" << endl;
-                cout
-                        << "Press ENTER to shoot the particle,"
-                        << "\nor select another projectile by pressing the corresponding key."
-                        << endl;
+
                 break;
             case '4':
-                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(100.0f, 0, 0), new Vector3D(0, 0, 0),
-                                          0, 0.99f);
-                cout << "Projectile chosen : Laser." << endl;
-                cout << "Press ENTER to shoot the particle,"
-                     << "\nor select another projectile by pressing the corresponding key."
-                     << endl;
-                break;
-            case 13:
-                particles.pop_back();
-                particles.push_back(projectile);
+
                 break;
             case 'x':
                 exit(0);
@@ -264,24 +242,24 @@ void timer(int value) {
     dt = static_cast<float>(gFramesPerSecond > 0 ? 1.0 / static_cast<float>(gFramesPerSecond) : 1.0);
 
     // Emplacements des calculs à réaliser
+
     physics.applyForces(dt);
     physics.particlesIntegrator(world.getWorldParticles(),dt);
-    physics.searchAndResolveContactsWithGround(world);
-    physics.searchContacts(world);
-    if(physics.getContacts().size()>0){
-        physics.initFrameContactResolver(physics.getContacts().size());
-        physics.resolveContacts(dt);
-    }
-    while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
-        physics.searchContacts(world);
-        if(physics.getContacts().size()>0){
-            physics.resolveContacts(dt);
-        }
-        else{
-            break;
-        }
-    }
-    //particule->setPosition(new Vector3D(particule->getPosition()->getX()+0.01,particule->getPosition()->getY(), particule->getPosition()->getZ()));
+//    physics.searchAndResolveContactsWithGround(world);
+//    physics.searchContacts(world);
+//    if(physics.getContacts().size()>0){
+//        physics.initFrameContactResolver(physics.getContacts().size());
+//        physics.resolveContacts(dt);
+//    }
+//    while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
+//        physics.searchContacts(world);
+//        if(physics.getContacts().size()>0){
+//            physics.resolveContacts(dt);
+//        }
+//        else{
+//            break;
+//        }
+//    }
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
     glutPostRedisplay(); // Lance un appel à Rendu() au taux d'IPS voulu
@@ -300,9 +278,6 @@ void glutDisplayInit(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-//    particle = new Particle(new Vector3D(-0.99f, 0.0, 0.0), new Vector3D(0, 0, 0),
-//                            new Vector3D(0.0, 0.0, 0.0), 1, 1);
-//    linkedParticles.push_back(particle);
     isSceneLoaded=false;
     displayChoice();
     glutDisplayInit(argc, argv);
