@@ -22,6 +22,7 @@ World world;
 WorldPhysics physics;
 bool isSceneLoaded;
 bool isAnchored;
+bool isWaterNeeded;
 
 void displayChoice() {
     cout << "Please choose a scenario by pressing one of the following keys : " << endl;
@@ -97,6 +98,16 @@ void render() {
             glColor3f(1.0, 1.0, 0.0);
             glBegin(GL_POINTS);
             glVertex3f(250.0f,150.0f,0.0f);
+            glEnd();
+        }
+
+        if(isWaterNeeded)
+        {
+            glLineWidth(2.0f);
+            glColor3f(0.0, 0.0, 0.8f);
+            glBegin(GL_LINES);
+            glVertex3f(-100.0f, 100.0f, 0.0f);
+            glVertex3f(600.0f, 100.0f, 0.0f);
             glEnd();
         }
 
@@ -181,6 +192,7 @@ void render() {
             glEnd();
         }
 
+
         glutSwapBuffers();
 
         //glFlush();
@@ -203,6 +215,12 @@ void keyboard(unsigned char c) {
 
                 break;
             case '2':
+                cout<<"init begin"<<endl;
+                world.initWorld2();
+                physics.initWorldPhysics2(world);
+                isWaterNeeded = true;
+                isSceneLoaded = true;
+                cout<<"init finished"<<endl;
 
                 break;
             case '3':
@@ -257,6 +275,7 @@ void keyboard(unsigned char c) {
             case 'x':
                 isSceneLoaded = false;
                 isAnchored = false;
+                isWaterNeeded = false;
                 world.eraseWorld();
                 physics.erasePhysics();
                 displayChoice();
@@ -328,7 +347,7 @@ void timer(int value) {
 
     if(isSceneLoaded){
         physics.applyForces(dt);
-
+        cout << "MA BITE : " <<world.getWorldParticles()[0]->getForcesAccum()->getY()<< endl;
         physics.particlesIntegrator(world.getWorldParticles(),dt);
 
         world.clearForceAccums();
@@ -369,6 +388,7 @@ void glutDisplayInit(int argc, char **argv) {
 int main(int argc, char **argv) {
     isSceneLoaded=false;
     isAnchored=false;
+    isWaterNeeded=false;
     displayChoice();
     glutDisplayInit(argc, argv);
 
