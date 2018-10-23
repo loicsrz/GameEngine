@@ -10,6 +10,7 @@
 #include <math.h>
 #include "../include/2B3_Engine/Particle.h"
 #include "../include/2B3_Engine/World.h"
+#include "../include/2B3_Engine/WorldPhysics.h"
 
 using namespace std;
 
@@ -17,11 +18,11 @@ GLint gFramesPerSecond = 0;
 GLfloat dt = 0.0;
 Particle *particle, *projectile;
 vector<Particle *> particles;
-vector<ParticleContact*> particlesContact;
-ParticleContactGenerator* particleContactGenerator = new ParticleContactGenerator();
 static const double inc = M_PI / 12;
 static const double max = 2 * M_PI;
-
+World world;
+WorldPhysics physics;
+bool isSceneLoaded;
 
 void displayChoice() {
     cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
@@ -124,51 +125,78 @@ void render() {
 
 void keyboard(unsigned char c) {
 
-    switch (c) {
-        case '1':
-            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
-                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
-            cout << "Projectile chosen : Pistol bullet" << endl;
-            cout
-                    << "Press ENTER to shoot the particle,"
-                    << "\nor select another projectile by pressing the corresponding key."
-                    << endl;
-            break;
-        case '2':
-            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(50.0f, 0, 0),
-                                      new Vector3D(0, -20.0f, 0), 200, 0.99f);
-            cout << "Projectile chosen : Cannonball." << endl;
-            cout
-                    << "Press ENTER to shoot the particle,"
-                    << "\nor select another projectile by pressing the corresponding key."
-                    << endl;
-            break;
-        case '3':
-            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(2.0f, 0, 0),
-                                      new Vector3D(0, 0.6f, 0), 1, 0.9f);
-            cout << "Projectile chosen : Fireball" << endl;
-            cout
-                    << "Press ENTER to shoot the particle,"
-                    << "\nor select another projectile by pressing the corresponding key."
-                    << endl;
-            break;
-        case '4':
-            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(100.0f, 0, 0), new Vector3D(0, 0, 0),
-                                      0, 0.99f);
-            cout << "Projectile chosen : Laser." << endl;
-            cout << "Press ENTER to shoot the particle,"
-                 << "\nor select another projectile by pressing the corresponding key."
-                 << endl;
-            break;
-        case 13:
-            particles.pop_back();
-            particles.push_back(projectile);
-            break;
-        case 'x':
-            exit(0);
-        default:
-            break;
+    if(!isSceneLoaded){
+        switch (c) {
+            case '1':
+//            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
+//                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
+                cout << "Projectile chosen : Pistol bullet" << endl;
+                cout
+                        << "Press ENTER to shoot the particle,"
+                        << "\nor select another projectile by pressing the corresponding key."
+                        << endl;
+
+                isSceneLoaded = true;
+
+                break;
+            case '2':
+                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(50.0f, 0, 0),
+                                          new Vector3D(0, -20.0f, 0), 200, 0.99f);
+                cout << "Projectile chosen : Cannonball." << endl;
+                cout
+                        << "Press ENTER to shoot the particle,"
+                        << "\nor select another projectile by pressing the corresponding key."
+                        << endl;
+                break;
+            case '3':
+                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(2.0f, 0, 0),
+                                          new Vector3D(0, 0.6f, 0), 1, 0.9f);
+                cout << "Projectile chosen : Fireball" << endl;
+                cout
+                        << "Press ENTER to shoot the particle,"
+                        << "\nor select another projectile by pressing the corresponding key."
+                        << endl;
+                break;
+            case '4':
+                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(100.0f, 0, 0), new Vector3D(0, 0, 0),
+                                          0, 0.99f);
+                cout << "Projectile chosen : Laser." << endl;
+                cout << "Press ENTER to shoot the particle,"
+                     << "\nor select another projectile by pressing the corresponding key."
+                     << endl;
+                break;
+            case 13:
+                particles.pop_back();
+                particles.push_back(projectile);
+                break;
+            case 'x':
+                exit(0);
+            default:
+                break;
+        }
     }
+    else{
+        switch (c) {
+            case '1':
+//            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
+//                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
+                cout << "Projectile chosen : Pistol bullet" << endl;
+                cout
+                        << "Press ENTER to shoot the particle,"
+                        << "\nor select another projectile by pressing the corresponding key."
+                        << endl;
+
+                isSceneLoaded = true;
+
+                break;
+            case 'x':
+                isSceneLoaded = false;
+                displayChoice();
+            default:
+                break;
+        }
+    }
+
 
 
 }
@@ -229,7 +257,23 @@ void timer(int value) {
     dt = static_cast<float>(gFramesPerSecond > 0 ? 1.0 / static_cast<float>(gFramesPerSecond) : 1.0);
 
     // Emplacements des calculs à réaliser
-    //vectorIntegrator(particles, dt);
+        physics.applyForces(dt);
+        physics.particlesIntegrator(world.getWorldParticles(),dt);
+        physics.searchAndResolveContactsWithGround(world);
+        physics.searchContacts(world);
+        if(physics.getContacts().size()>0){
+            physics.initFrameContactResolver(physics.getContacts().size());
+            physics.resolveContacts(dt);
+        }
+        while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
+            physics.searchContacts(world);
+            if(physics.getContacts().size()>0){
+                physics.resolveContacts(dt);
+            }
+            else{
+                break;
+            }
+        }
     //particule->setPosition(new Vector3D(particule->getPosition()->getX()+0.01,particule->getPosition()->getY(), particule->getPosition()->getZ()));
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
@@ -249,9 +293,12 @@ void glutDisplayInit(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-    particle = new Particle(new Vector3D(-0.99f, 0.0, 0.0), new Vector3D(0, 0, 0),
-                            new Vector3D(0.0, 0.0, 0.0), 1, 1);
-    particles.push_back(particle);
+//    particle = new Particle(new Vector3D(-0.99f, 0.0, 0.0), new Vector3D(0, 0, 0),
+//                            new Vector3D(0.0, 0.0, 0.0), 1, 1);
+//    particles.push_back(particle);
+    isSceneLoaded=false;
+    world.initWorld1();
+    physics.initWorldPhysics1(world);
     displayChoice();
     glutDisplayInit(argc, argv);
 

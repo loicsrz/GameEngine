@@ -40,9 +40,13 @@ public:
 
     void searchContacts(World world);
 
-    bool resolveContacts(float duration);
+    void resolveContacts(float duration);
 
     void initFrameContactResolver(int nbIterMax);
+
+    const ParticleContactResolver &getContactResolver() const;
+
+    void setContactResolver(const ParticleContactResolver &contactResolver);
 
 };
 

@@ -114,9 +114,8 @@ void WorldPhysics::applyForces(float duration) {
     }
 }
 
-bool WorldPhysics::resolveContacts(float duration) {
+void WorldPhysics::resolveContacts(float duration) {
     contactResolver.resolveContact(contacts,duration);
-    return true;
 }
 
 void WorldPhysics::initFrameContactResolver(int nbIterMax) {
@@ -163,4 +162,12 @@ void WorldPhysics::initWorldPhysics1(World world) {
     registerForces.addRegister(grav2);
     registerForces.addRegister(drag1);
     registerForces.addRegister(drag2);
+}
+
+const ParticleContactResolver &WorldPhysics::getContactResolver() const {
+    return contactResolver;
+}
+
+void WorldPhysics::setContactResolver(const ParticleContactResolver &contactResolver) {
+    WorldPhysics::contactResolver = contactResolver;
 }
