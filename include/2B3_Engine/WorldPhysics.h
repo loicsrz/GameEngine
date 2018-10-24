@@ -57,6 +57,8 @@ public:
     void initWorldPhysics4(World world);
 
     void initWorldPhysics5(World world);
+
+    void initWorldPhysics6(World world);
 };
 
 

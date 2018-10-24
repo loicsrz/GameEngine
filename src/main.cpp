@@ -30,7 +30,8 @@ void displayChoice() {
     cout << '\t' << "Anchored Spring : [2]" << endl;
     cout << '\t' << "Floating Point (buoyancy) : [3]" << endl;
     cout << '\t' << "Stiff Spring : [4]" << endl;
-    cout << '\t' << "Blob (Springs and cables) : [5]" << endl;
+    cout << '\t' << "Rod : [5]" << endl;
+    cout << '\t' << "Blob (Springs and cables) : [6]" << endl;
     cout << endl;
 }
 
@@ -245,9 +246,19 @@ void keyboard(unsigned char c) {
                 break;
             case '5':
 
-                cout<<"World init for blob"<<endl;
+                cout<<"World init for Rod"<<endl;
                 world.initWorld5();
                 physics.initWorldPhysics5(world);
+                cout<<"init finished"<<endl;
+                isSceneLoaded = true;
+
+                break;
+
+            case '6':
+
+                cout<<"World init for blob"<<endl;
+                world.initWorld6();
+                physics.initWorldPhysics6(world);
                 cout<<"init finished"<<endl;
                 isSceneLoaded = true;
 
@@ -261,10 +272,10 @@ void keyboard(unsigned char c) {
     else{
         switch (c) {
             case 'r':
-                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()+5.0f,0,0));
+                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()+1.5f,0,0));
                 break;
             case 'e':
-                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()-5.0f,0,0));
+                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()-1.5f,0,0));
                 break;
             case 'x':
                 isSceneLoaded = false;

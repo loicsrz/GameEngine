@@ -276,78 +276,91 @@ void WorldPhysics::initWorldPhysics4(World world) {
 
 void WorldPhysics::initWorldPhysics5(World world) {
 
-//    ParticleForceGenerator* ps1 = new ParticleSpring();
-//    dynamic_cast<ParticleSpring*>(ps1)->setK(0.01f);
-//    dynamic_cast<ParticleSpring*>(ps1)->setL0(12.0f);
-//    dynamic_cast<ParticleSpring*>(ps1)->setSecondParticle(world.getWorldParticles()[0]);
+//    ParticleForceGenerator* grav = new GravityGenerator();
+//    Vector3D * gravity = new Vector3D(0,-0.10f,0);
+//    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
 
-//    ParticleForceGenerator* ps2 = new ParticleSpring();
-//    dynamic_cast<ParticleSpring*>(ps2)->setK(0.01f);
-//    dynamic_cast<ParticleSpring*>(ps2)->setL0(12.0f);
-//    dynamic_cast<ParticleSpring*>(ps2)->setSecondParticle(world.getWorldParticles()[0]);
+//    ParticleForceGenerator* drag = new DragGenerator();
+//    dynamic_cast<DragGenerator*>(drag)->setK1(0.1f);
+//    dynamic_cast<DragGenerator*>(drag)->setK2(0.1f);
 //
-//    ParticleForceGenerator* bs3 = new BungeeSpring();
-//    dynamic_cast<BungeeSpring*>(bs3)->setK(0.01f);
-//    dynamic_cast<BungeeSpring*>(bs3)->setL0(12.0f);
-//    dynamic_cast<BungeeSpring*>(bs3)->setSecondParticle(world.getWorldParticles()[0]);
+//    SaveForce grav1{world.getWorldParticles()[0],grav};
+//    SaveForce grav2{world.getWorldParticles()[1],grav};
+//    SaveForce drag1{world.getWorldParticles()[0],drag};
+//    SaveForce drag2{world.getWorldParticles()[1],drag};
 //
-//    ParticleForceGenerator* bs4 = new BungeeSpring();
-//    dynamic_cast<BungeeSpring*>(bs4)->setK(0.01f);
-//    dynamic_cast<BungeeSpring*>(bs4)->setL0(12.0f);
-//    dynamic_cast<BungeeSpring*>(bs4)->setSecondParticle(world.getWorldParticles()[1]);
+//    registerForces.addRegister(grav1);
+//    registerForces.addRegister(grav2);
+//    registerForces.addRegister(drag1);
+//    registerForces.addRegister(drag2);
+}
+
+void WorldPhysics::initWorldPhysics6(World world) {
+    ParticleForceGenerator* ps1 = new ParticleSpring();
+    dynamic_cast<ParticleSpring*>(ps1)->setK(0.01f);
+    dynamic_cast<ParticleSpring*>(ps1)->setL0(16.0f);
+    dynamic_cast<ParticleSpring*>(ps1)->setSecondParticle(world.getWorldParticles()[0]);
+
+    ParticleForceGenerator* ps2 = new ParticleSpring();
+    dynamic_cast<ParticleSpring*>(ps2)->setK(0.01f);
+    dynamic_cast<ParticleSpring*>(ps2)->setL0(16.0f);
+    dynamic_cast<ParticleSpring*>(ps2)->setSecondParticle(world.getWorldParticles()[0]);
 //
-//    ParticleForceGenerator* ps5 = new ParticleSpring();
-//    dynamic_cast<ParticleSpring*>(ps5)->setK(0.01f);
-//    dynamic_cast<ParticleSpring*>(ps5)->setL0(12.0f);
-//    dynamic_cast<ParticleSpring*>(ps5)->setSecondParticle(world.getWorldParticles()[4]);
+    ParticleForceGenerator* bs3 = new BungeeSpring();
+    dynamic_cast<BungeeSpring*>(bs3)->setK(0.01f);
+    dynamic_cast<BungeeSpring*>(bs3)->setL0(16.0f);
+    dynamic_cast<BungeeSpring*>(bs3)->setSecondParticle(world.getWorldParticles()[0]);
+//
+    ParticleForceGenerator* bs4 = new BungeeSpring();
+    dynamic_cast<BungeeSpring*>(bs4)->setK(0.01f);
+    dynamic_cast<BungeeSpring*>(bs4)->setL0(16.0f);
+    dynamic_cast<BungeeSpring*>(bs4)->setSecondParticle(world.getWorldParticles()[0]);
 
     ParticleForceGenerator* gravP = new GravityGenerator();
     Vector3D * gravity = new Vector3D(0,-10.0f,0);
     dynamic_cast<GravityGenerator*>(gravP)->setGravity(gravity);
 
     ParticleForceGenerator* gravS = new GravityGenerator();
-    gravity = new Vector3D(0,-0.1f,0);
+    gravity = new Vector3D(0,-0.001f,0);
     dynamic_cast<GravityGenerator*>(gravS)->setGravity(gravity);
 
     ParticleForceGenerator* drag = new DragGenerator();
     dynamic_cast<DragGenerator*>(drag)->setK1(0.05f);
     dynamic_cast<DragGenerator*>(drag)->setK2(0.04f);
 
-//    SaveForce sfps1{world.getWorldParticles()[1],ps1};
-//    SaveForce sfps2{world.getWorldParticles()[2],ps2};
-//    SaveForce sfbs3{world.getWorldParticles()[3],bs3};
-//    SaveForce sfbs4{world.getWorldParticles()[4],bs4};
-//    SaveForce sfps5{world.getWorldParticles()[1],ps5};
+    SaveForce sfps1{world.getWorldParticles()[1],ps1};
+    SaveForce sfps2{world.getWorldParticles()[2],ps2};
+    SaveForce sfbs3{world.getWorldParticles()[3],bs3};
+    SaveForce sfbs4{world.getWorldParticles()[4],bs4};
 
     SaveForce grav1{world.getWorldParticles()[0],gravP};
-//    SaveForce grav2{world.getWorldParticles()[1],gravP};
-//    SaveForce grav3{world.getWorldParticles()[2],gravS};
-//    SaveForce grav4{world.getWorldParticles()[3],gravS};
-//    SaveForce grav5{world.getWorldParticles()[4],gravS};
+    SaveForce grav2{world.getWorldParticles()[1],gravS};
+    SaveForce grav3{world.getWorldParticles()[2],gravS};
+    SaveForce grav4{world.getWorldParticles()[3],gravS};
+    SaveForce grav5{world.getWorldParticles()[4],gravS};
 
     SaveForce drag1{world.getWorldParticles()[0],drag};
     SaveForce drag2{world.getWorldParticles()[1],drag};
-//    SaveForce drag3{world.getWorldParticles()[2],drag};
-//    SaveForce drag4{world.getWorldParticles()[3],drag};
-//    SaveForce drag5{world.getWorldParticles()[4],drag};
+    SaveForce drag3{world.getWorldParticles()[2],drag};
+    SaveForce drag4{world.getWorldParticles()[3],drag};
+    SaveForce drag5{world.getWorldParticles()[4],drag};
 
-//    registerForces.addRegister(sfps1);
-//    registerForces.addRegister(sfps2);
-//    registerForces.addRegister(sfbs3);
-//    registerForces.addRegister(sfbs4);
-//    registerForces.addRegister(sfbs5);
+    registerForces.addRegister(sfps1);
+    registerForces.addRegister(sfps2);
+    registerForces.addRegister(sfbs3);
+    registerForces.addRegister(sfbs4);
 
     registerForces.addRegister(grav1);
-//    registerForces.addRegister(grav2);
-//    registerForces.addRegister(grav3);
-//    registerForces.addRegister(grav4);
-//    registerForces.addRegister(grav5);
+    registerForces.addRegister(grav2);
+    registerForces.addRegister(grav3);
+    registerForces.addRegister(grav4);
+    registerForces.addRegister(grav5);
 
     registerForces.addRegister(drag1);
     registerForces.addRegister(drag2);
-//    registerForces.addRegister(drag3);
-//    registerForces.addRegister(drag4);
-//    registerForces.addRegister(drag5);
+    registerForces.addRegister(drag3);
+    registerForces.addRegister(drag4);
+    registerForces.addRegister(drag5);
 }
 
 const ParticleContactResolver &WorldPhysics::getContactResolver() const {
