@@ -10,23 +10,27 @@ ParticleStiffSpring::~ParticleStiffSpring() {}
 
 void ParticleStiffSpring::UpdateForce(Particle *particle, float frame_duration) {
 
-    float gamma = cos((1/2)*sqrt((4*K)-(damping*damping)));
-    Vector3D * direction = particle->getPosition()->scalarMultiplier(gamma*frame_duration)
-           ->addVector(particle->getPosition()->scalarMultiplier(damping/(2*gamma))->addVector(particle->getVelocity()->scalarMultiplier(1/gamma))
-           ->scalarMultiplier(sin(gamma*frame_duration)))->scalarMultiplier(exp((-1/2)*damping*frame_duration));
+    Vector3D *distance = particle->getPosition()->substractVector(anchor);
 
-    Vector3D * acceleration = direction->substractVector(particle->getPosition())->scalarMultiplier(1/(frame_duration*frame_duration));
-    acceleration = acceleration->substractVector(particle->getVelocity());
+    float gamma = cos((1.0f / 2.0f) * sqrt((4 * K) - (damping * damping)));
+
+    Vector3D *direction = distance->scalarMultiplier(cosf(gamma * frame_duration))->addVector(
+            distance->scalarMultiplier(damping / (2.0f * gamma))->addVector(
+                    particle->getVelocity()->scalarMultiplier(1.0f / gamma))->scalarMultiplier(
+                    sinf(gamma * frame_duration)))->scalarMultiplier(expf(-1.0f / 2.0f * frame_duration * damping));
+
+    Vector3D *acceleration = direction->substractVector(distance)->scalarMultiplier(
+            1.0f / (frame_duration * frame_duration))->substractVector(particle->getVelocity()->scalarMultiplier(frame_duration));
 
     particle->addForce(acceleration->scalarMultiplier(particle->getMass()));
 
 }
 
-float ParticleStiffSpring::getAnchor() const {
+Vector3D *ParticleStiffSpring::getAnchor() const {
     return anchor;
 }
 
-void ParticleStiffSpring::setAnchor(float anchor) {
+void ParticleStiffSpring::setAnchor(Vector3D *anchor) {
     ParticleStiffSpring::anchor = anchor;
 }
 

@@ -9,13 +9,16 @@ ParticleFloating::ParticleFloating() {}
 ParticleFloating::~ParticleFloating() {}
 
 void ParticleFloating::UpdateForce(Particle *particle, float frame_duration) {
-    float d = (particle->getPosition()->getY() - liquidLevel - depth)/ 2*depth;
+
+    float d = (particle->getPosition()->getY() - liquidLevel - depth)/(2*depth);
+
     Vector3D * direction = new Vector3D(0,1,0);
+
     if(d<=0){
-        return;
+        direction = direction->scalarMultiplier(volume*liquidDensity);
     }
     else if(d>=1){
-        direction = direction->scalarMultiplier(volume*liquidDensity);
+        return;
     }
     else{
         direction = direction->scalarMultiplier(d*volume*liquidDensity);

@@ -37,6 +37,8 @@ public:
 
     void initWorld1();
 
+    void initWorld2();
+
     void eraseWorld();
 
     vector<float> &getGroundSeparations() ;
@@ -46,6 +48,16 @@ public:
     vector<float> &getGrounds() ;
 
     void setGrounds(const vector<float> &grounds);
+
+    void clearForceAccums();
+
+    void initWorld3();
+
+    void initWorld4();
+
+    void initWorld5();
+
+    void initWorld6();
 };
 
 

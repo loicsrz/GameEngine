@@ -15,10 +15,11 @@ protected:
     float restitution;
     Vector3D* perpendicularAngle;
     float penetration;
+    bool isLink;
     //Vector3D* interpenetrationResolvingMovement;
 
 public:
-    ParticleContact(Particle **mParticles, float restitution, Vector3D *perpendicularAngle, float penetration);
+    ParticleContact(Particle **mParticles, float restitution, Vector3D *perpendicularAngle, float penetration, bool isLink);
 
     virtual ~ParticleContact();
 

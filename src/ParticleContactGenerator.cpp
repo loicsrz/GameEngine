@@ -15,7 +15,7 @@ ParticleContact* ParticleContactGenerator::addContact(Particle* particle, Partic
                 ->normalizeVector();
         float penetration = (particle)->getRadius() + (particle1)->getRadius() - distance;
         Particle *pParticle[2] = {(particle), (particle1)};
-        contact = new ParticleContact(pParticle, 0.75, perpendicularAngle, penetration);
+        contact = new ParticleContact(pParticle, 0.3f, perpendicularAngle, penetration,false);
     }
 
     return contact;

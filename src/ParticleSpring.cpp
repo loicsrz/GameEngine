@@ -9,13 +9,13 @@ ParticleSpring::ParticleSpring() {}
 ParticleSpring::~ParticleSpring() {}
 
 void ParticleSpring::UpdateForce(Particle *particle, float frame_duration) {
-    Vector3D *d = particle->getPosition()->substractVector(secondParticle.getPosition());
+    Vector3D *d = particle->getPosition()->substractVector(secondParticle->getPosition());
     float coef = -K*(d->getNorm()-l0);
     d = d->normalizeVector();
     particle->addForce(d->scalarMultiplier(coef));
 }
 
-const Particle &ParticleSpring::getSecondParticle() const {
+Particle * ParticleSpring::getSecondParticle(){
     return secondParticle;
 }
 
@@ -27,7 +27,7 @@ float ParticleSpring::getL0() const {
     return l0;
 }
 
-void ParticleSpring::setSecondParticle(const Particle &secondParticle) {
+void ParticleSpring::setSecondParticle( Particle * secondParticle) {
     ParticleSpring::secondParticle = secondParticle;
 }
 

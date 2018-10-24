@@ -4,7 +4,9 @@
 
 #include <math.h>
 #include "../include/2B3_Engine/DragGenerator.h"
+# include <iostream>
 
+using namespace std;
 DragGenerator::DragGenerator() {}
 
 DragGenerator::~DragGenerator() {}
@@ -12,11 +14,11 @@ DragGenerator::~DragGenerator() {}
 void DragGenerator::UpdateForce(Particle *particle, float frame_duration) {
     float speed = particle->getVelocity()->getNorm();
     Vector3D* dragVector = particle->getVelocity();
-    dragVector->normalizeVector();
-    dragVector->scalarMultiplier(-1.0f);
-    float drag = this->k1*speed + this->k2*pow(speed,2);
-    dragVector->scalarMultiplier(drag);
+    dragVector = dragVector->normalizeVector();
+    dragVector = dragVector->scalarMultiplier(-1.0f);
 
+    float drag = this->k1*speed + this->k2*pow(speed,2);
+    dragVector = dragVector->scalarMultiplier(drag);
     particle->addForce(dragVector);
 }
 

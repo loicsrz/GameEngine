@@ -7,6 +7,7 @@
 
 
 #include "ParticleForceGenerator.h"
+#include<iostream>
 
 class ParticleFloating : public ParticleForceGenerator {
 protected:

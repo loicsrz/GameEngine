@@ -28,6 +28,8 @@ public:
 
     void initWorldPhysics1(World world);
 
+    void initWorldPhysics2(World world);
+
     const vector<ParticleContact *> &getContacts() const;
 
     void setContacts(const vector<ParticleContact *> &contacts);
@@ -50,6 +52,13 @@ public:
 
     void erasePhysics();
 
+    void initWorldPhysics3(World world);
+
+    void initWorldPhysics4(World world);
+
+    void initWorldPhysics5(World world);
+
+    void initWorldPhysics6(World world);
 };
 
 

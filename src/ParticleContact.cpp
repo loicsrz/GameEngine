@@ -3,6 +3,8 @@
 //
 
 #include "../include/2B3_Engine/ParticleContact.h"
+#include <iostream>
+using namespace std;
 
 void ParticleContact::Resolve(float duration) {
     InterpenetrationResolve(duration);
@@ -20,9 +22,15 @@ void ParticleContact::ImpulsionResolve(float duration) {
     Particle* A = particles[0];
     Particle* B = particles[1];
     float vS = SpeedCompute();
+    cout<<"VS : "<<vS<<endl;
+    if(isLink){
+        vS = abs(vS);
+    }
     Vector3D* velocity0 = perpendicularAngle->scalarMultiplier(vS);
     Vector3D* velocity1 = velocity0->scalarMultiplier(-1.0f);
 
+    cout<<"Velocity 0 : "<<velocity0->getX()<<endl;
+    cout<<"Velocity 1 : "<<velocity1->getX()<<endl;
     A->setVelocity(A->getVelocity()->addVector(velocity0->scalarMultiplier(A->getInvertedMass())));
     B->setVelocity(B->getVelocity()->addVector(velocity1->scalarMultiplier(B->getInvertedMass())));
 }
@@ -38,9 +46,10 @@ void ParticleContact::InterpenetrationResolve(float duration) {
 }
 
 ParticleContact::ParticleContact(Particle **mParticles, float restitution, Vector3D *perpendicularAngle,
-                                 float penetration) : restitution(restitution),
+                                 float penetration, bool isLink) : restitution(restitution),
                                                       perpendicularAngle(perpendicularAngle),
-                                                      penetration(penetration) {
+                                                      penetration(penetration),
+                                                      isLink(isLink){
     ParticleContact::particles[0]= mParticles[0];
     ParticleContact::particles[1]= mParticles[1];
 }

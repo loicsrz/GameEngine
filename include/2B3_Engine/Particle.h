@@ -53,7 +53,7 @@ public:
     // Méthode visant à calculer la position et la vitesse de la prochaine frame.
     void integrator(float time);
 
-    void addForce(Vector3D *const force);
+    void addForce(Vector3D * force);
 
     void clearAccumulator();
 

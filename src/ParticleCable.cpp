@@ -3,21 +3,24 @@
 //
 
 #include "../include/2B3_Engine/ParticleCable.h"
+#include <iostream>
+using namespace std;
 
 ParticleContact* ParticleCable::addContact() {
 
     ParticleContact *contact = nullptr;
-    if (linkLength() >= maxLenght)
+
+    if (linkLength() > maxLength)
     {
-        Vector3D* perpendicularAngle = (linkedParticles[0])->getPosition()->substractVector((linkedParticles[1])->getPosition())
+        Vector3D* perpendicularAngle = (linkedParticles[1])->getPosition()->substractVector((linkedParticles[0])->getPosition())
                 ->normalizeVector();
         float penetration = 0;
-        contact = new ParticleContact(linkedParticles, 0.5,perpendicularAngle, penetration );
+        contact = new ParticleContact(linkedParticles, restitutionCoefficient, perpendicularAngle, penetration,true );
     }
     return contact;
 }
 
-ParticleCable::ParticleCable(float maxLenght, float restitutionCoefficient) : maxLenght(maxLenght),
+ParticleCable::ParticleCable(float maxLength, float restitutionCoefficient) : maxLength(maxLength),
                                                                               restitutionCoefficient(
                                                                                       restitutionCoefficient) {}
 

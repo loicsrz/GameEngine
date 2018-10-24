@@ -5,16 +5,17 @@
 #include "../include/2B3_Engine/ParticleLink.h"
 
 float ParticleLink::linkLength() {
-    float xLenght = fabs(linkedParticles[0]->getPosition()->getX() - linkedParticles[1]->getPosition()->getX());
 
-    float yLenght = fabs(linkedParticles[0]->getPosition()->getY() - linkedParticles[1]->getPosition()->getY());
-
-    return sqrt((xLenght*xLenght)+(yLenght*yLenght));
-
+    return linkedParticles[0]->getPosition()->substractVector((linkedParticles[1])->getPosition())->getNorm();
 }
 
 Particle *const *ParticleLink::getLinkedParticles() const {
     return linkedParticles;
+}
+
+void ParticleLink::setParticles(Particle * particleA, Particle * particleB){
+    ParticleLink::linkedParticles[0] = particleA;
+    ParticleLink::linkedParticles[1] = particleB;
 }
 
 

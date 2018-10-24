@@ -21,6 +21,8 @@ public:
     virtual ParticleContact* addContact()=0;
 
     Particle *const *getLinkedParticles() const;
+
+    void setParticles(Particle * particleA, Particle * particleB);
 };
 
 

@@ -9,18 +9,24 @@
 ParticleContact* ParticleRod::addContact() {
 
     ParticleContact *contact = nullptr;
-    if (linkLength() >= maxLenght)
+    if (linkLength() > maxLength)
     {
-        Vector3D* perpendicularAngle = (linkedParticles[0])->getPosition()->substractVector((linkedParticles[1])->getPosition())
+        Vector3D* perpendicularAngle = (linkedParticles[1])->getPosition()->substractVector((linkedParticles[0])->getPosition())
                 ->normalizeVector();
         float penetration = 0;
-        ParticleContact *contact = new ParticleContact(linkedParticles, 0.5,perpendicularAngle, penetration );
+        contact = new ParticleContact(linkedParticles, 0.5,perpendicularAngle, penetration,true );
+    }
+    else if(linkLength()< maxLength){
+        Vector3D* perpendicularAngle = (linkedParticles[1])->getPosition()->substractVector((linkedParticles[0])->getPosition())
+                ->normalizeVector();
+        float penetration = 0;
+        contact = new ParticleContact(linkedParticles, 0.5,perpendicularAngle, penetration,false );
     }
 
     return contact;
 }
 
-ParticleRod::ParticleRod(float maxLenght, float restitutionCoefficient) : maxLenght(maxLenght), restitutionCoefficient(
+ParticleRod::ParticleRod(float maxLenght, float restitutionCoefficient) : maxLength(maxLenght), restitutionCoefficient(
         restitutionCoefficient) {}
 
 ParticleRod::~ParticleRod() {

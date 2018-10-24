@@ -8,7 +8,7 @@
 
 #include "ParticleForceGenerator.h"
 
-class AnchoredParticle : public ParticleForceGenerator  {
+class ParticleAnchoredSpring : public ParticleForceGenerator  {
 
 protected:
     Vector3D* anchoredPoint;
@@ -26,8 +26,8 @@ public:
     void setL0(float l0);
 
 public:
-    AnchoredParticle();
-    ~AnchoredParticle();
+    ParticleAnchoredSpring();
+    ~ParticleAnchoredSpring();
     void UpdateForce(Particle *particle, float frame_duration) override;
 
     Vector3D *getAnchoredPoint() const;

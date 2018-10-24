@@ -16,20 +16,22 @@ using namespace std;
 
 GLint gFramesPerSecond = 0;
 GLfloat dt = 0.0;
-Particle *particle, *projectile;
-vector<Particle *> particles;
 static const double inc = M_PI / 12;
 static const double max = 2 * M_PI;
 World world;
 WorldPhysics physics;
 bool isSceneLoaded;
+bool isAnchored;
+bool isWaterNeeded;
 
 void displayChoice() {
-    cout << "Please choose a projectile to shoot by pressing one of the following keys : " << endl;
-    cout << '\t' << "Pistol bullet : [1]" << endl;
-    cout << '\t' << "Cannonball : [2]" << endl;
-    cout << '\t' << "Fireball : [3]" << endl;
-    cout << '\t' << "Laser : [4]" << endl;
+    cout << "Please choose a scenario by pressing one of the following keys : " << endl;
+    cout << '\t' << "Bungee Spring : [1]" << endl;
+    cout << '\t' << "Anchored Spring : [2]" << endl;
+    cout << '\t' << "Floating Point (buoyancy) : [3]" << endl;
+    cout << '\t' << "Stiff Spring : [4]" << endl;
+    cout << '\t' << "Rod : [5]" << endl;
+    cout << '\t' << "Blob (Springs and cables) : [6]" << endl;
     cout << endl;
 }
 
@@ -82,13 +84,40 @@ void render() {
 
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
+        if(isAnchored)
+        {
+            //Display spring
+            glLineWidth(1.0f);
+            glColor3f(0.0, 1.0, 0.0);
+            glBegin(GL_LINES);
+            glVertex3f(world.getWorldParticles()[0]->getPosition()->getX(),world.getWorldParticles()[0]->getPosition()->getY(),world.getWorldParticles()[0]->getPosition()->getZ());
+            glVertex3f(250.0f,150.0f,0.0f);
+            glEnd();
+
+            //Display anchor
+            glPointSize(3.0f);
+            glColor3f(1.0, 1.0, 0.0);
+            glBegin(GL_POINTS);
+            glVertex3f(250.0f,150.0f,0.0f);
+            glEnd();
+        }
+
+        if(isWaterNeeded)
+        {
+            glLineWidth(2.0f);
+            glColor3f(0.0, 0.0, 0.8f);
+            glBegin(GL_LINES);
+            glVertex3f(-100.0f, 100.0f, 0.0f);
+            glVertex3f(600.0f, 100.0f, 0.0f);
+            glEnd();
+        }
+
         Particle* currentParticle;
-        int count = 0;
         for (auto &i : world.getWorldParticles()) {
             currentParticle = i;
 
             //Particle display
-            glPointSize(5.0f);
+            glPointSize(3.0f);
             glColor3f(1.0, 0.0, 0.0);
             glBegin(GL_POINTS);
             glVertex3f(currentParticle->getPosition()->getX(),currentParticle->getPosition()->getY(),currentParticle->getPosition()->getZ());
@@ -106,6 +135,51 @@ void render() {
             glEnd();
         }
 
+
+        vector<float> &grounds = world.getGrounds();
+        vector<float> &walls = world.getGroundSeparations();
+        glLineWidth(1.0f);
+        glColor3f(1.0, 1.0, 1.0);
+        glBegin(GL_LINES);
+        glVertex3f(-100.0f,grounds[0],0.0f);
+        if(!walls.empty())
+        {
+            glVertex3f(walls[0],grounds[0],0.0f);
+            glEnd();
+
+            for (int i = 1; i < grounds.size()-1; ++i) {
+                glLineWidth(1.0f);
+                glColor3f(1.0, 1.0, 1.0);
+                glBegin(GL_LINES);
+                glVertex3f(walls[i-1],grounds[i-1],0.0f);
+                glVertex3f(walls[i-1],grounds[i],0.0f);
+                glEnd();
+
+                glLineWidth(1.0f);
+                glColor3f(1.0, 1.0, 1.0);
+                glBegin(GL_LINES);
+                glVertex3f(walls[i-1],grounds[i],0.0f);
+                glVertex3f(walls[i],grounds[i],0.0f);
+                glEnd();
+            }
+
+            glLineWidth(1.0f);
+            glColor3f(1.0, 1.0, 1.0);
+            glBegin(GL_LINES);
+            glVertex3f(walls[walls.size()-1],grounds[grounds.size()-2],0.0f);
+            glVertex3f(walls[walls.size()-1],grounds[grounds.size()-1],0.0f);
+            glEnd();
+
+            glLineWidth(1.0f);
+            glColor3f(1.0, 1.0, 1.0);
+            glBegin(GL_LINES);
+            glVertex3f(walls[walls.size()-1],grounds[grounds.size()-1],0.0f);
+
+        }
+        glVertex3f(600.0f,grounds[grounds.size()-1],0.0f);
+        glEnd();
+
+
         ParticleLink* currentLink;
         for (auto &i : world.getParticleLinks()) {
             currentLink = i;
@@ -118,6 +192,7 @@ void render() {
             glVertex3f(currentLink->getLinkedParticles()[1]->getPosition()->getX(), currentLink->getLinkedParticles()[1]->getPosition()->getY(), currentLink->getLinkedParticles()[1]->getPosition()->getZ());
             glEnd();
         }
+
 
         glutSwapBuffers();
 
@@ -132,12 +207,8 @@ void keyboard(unsigned char c) {
     if(!isSceneLoaded){
         switch (c) {
             case '1':
-//            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
-//                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
-                cout<<"World init"<<endl;
-
+                cout<<"World init for bungee spring"<<endl;
                 world.initWorld1();
-                cout<<"WorldPhy init"<<endl;
                 physics.initWorldPhysics1(world);
                 cout<<"init finished"<<endl;
                 isSceneLoaded = true;
@@ -145,34 +216,52 @@ void keyboard(unsigned char c) {
 
                 break;
             case '2':
-                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(50.0f, 0, 0),
-                                          new Vector3D(0, -20.0f, 0), 200, 0.99f);
-                cout << "Projectile chosen : Cannonball." << endl;
-                cout
-                        << "Press ENTER to shoot the particle,"
-                        << "\nor select another projectile by pressing the corresponding key."
-                        << endl;
+                cout<<"init begin"<<endl;
+                world.initWorld2();
+                physics.initWorldPhysics2(world);
+                isWaterNeeded = true;
+                isSceneLoaded = true;
+                cout<<"init finished"<<endl;
+
                 break;
             case '3':
-                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(2.0f, 0, 0),
-                                          new Vector3D(0, 0.6f, 0), 1, 0.9f);
-                cout << "Projectile chosen : Fireball" << endl;
-                cout
-                        << "Press ENTER to shoot the particle,"
-                        << "\nor select another projectile by pressing the corresponding key."
-                        << endl;
+
+                cout<<"World init for anchored particle"<<endl;
+                world.initWorld3();
+                physics.initWorldPhysics3(world);
+                cout<<"init finished"<<endl;
+                isAnchored = true;
+                isSceneLoaded = true;
+
                 break;
             case '4':
-                projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(100.0f, 0, 0), new Vector3D(0, 0, 0),
-                                          0, 0.99f);
-                cout << "Projectile chosen : Laser." << endl;
-                cout << "Press ENTER to shoot the particle,"
-                     << "\nor select another projectile by pressing the corresponding key."
-                     << endl;
+
+                cout<<"World init for stiff spring"<<endl;
+                world.initWorld4();
+                physics.initWorldPhysics4(world);
+                cout<<"init finished"<<endl;
+                isAnchored = true;
+                isSceneLoaded = true;
+
                 break;
-            case 13:
-                particles.pop_back();
-                particles.push_back(projectile);
+            case '5':
+
+                cout<<"World init for Rod"<<endl;
+                world.initWorld5();
+                physics.initWorldPhysics5(world);
+                cout<<"init finished"<<endl;
+                isSceneLoaded = true;
+
+                break;
+
+            case '6':
+
+                cout<<"World init for blob"<<endl;
+                world.initWorld6();
+                physics.initWorldPhysics6(world);
+                cout<<"init finished"<<endl;
+                isSceneLoaded = true;
+
                 break;
             case 'x':
                 exit(0);
@@ -182,20 +271,16 @@ void keyboard(unsigned char c) {
     }
     else{
         switch (c) {
-            case '1':
-//            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
-//                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
-                cout << "Projectile chosen : Pistol bullet" << endl;
-                cout
-                        << "Press ENTER to shoot the particle,"
-                        << "\nor select another projectile by pressing the corresponding key."
-                        << endl;
-
-                isSceneLoaded = true;
-
+            case 'r':
+                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()+1.5f,0,0));
+                break;
+            case 'e':
+                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()-1.5f,0,0));
                 break;
             case 'x':
                 isSceneLoaded = false;
+                isAnchored = false;
+                isWaterNeeded = false;
                 world.eraseWorld();
                 physics.erasePhysics();
                 displayChoice();
@@ -264,11 +349,15 @@ void timer(int value) {
     dt = static_cast<float>(gFramesPerSecond > 0 ? 1.0 / static_cast<float>(gFramesPerSecond) : 1.0);
 
     // Emplacements des calculs à réaliser
-    physics.applyForces(dt);
-    physics.particlesIntegrator(world.getWorldParticles(),dt);
-    physics.searchAndResolveContactsWithGround(world);
-    physics.searchContacts(world);
-    if(physics.getContacts().size()>0){
+
+    if(isSceneLoaded){
+        physics.applyForces(dt);
+        physics.particlesIntegrator(world.getWorldParticles(),dt);
+
+        world.clearForceAccums();
+        physics.searchAndResolveContactsWithGround(world);
+        physics.searchContacts(world);
+    if(!physics.getContacts().empty()){
         physics.initFrameContactResolver(physics.getContacts().size());
         physics.resolveContacts(dt);
     }
@@ -281,7 +370,8 @@ void timer(int value) {
             break;
         }
     }
-    //particule->setPosition(new Vector3D(particule->getPosition()->getX()+0.01,particule->getPosition()->getY(), particule->getPosition()->getZ()));
+    }
+
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
     glutPostRedisplay(); // Lance un appel à Rendu() au taux d'IPS voulu
@@ -300,10 +390,9 @@ void glutDisplayInit(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-//    particle = new Particle(new Vector3D(-0.99f, 0.0, 0.0), new Vector3D(0, 0, 0),
-//                            new Vector3D(0.0, 0.0, 0.0), 1, 1);
-//    linkedParticles.push_back(particle);
     isSceneLoaded=false;
+    isAnchored=false;
+    isWaterNeeded=false;
     displayChoice();
     glutDisplayInit(argc, argv);
 
