@@ -4,7 +4,17 @@
 #include <math.h>
 #include "../include/2B3_Engine/ParticleContactGenerator.h"
 
+///Constructeur par défaut
+ParticleContactGenerator::ParticleContactGenerator() {
 
+}
+
+///Destructeur
+ParticleContactGenerator::~ParticleContactGenerator() {
+
+}
+
+/// Méthode de création d'un contact entre deux Particle
 ParticleContact* ParticleContactGenerator::addContact(Particle* particle, Particle* particle1) {
 
     ParticleContact* contact = nullptr;
@@ -22,11 +32,5 @@ ParticleContact* ParticleContactGenerator::addContact(Particle* particle, Partic
 
 }
 
-ParticleContactGenerator::ParticleContactGenerator() {
 
-}
-
-ParticleContactGenerator::~ParticleContactGenerator() {
-
-}
 

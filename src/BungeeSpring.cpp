@@ -3,13 +3,14 @@
 //
 
 #include "../include/2B3_Engine/BungeeSpring.h"
-#include <iostream>
 
-using namespace std;
+///Constructeur par défaut
 BungeeSpring::BungeeSpring() {}
 
+///Destructeur
 BungeeSpring::~BungeeSpring() {}
 
+///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de ressort Bungee
 void BungeeSpring::UpdateForce(Particle *particle, float frame_duration) {
     Vector3D *d = particle->getPosition()->substractVector(secondParticle->getPosition());
     float springLength = d->getNorm();
@@ -20,6 +21,7 @@ void BungeeSpring::UpdateForce(Particle *particle, float frame_duration) {
     }
 }
 
+///Getters-Setters --------------------------------------------------
 float BungeeSpring::getK() const {
     return K;
 }
@@ -43,5 +45,6 @@ Particle *BungeeSpring::getSecondParticle() const {
 void BungeeSpring::setSecondParticle(Particle *secondParticle) {
     BungeeSpring::secondParticle = secondParticle;
 }
+///------------------------------------------------------------------
 
 

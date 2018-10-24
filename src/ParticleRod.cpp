@@ -6,6 +6,16 @@
 #include "../include/2B3_Engine/Vector3D.h"
 #include "../include/2B3_Engine/ParticleContact.h"
 
+///Constructeur de ParticleCable
+ParticleRod::ParticleRod(float maxLenght, float restitutionCoefficient) : maxLength(maxLenght), restitutionCoefficient(
+        restitutionCoefficient) {}
+
+///Destructeur
+ParticleRod::~ParticleRod() {
+
+}
+
+/// Méthode qui crée un contact en cas de conditions relative à la Tige non respectées
 ParticleContact* ParticleRod::addContact() {
 
     ParticleContact *contact = nullptr;
@@ -26,9 +36,4 @@ ParticleContact* ParticleRod::addContact() {
     return contact;
 }
 
-ParticleRod::ParticleRod(float maxLenght, float restitutionCoefficient) : maxLength(maxLenght), restitutionCoefficient(
-        restitutionCoefficient) {}
 
-ParticleRod::~ParticleRod() {
-
-}

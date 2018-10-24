@@ -8,6 +8,8 @@
 
 #include "ParticleForceGenerator.h"
 
+///Classe ParticleStiffSpring
+    ///Classe qui permet la génération de forces de types ressorts rigides
 class ParticleStiffSpring : public ParticleForceGenerator {
 protected:
     Vector3D* anchor;
@@ -15,12 +17,16 @@ protected:
     float damping;
 
 public:
+    /// Constructeur par défaut
     ParticleStiffSpring();
 
+    ///Destructeur
     virtual ~ParticleStiffSpring();
 
+    ///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de ressort rigide
     void UpdateForce(Particle *particle, float frame_duration) override;
 
+    ///Getters - Setters ----------------------------
     Vector3D* getAnchor() const;
 
     void setAnchor(Vector3D* anchor);
@@ -32,6 +38,7 @@ public:
     float getDamping() const;
 
     void setDamping(float damping);
+    ///----------------------------------------------
 
 };
 

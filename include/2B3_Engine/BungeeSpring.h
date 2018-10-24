@@ -8,6 +8,8 @@
 
 #include "ParticleForceGenerator.h"
 
+///Classe BungeeSpring
+    ///Classe qui permet la génération de forces de types Bungee
 class BungeeSpring : public ParticleForceGenerator {
 
 protected:
@@ -16,12 +18,16 @@ protected:
     float L0;
 
 public:
+    ///Constructeur par défaut
     BungeeSpring();
 
+    ///Destructeur
     virtual ~BungeeSpring();
 
+    ///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de ressort Bungee
     void UpdateForce(Particle *particle, float frame_duration) override;
 
+    ///Getters-Setters ------------------------------------------
     Particle *getSecondParticle() const;
 
     void setSecondParticle(Particle *secondParticle);
@@ -33,7 +39,7 @@ public:
     float getL0() const;
 
     void setL0(float L0);
-
+    ///----------------------------------------------------------
 };
 
 

@@ -4,10 +4,13 @@
 
 #include "../include/2B3_Engine/ParticleSpring.h"
 
+///Constructeur par défaut
 ParticleSpring::ParticleSpring() {}
 
+///Destructeur
 ParticleSpring::~ParticleSpring() {}
 
+///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de ressort classique
 void ParticleSpring::UpdateForce(Particle *particle, float frame_duration) {
     Vector3D *d = particle->getPosition()->substractVector(secondParticle->getPosition());
     float coef = -K*(d->getNorm()-l0);
@@ -15,6 +18,7 @@ void ParticleSpring::UpdateForce(Particle *particle, float frame_duration) {
     particle->addForce(d->scalarMultiplier(coef));
 }
 
+///Getters - Setters -------------------------------------------------------------------------------------------------
 Particle * ParticleSpring::getSecondParticle(){
     return secondParticle;
 }
@@ -38,3 +42,4 @@ void ParticleSpring::setK(float K) {
 void ParticleSpring::setL0(float l0) {
     ParticleSpring::l0 = l0;
 }
+///-------------------------------------------------------------------------------------------------------------------

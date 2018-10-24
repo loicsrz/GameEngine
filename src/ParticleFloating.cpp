@@ -4,10 +4,13 @@
 
 #include "../include/2B3_Engine/ParticleFloating.h"
 
+///Constructeur par défaut
 ParticleFloating::ParticleFloating() {}
 
+///Destructeur
 ParticleFloating::~ParticleFloating() {}
 
+///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de type flottaison
 void ParticleFloating::UpdateForce(Particle *particle, float frame_duration) {
 
     float d = (particle->getPosition()->getY() - liquidLevel - depth)/(2*depth);
@@ -27,6 +30,7 @@ void ParticleFloating::UpdateForce(Particle *particle, float frame_duration) {
     particle->addForce(direction);
 }
 
+///Getters - Setters ------------------------------------------------------------------------------------------------
 float ParticleFloating::getDepth() const {
     return depth;
 }
@@ -58,4 +62,4 @@ float ParticleFloating::getLiquidDensity() const {
 void ParticleFloating::setLiquidDensity(float liquidDensity) {
     ParticleFloating::liquidDensity = liquidDensity;
 }
-
+///------------------------------------------------------------------------------------------------------------------

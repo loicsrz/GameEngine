@@ -3,14 +3,29 @@
 //
 
 #include "../include/2B3_Engine/ParticleContact.h"
-#include <iostream>
-using namespace std;
 
+///Constructeur de ParticleContact
+ParticleContact::ParticleContact(Particle **mParticles, float restitution, Vector3D *perpendicularAngle,
+                                 float penetration, bool isLink) : restitution(restitution),
+                                                                   perpendicularAngle(perpendicularAngle),
+                                                                   penetration(penetration),
+                                                                   isLink(isLink){
+    ParticleContact::particles[0]= mParticles[0];
+    ParticleContact::particles[1]= mParticles[1];
+}
+
+///Destructeur
+ParticleContact::~ParticleContact() {
+
+}
+
+/// Méthode de résolution du contact
 void ParticleContact::Resolve(float duration) {
     InterpenetrationResolve(duration);
     ImpulsionResolve(duration);
 }
 
+/// Méthode de calcul de vS'
 float ParticleContact::SpeedCompute() const {
     Particle* A = particles[0];
     Particle* B = particles[1];
@@ -18,23 +33,21 @@ float ParticleContact::SpeedCompute() const {
     return (- restitution * vS);
 }
 
+/// Méthode de résolution du contact nécessitant une impulsion pour la résolution
 void ParticleContact::ImpulsionResolve(float duration) {
     Particle* A = particles[0];
     Particle* B = particles[1];
     float vS = SpeedCompute();
-    cout<<"VS : "<<vS<<endl;
     if(isLink){
         vS = abs(vS);
     }
     Vector3D* velocity0 = perpendicularAngle->scalarMultiplier(vS);
     Vector3D* velocity1 = velocity0->scalarMultiplier(-1.0f);
-
-    cout<<"Velocity 0 : "<<velocity0->getX()<<endl;
-    cout<<"Velocity 1 : "<<velocity1->getX()<<endl;
     A->setVelocity(A->getVelocity()->addVector(velocity0->scalarMultiplier(A->getInvertedMass())));
     B->setVelocity(B->getVelocity()->addVector(velocity1->scalarMultiplier(B->getInvertedMass())));
 }
 
+/// Méthode de résolution du contact relatif à l'interpénétration des Particles entre elles
 void ParticleContact::InterpenetrationResolve(float duration) {
     Particle* A = particles[0];
     Particle* B = particles[1];
@@ -45,19 +58,7 @@ void ParticleContact::InterpenetrationResolve(float duration) {
     B->setPosition(B->getPosition()->addVector(deltaPosB));
 }
 
-ParticleContact::ParticleContact(Particle **mParticles, float restitution, Vector3D *perpendicularAngle,
-                                 float penetration, bool isLink) : restitution(restitution),
-                                                      perpendicularAngle(perpendicularAngle),
-                                                      penetration(penetration),
-                                                      isLink(isLink){
-    ParticleContact::particles[0]= mParticles[0];
-    ParticleContact::particles[1]= mParticles[1];
-}
-
-ParticleContact::~ParticleContact() {
-
-}
-
+///Getters-Setters ---------------------------------------------------------------------------------------------------
 Particle *const *ParticleContact::getParticles() const {
     return particles;
 }
@@ -85,7 +86,9 @@ float ParticleContact::getPenetration() const {
 void ParticleContact::setPenetration(float penetration) {
     ParticleContact::penetration = penetration;
 }
+///-------------------------------------------------------------------------------------------------------------------
 
+///Surcharge de l'opérateur de comparaison '<' pour effectuer un tri de ParticleContact
 bool ParticleContact::operator<(ParticleContact const &b) {
     return this->SpeedCompute() < b.SpeedCompute();
 }

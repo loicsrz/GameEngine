@@ -8,6 +8,8 @@
 
 #include "ParticleLink.h"
 
+/// Classe ParticleCable
+    /// Classe qui modélise les conditions relatives à une jonction de deux Particle par une liaison de type Cable
 class ParticleCable : public ParticleLink {
 protected:
 
@@ -15,10 +17,13 @@ protected:
     float restitutionCoefficient;
 
 public:
+    ///Constructeur de ParticleCable
     ParticleCable(float maxLength, float restitutionCoefficient);
 
+    ///Destructeur
     virtual ~ParticleCable();
 
+    /// Méthode qui crée un contact en cas de conditions relative au Cable non respectées
     virtual ParticleContact* addContact();
 
 };

@@ -10,6 +10,8 @@ using namespace std;
 #include <vector>
 #include "ParticleContact.h"
 
+/// Classe ParticleContactResolver
+    /// Classe chargée de la résolution des contacts détectés par la boucle de calculs physiques du moteur physique
 class ParticleContactResolver {
     friend class ParticleContact;
 
@@ -18,12 +20,16 @@ protected:
     int consumedIterations;
 
 public:
+    ///Constructeur par défaut
     ParticleContactResolver();
 
-    ParticleContactResolver(int iterationsMax);
-
+    ///Destructeur
     virtual ~ParticleContactResolver();
 
+    /// Méthode de résolution des ParticleContact passés en paramètres
+    void resolveContact(vector<ParticleContact*> contactVector,float duration);
+
+    ///Getters - Setters ----------------------------------------------------------
     int getIterationsMax() const;
 
     int getConsumedIterations() const;
@@ -31,9 +37,7 @@ public:
     void setIterationsMax(int iterationsMax);
 
     void setConsumedIterations(int consumedIterations);
-
-    void resolveContact(vector<ParticleContact*> contactVector,float duration);
-
+    ///----------------------------------------------------------------------------
 
 };
 

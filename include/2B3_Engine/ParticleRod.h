@@ -8,6 +8,8 @@
 
 #include "ParticleLink.h"
 
+/// Classe ParticleRod
+    /// Classe qui modélise les conditions relatives à une jonction de deux Particle par une liaison de type Tige
 class ParticleRod : public ParticleLink{
 
 protected:
@@ -16,10 +18,13 @@ protected:
     float restitutionCoefficient;
 
 public:
+    ///Constructeur de ParticleCable
     ParticleRod(float maxLenght, float restitutionCoefficient);
 
+    ///Destructeur
     virtual ~ParticleRod();
 
+    /// Méthode qui crée un contact en cas de conditions relative à la Tige non respectées
     virtual ParticleContact* addContact();
 
 

@@ -5,24 +5,21 @@
 #include "../include/2B3_Engine/ParticleCable.h"
 #include "../include/2B3_Engine/ParticleRod.h"
 
-vector<Particle*> &World::getWorldParticles() {
-    return worldParticles;
-}
-
-void World::setWorldParticles(const vector<Particle*> &worldParticles) {
-    World::worldParticles = worldParticles;
-}
-
-World::World(const vector<Particle*> &worldParticles) : worldParticles(worldParticles) {}
-
+///Constructeur par défaut
 World::World() {}
 
+///Constructeur de World à partir d'un tableau de Particle
+World::World(const vector<Particle*> &worldParticles) : worldParticles(worldParticles) {}
+
+///Destruteur
 World::~World() {}
 
+/// Méthode d'ajout d'une Particle au World
 void World::addParticleToWorld(Particle *particle) {
     worldParticles.push_back(particle);
 }
 
+/// Méthode de retrait d'une Particle au World
 void World::eraseParticle(Particle *particle) {
     vector<Particle*>::iterator it;
     for(it = worldParticles.begin();it!=worldParticles.end();it++){
@@ -33,11 +30,54 @@ void World::eraseParticle(Particle *particle) {
     }
 }
 
+/// Méthode de réinitialisation du World
+void World::eraseWorld() {
+    worldParticles.clear();
+    particleLinks.clear();
+    groundSeparations.clear();
+    grounds.clear();
+}
+
+/// Méthode de réinitialisation des forces accumulées par les Particle du World
+void World::clearForceAccums() {
+    for(vector<Particle*>::iterator it = worldParticles.begin();it != worldParticles.end();++it){
+        (*it)->clearAccumulator();
+    }
+}
+
+/// Getters - Setters -----------------------------------------------------------------------------------------------
+
+vector<Particle*> &World::getWorldParticles() {
+    return worldParticles;
+}
+
+void World::setWorldParticles(const vector<Particle*> &worldParticles) {
+    World::worldParticles = worldParticles;
+}
 
 vector<ParticleLink*> World::getParticleLinks() {
     return particleLinks;
 }
 
+vector<float> &World::getGroundSeparations()  {
+    return groundSeparations;
+}
+
+void World::setGroundSeparations(const vector<float> &groundSeparations) {
+    World::groundSeparations = groundSeparations;
+}
+
+vector<float> &World::getGrounds()  {
+    return grounds;
+}
+
+void World::setGrounds(const vector<float> &grounds) {
+    World::grounds = grounds;
+}
+
+///------------------------------------------------------------------------------------------------------------------
+
+/// Créations des World de démonstration ----------------------------------------------------------------------------
 void World::initWorld1() {
     //init world for test 1
 
@@ -262,34 +302,4 @@ void World::initWorld6() {
     particleLinks.push_back(linkAD);
     particleLinks.push_back(linkAE);
 }
-
-void World::eraseWorld() {
-    worldParticles.clear();
-    particleLinks.clear();
-    groundSeparations.clear();
-    grounds.clear();
-}
-
-vector<float> &World::getGroundSeparations()  {
-    return groundSeparations;
-}
-
-void World::setGroundSeparations(const vector<float> &groundSeparations) {
-    World::groundSeparations = groundSeparations;
-}
-
-vector<float> &World::getGrounds()  {
-    return grounds;
-}
-
-void World::setGrounds(const vector<float> &grounds) {
-    World::grounds = grounds;
-}
-
-void World::clearForceAccums() {
-    for(vector<Particle*>::iterator it = worldParticles.begin();it != worldParticles.end();++it){
-        (*it)->clearAccumulator();
-    }
-}
-
-
+///------------------------------------------------------------------------------------------------------------------

@@ -6,6 +6,18 @@
 #include <iostream>
 using namespace std;
 
+
+///Constructeur de ParticleCable
+ParticleCable::ParticleCable(float maxLength, float restitutionCoefficient) : maxLength(maxLength),
+                                                                              restitutionCoefficient(
+                                                                                      restitutionCoefficient) {}
+
+///Destructeur
+ParticleCable::~ParticleCable() {
+
+}
+
+/// Méthode qui crée un contact en cas de conditions relative au Cable non respectées
 ParticleContact* ParticleCable::addContact() {
 
     ParticleContact *contact = nullptr;
@@ -20,10 +32,4 @@ ParticleContact* ParticleCable::addContact() {
     return contact;
 }
 
-ParticleCable::ParticleCable(float maxLength, float restitutionCoefficient) : maxLength(maxLength),
-                                                                              restitutionCoefficient(
-                                                                                      restitutionCoefficient) {}
 
-ParticleCable::~ParticleCable() {
-
-}

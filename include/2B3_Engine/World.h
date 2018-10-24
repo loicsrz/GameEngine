@@ -9,8 +9,8 @@
 #include "Particle.h"
 #include "ParticleLink.h"
 
-using namespace std;
-
+/// Classe World
+    /// Classe qui contient tout ce qui appartient au monde en terme d'objet et de structure
 class World {
 
 protected:
@@ -20,26 +20,31 @@ protected:
     vector<ParticleLink*> particleLinks;
 
 public:
+    ///Constructeur par défaut
     World();
+
+    ///Constructeur de World à partir d'un tableau de Particle
     World(const vector<Particle*> &worldParticles);
 
+    ///Destruteur
     virtual ~World();
 
+    /// Méthode d'ajout d'une Particle au World
+    void addParticleToWorld(Particle* particle);
+
+    /// Méthode de retrait d'une Particle au World
+    void eraseParticle(Particle* particle);
+
+    /// Méthode de réinitialisation du World
+    void eraseWorld();
+
+    /// Méthode de réinitialisation des forces accumulées par les Particle du World
+    void clearForceAccums();
+
+    /// Getters - Setters -----------------------------------------------------
     vector<Particle*> &getWorldParticles();
 
     void setWorldParticles(const vector<Particle*> &worldParticles);
-
-    vector<ParticleLink*> getParticleLinks();
-
-    void addParticleToWorld(Particle* particle);
-
-    void eraseParticle(Particle* particle);
-
-    void initWorld1();
-
-    void initWorld2();
-
-    void eraseWorld();
 
     vector<float> &getGroundSeparations() ;
 
@@ -49,7 +54,13 @@ public:
 
     void setGrounds(const vector<float> &grounds);
 
-    void clearForceAccums();
+    vector<ParticleLink*> getParticleLinks();
+    ///-------------------------------------------------------------------------
+
+    /// Créations des World de démonstration -----------------------------------
+    void initWorld1();
+
+    void initWorld2();
 
     void initWorld3();
 
@@ -58,6 +69,7 @@ public:
     void initWorld5();
 
     void initWorld6();
+    ///-------------------------------------------------------------------------
 };
 
 

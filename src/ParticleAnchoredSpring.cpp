@@ -3,9 +3,18 @@
 //
 
 #include "../include/2B3_Engine/ParticleAnchoredSpring.h"
-#include <iostream>
-using namespace std;
 
+///Constructeur par défaut
+ParticleAnchoredSpring::ParticleAnchoredSpring() {
+
+}
+
+///Destructeur
+ParticleAnchoredSpring::~ParticleAnchoredSpring() {
+
+}
+
+///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de gravité
 void ParticleAnchoredSpring::UpdateForce(Particle *particle, float frame_duration) {
     Vector3D *d = particle->getPosition()->substractVector(anchoredPoint);
     float coef = -K*(d->getNorm()-l0);
@@ -13,6 +22,7 @@ void ParticleAnchoredSpring::UpdateForce(Particle *particle, float frame_duratio
     particle->addForce(d->scalarMultiplier(coef));
 }
 
+///Getters - Setters -------------------------------------------------------------------------------------------------
 float ParticleAnchoredSpring::getK() const {
     return K;
 }
@@ -29,13 +39,7 @@ void ParticleAnchoredSpring::setL0(float l0) {
     ParticleAnchoredSpring::l0 = l0;
 }
 
-ParticleAnchoredSpring::ParticleAnchoredSpring() {
 
-}
-
-ParticleAnchoredSpring::~ParticleAnchoredSpring() {
-
-}
 
 Vector3D *ParticleAnchoredSpring::getAnchoredPoint() const {
     return anchoredPoint;
@@ -43,8 +47,5 @@ Vector3D *ParticleAnchoredSpring::getAnchoredPoint() const {
 
 void ParticleAnchoredSpring::setAnchoredPoint(Vector3D *anchoredPoint) {
     ParticleAnchoredSpring::anchoredPoint = anchoredPoint;
-    cout<<"APX :"<<anchoredPoint->getX()<<endl;
-    cout<<"APY :"<<anchoredPoint->getY()<<endl;
-    cout<<"APZ :"<<anchoredPoint->getZ()<<endl;
 }
-
+///-------------------------------------------------------------------------------------------------------------------

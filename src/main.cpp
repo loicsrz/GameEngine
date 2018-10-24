@@ -35,40 +35,6 @@ void displayChoice() {
     cout << endl;
 }
 
-//void SearchContact(World world, vector<ParticleContact*> particleContact){
-//
-//    vector<Particle*>::iterator iterator;
-//    vector<Particle*>::iterator iterator1;
-//
-//    for (iterator = world.getWorldParticles().begin(); iterator != world.getWorldParticles().end(); iterator++) {
-//
-//        if ((*iterator)->getPosition()->getX() < world.getGroundX()[0]) {
-//
-//            if ((*iterator)->getPosition()->getY() < world.getGroundY()[0]) {
-//                (*iterator)->getPosition()->setY(world.getGroundY()[0] + (*iterator)->getRadius());
-//
-//            }
-//        } else if ((*iterator)->getPosition()->getX() < world.getGroundX()[1]) {
-//
-//            if ((*iterator)->getPosition()->getY() < world.getGroundY()[1]) {
-//                (*iterator)->getPosition()->setY(world.getGroundY()[1] + (*iterator)->getRadius());
-//            }
-//        } else {
-//            if ((*iterator)->getPosition()->getY() < world.getGroundX()[2]) {
-//                (*iterator)->getPosition()->setY(world.getGroundY()[2] + (*iterator)->getRadius());
-//            }
-//        }
-//    }
-//
-//    for (iterator = world.getWorldParticles().begin();iterator != world.getWorldParticles().end(); iterator++){
-//
-//        for (iterator1 = world.getWorldParticles().begin();iterator1 != world.getWorldParticles().end(); iterator1++){
-//
-//            particleContactGenerator->addContact((*iterator), (*iterator1));
-//        }
-//    }
-//}
-
 void render() {
     //cout<<"Entre dans Rendu : "<<endl;
     if (isSceneLoaded) {
@@ -306,72 +272,41 @@ void fps() {
     Frames = 0;
 }
 
-//void vectorIntegrator(vector<Particle *> linkedParticles, float deltaTime) {
-//
-////    int n = 1;
-//    for (auto &particle : linkedParticles) {
-//        /*cout << "Particle " << n << " :" << endl;
-//        cout << "Avant Integration : " << endl;
-//        cout << "Position : " << endl;
-//        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
-//        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
-//        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
-//        cout << "Velocite : " << endl;
-//        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
-//        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
-//        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
-//        cout << "Acceleration : " << endl;
-//        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
-//        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
-//        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;*/
-//        particle->integrator(deltaTime);
-//        /*cout << "Après Integration : " << endl;
-//        cout << "Position : " << endl;
-//        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
-//        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
-//        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
-//        cout << "Velocite : " << endl;
-//        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
-//        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
-//        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
-//        cout << "Acceleration : " << endl;
-//        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
-//        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
-//        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;
-//        cout << endl;
-//        n++;*/
-//    }
-//}
-
 void timer(int value) {
     const int FPSwanted = 60;
     glutTimerFunc(1000 / FPSwanted, timer, ++value);
     dt = static_cast<float>(gFramesPerSecond > 0 ? 1.0 / static_cast<float>(gFramesPerSecond) : 1.0);
 
-    // Emplacements des calculs à réaliser
-
+    // Boucle de calculs physiques en cas de Scene de jeu chargée
     if(isSceneLoaded){
+        // Application des forces aux particules
         physics.applyForces(dt);
+
+        // Intégration
         physics.particlesIntegrator(world.getWorldParticles(),dt);
 
+        // Réinitialisation des forces accumulées
         world.clearForceAccums();
+
+        // Résolution de contacts avec le sol
         physics.searchAndResolveContactsWithGround(world);
+
+        // Résolution de contacts
         physics.searchContacts(world);
-    if(!physics.getContacts().empty()){
-        physics.initFrameContactResolver(physics.getContacts().size());
-        physics.resolveContacts(dt);
-    }
-    while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
-        physics.searchContacts(world);
-        if(physics.getContacts().size()>0){
+        if(!physics.getContacts().empty()){
+            physics.initFrameContactResolver(physics.getContacts().size());
             physics.resolveContacts(dt);
         }
-        else{
-            break;
+        while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
+            physics.searchContacts(world);
+            if(physics.getContacts().size()>0){
+                physics.resolveContacts(dt);
+            }
+            else{
+                break;
+            }
         }
     }
-    }
-
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
     glutPostRedisplay(); // Lance un appel à Rendu() au taux d'IPS voulu

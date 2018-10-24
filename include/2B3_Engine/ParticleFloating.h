@@ -9,6 +9,8 @@
 #include "ParticleForceGenerator.h"
 #include<iostream>
 
+///Classe ParticleFloating
+    ///Classe qui permet la génération de forces de types flottaison
 class ParticleFloating : public ParticleForceGenerator {
 protected:
     float depth;
@@ -17,12 +19,16 @@ protected:
     float liquidDensity;
 
 public:
+    ///Constructeur par défaut
     ParticleFloating();
 
+    ///Destructeur
     virtual ~ParticleFloating();
 
+    ///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de type flottaison
     void UpdateForce(Particle *particle, float frame_duration) override;
 
+    ///Getters - Setters ------------------------------------
     float getDepth() const;
 
     void setDepth(float depth);
@@ -38,6 +44,7 @@ public:
     float getLiquidDensity() const;
 
     void setLiquidDensity(float liquidDensity);
+    ///-------------------------------------------------------
 };
 
 

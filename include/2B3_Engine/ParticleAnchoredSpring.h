@@ -8,14 +8,29 @@
 
 #include "ParticleForceGenerator.h"
 
+/// Classe ParticleAnchoredSpring
+    /// Classe qui permet la génération de forces de ressorts ancrés
 class ParticleAnchoredSpring : public ParticleForceGenerator  {
 
 protected:
     Vector3D* anchoredPoint;
     float K;
     float l0;
-public:
 
+public:
+    ///Constructeur par défaut
+    ParticleAnchoredSpring();
+
+    ///Destructeur
+    ~ParticleAnchoredSpring();
+
+    ///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de gravité
+    void UpdateForce(Particle *particle, float frame_duration) override;
+
+    ///Getters - Setters ------------------------------
+    Vector3D *getAnchoredPoint() const;
+
+    void setAnchoredPoint(Vector3D *anchoredPoint);
 
     float getK() const;
 
@@ -24,15 +39,7 @@ public:
     float getL0() const;
 
     void setL0(float l0);
-
-public:
-    ParticleAnchoredSpring();
-    ~ParticleAnchoredSpring();
-    void UpdateForce(Particle *particle, float frame_duration) override;
-
-    Vector3D *getAnchoredPoint() const;
-
-    void setAnchoredPoint(Vector3D *anchoredPoint);
+    ///------------------------------------------------
 };
 
 

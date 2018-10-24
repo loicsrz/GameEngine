@@ -8,6 +8,8 @@
 
 #include "ParticleForceGenerator.h"
 
+///Classe DragGenerator
+    ///Classe qui permet la génération de forces de types Drag
 class DragGenerator : public ParticleForceGenerator {
     ///Attributs
 protected:
@@ -15,12 +17,16 @@ protected:
     float k2;
 
 public:
+    ///Constructeur par défaut
     DragGenerator();
+
+    ///Destructeur
     ~DragGenerator();
 
+    ///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de type draging
     void UpdateForce(Particle *particle, float frame_duration) override;
 
-
+    ///Getters-Setters ------
     float getK1() const;
 
     void setK1(float k1);
@@ -28,6 +34,7 @@ public:
     float getK2() const;
 
     void setK2(float k2);
+    ///----------------------
 };
 
 

@@ -12,14 +12,20 @@
 
 using namespace std;
 
+/// Classe ParticleContactGenerator
+    /// Classe qui permet de générer des contacts entre des Particle
 class ParticleContactGenerator {
 
 public:
-    virtual ParticleContact* addContact(Particle* particle, Particle* particle1);
-
+    ///Constructeur par défaut
     ParticleContactGenerator();
 
+    ///Destructeur
     virtual ~ParticleContactGenerator();
+
+    /// Méthode de création d'un contact entre deux Particle
+    virtual ParticleContact* addContact(Particle* particle, Particle* particle1);
+
 };
 #endif
 

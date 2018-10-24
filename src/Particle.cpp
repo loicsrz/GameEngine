@@ -3,10 +3,8 @@
 //
 
 #include "../include/2B3_Engine/Particle.h"
-#include <iostream>
 
-using namespace std;
-
+/// Début Constructeurs/Destructeur ---------------------------------------------------------------------------------
 Particle::Particle() {
     this->position = new Vector3D(0, 0, 2);
     this->velocity = new Vector3D(0, 1, 0);
@@ -54,8 +52,9 @@ Particle::~Particle() {
     delete this->acceleration;
     this->forcesAccum = new Vector3D(0, 0, 0);
 }
+/// Fin Constructeurs/Destructeur -----------------------------------------------------------------------------------
 
-// Méthode visant à calculer la position et la vélocité de la prochaine frame.
+/// Méthode visant à calculer la position et la vélocité de la prochaine frame.
 void Particle::integrator(float time) {
     //Lance consécutivement la m-a-j de la position de la particule puis la m-a-j de sa vélocité
     this->acceleration = this->forcesAccum->scalarMultiplier(invertedMass);
@@ -63,17 +62,19 @@ void Particle::integrator(float time) {
     UpdateSpeed(time);
 }
 
+/// Méthode d'ajout de force à la force accumulée par la Particle
 void Particle::addForce(Vector3D * force) {
     forcesAccum = this->forcesAccum->addVector(force);
 }
 
+/// Methode de réinitialisation à 0 de la force accumulée par la Particle
 void Particle::clearAccumulator() {
     this->forcesAccum->setX(0.0f);
     this->forcesAccum->setY(0.0f);
     this->forcesAccum->setZ(0.0f);
 }
 
-// Début de l'ensemble des getters et setters de la classe Particle.
+/// Début de l'ensemble des getters et setters de la classe Particle ------------------------------------------------
 float Particle::getInvertedMass() const {
     return invertedMass;
 }
@@ -129,16 +130,6 @@ Vector3D *Particle::getForcesAccum() const {
 void Particle::setForcesAccum(Vector3D *forcesAccum) {
     Particle::forcesAccum = forcesAccum;
 }
-// Fin de l'ensemble des getters et setters de la classe Particle.
-
-void Particle::UpdatePosition(float time) {
-    this->position = this->position->addVector(this->velocity->scalarMultiplier(time));
-}
-
-void Particle::UpdateSpeed(float time) {
-    this->velocity = (this->velocity->scalarMultiplier(pow(this->damping, time)))
-            ->addVector(this->acceleration->scalarMultiplier(time));
-}
 
 float Particle::getRadius() const {
     return radius;
@@ -147,6 +138,20 @@ float Particle::getRadius() const {
 void Particle::setRadius(float radius) {
     Particle::radius = radius;
 }
+/// Fin de l'ensemble des getters et setters de la classe Particle ----------------------------------------------------
+
+/// Méthode de mise à jour de la vélocité de la particule
+void Particle::UpdatePosition(float time) {
+    this->position = this->position->addVector(this->velocity->scalarMultiplier(time));
+}
+
+/// Méthode de mise à jour de la position de la particule
+void Particle::UpdateSpeed(float time) {
+    this->velocity = (this->velocity->scalarMultiplier(pow(this->damping, time)))
+            ->addVector(this->acceleration->scalarMultiplier(time));
+}
+
+
 
 
 

@@ -4,10 +4,13 @@
 
 #include "../include/2B3_Engine/ParticleStiffSpring.h"
 
+/// Constructeur par défaut
 ParticleStiffSpring::ParticleStiffSpring() {}
 
+/// Destructeur
 ParticleStiffSpring::~ParticleStiffSpring() {}
 
+///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de ressort rigide
 void ParticleStiffSpring::UpdateForce(Particle *particle, float frame_duration) {
 
     Vector3D *distance = particle->getPosition()->substractVector(anchor);
@@ -26,6 +29,7 @@ void ParticleStiffSpring::UpdateForce(Particle *particle, float frame_duration) 
 
 }
 
+///Getters - Setters ------------------------------------------------------------------------------------------------
 Vector3D *ParticleStiffSpring::getAnchor() const {
     return anchor;
 }
@@ -49,7 +53,7 @@ float ParticleStiffSpring::getDamping() const {
 void ParticleStiffSpring::setDamping(float damping) {
     ParticleStiffSpring::damping = damping;
 }
-
+///------------------------------------------------------------------------------------------------------------------
 
 
 

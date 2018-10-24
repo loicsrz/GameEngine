@@ -5,10 +5,17 @@
 #include "../include/2B3_Engine/ParticleContactResolver.h"
 #include <algorithm>
 
-using namespace std;
+///Constructeur par défaut
+ParticleContactResolver::ParticleContactResolver() {
 
+}
 
+///Destructeur
+ParticleContactResolver::~ParticleContactResolver() {
 
+}
+
+/// Méthode de résolution des ParticleContact passés en paramètres
 void ParticleContactResolver::resolveContact(vector<ParticleContact*> contactVector,float duration) {
 
     sort(contactVector.begin(),contactVector.end(),[] (ParticleContact* a, ParticleContact* b) { return (*a < *b); });
@@ -19,8 +26,11 @@ void ParticleContactResolver::resolveContact(vector<ParticleContact*> contactVec
         (*it)->Resolve(duration);
         consumedIterations++;
     }
+}
 
-
+///Getters - Setters ------------------------------------------------------------------------------------------------
+void ParticleContactResolver::setConsumedIterations(int consumedIterations) {
+    ParticleContactResolver::consumedIterations = consumedIterations;
 }
 
 void ParticleContactResolver::setIterationsMax(int iterationsMax) {
@@ -34,19 +44,7 @@ int ParticleContactResolver::getIterationsMax() const {
 int ParticleContactResolver::getConsumedIterations() const {
     return consumedIterations;
 }
+///------------------------------------------------------------------------------------------------------------------
 
-ParticleContactResolver::ParticleContactResolver(int iterationsMax) : iterationsMax(iterationsMax),consumedIterations(0) {}
-
-ParticleContactResolver::~ParticleContactResolver() {
-
-}
-
-void ParticleContactResolver::setConsumedIterations(int consumedIterations) {
-    ParticleContactResolver::consumedIterations = consumedIterations;
-}
-
-ParticleContactResolver::ParticleContactResolver() {
-
-}
 
 

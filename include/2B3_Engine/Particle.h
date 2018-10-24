@@ -8,7 +8,8 @@
 #ifndef GAMEENGINE_PARTICULE_H
 #define GAMEENGINE_PARTICULE_H
 
-
+/// Classe Particle
+    /// Classe qui contient tous les éléments relatifs à une particule du monde
 class Particle {
 
     ///Attributs
@@ -25,12 +26,6 @@ protected:
     float damping;
     // radius
     float radius;
-public:
-    float getRadius() const;
-
-    void setRadius(float radius);
-
-protected:
 
     Vector3D *forcesAccum;
 
@@ -50,11 +45,13 @@ public:
 
     /// Fin Constructeurs/Destructeur
 
-    // Méthode visant à calculer la position et la vitesse de la prochaine frame.
+    /// Méthode visant à calculer la position et la vitesse de la prochaine frame.
     void integrator(float time);
 
+    /// Méthode d'ajout de force à la force accumulée par la Particle
     void addForce(Vector3D * force);
 
+    /// Methode de réinitialisation à 0 de la force accumulée par la Particle
     void clearAccumulator();
 
     /// Début de l'ensemble des getters et setters de la classe Particule.
@@ -86,14 +83,17 @@ public:
 
     void setForcesAccum(Vector3D *forcesAccum);
 
+    float getRadius() const;
 
-    // Fin de l'ensemble des getters et setters de la classe Particle.
+    void setRadius(float radius);
+
+    /// Fin de l'ensemble des getters et setters de la classe Particle.
 
 protected:
-    // Méthode de mise à jour de la vélocité de la particule
+    /// Méthode de mise à jour de la vélocité de la particule
     void UpdateSpeed(float time);
 
-    // Méthode de mise à jour de la position de la particule
+    /// Méthode de mise à jour de la position de la particule
     void UpdatePosition(float time);
 
 };

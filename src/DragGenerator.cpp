@@ -4,13 +4,14 @@
 
 #include <math.h>
 #include "../include/2B3_Engine/DragGenerator.h"
-# include <iostream>
 
-using namespace std;
+///Constructeur par défaut
 DragGenerator::DragGenerator() {}
 
+///Destructeur
 DragGenerator::~DragGenerator() {}
 
+///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de type draging
 void DragGenerator::UpdateForce(Particle *particle, float frame_duration) {
     float speed = particle->getVelocity()->getNorm();
     Vector3D* dragVector = particle->getVelocity();
@@ -22,6 +23,7 @@ void DragGenerator::UpdateForce(Particle *particle, float frame_duration) {
     particle->addForce(dragVector);
 }
 
+///Getters-Setters ----------------------------------------
 float DragGenerator::getK1() const {
     return k1;
 }
@@ -37,3 +39,4 @@ float DragGenerator::getK2() const {
 void DragGenerator::setK2(float k2) {
     DragGenerator::k2 = k2;
 }
+///--------------------------------------------------------

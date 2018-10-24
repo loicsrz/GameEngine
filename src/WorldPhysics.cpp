@@ -2,7 +2,6 @@
 // Created by totoa on 22/10/2018.
 //
 
-#include <iostream>
 #include "../include/2B3_Engine/WorldPhysics.h"
 #include "../include/2B3_Engine/Particle.h"
 #include "../include/2B3_Engine/World.h"
@@ -14,53 +13,37 @@
 #include "../include/2B3_Engine/ParticleStiffSpring.h"
 #include "../include/2B3_Engine/ParticleSpring.h"
 
-using namespace std;
+/// Constructeur par défaut
+WorldPhysics::WorldPhysics() {
+}
 
-void WorldPhysics::particlesIntegrator(vector<Particle *> particles, float deltaTime) {
+/// Destructeur
+WorldPhysics::~WorldPhysics() {
 
-//    int n = 1;
-    for (auto &particle : particles) {
-        /*cout << "Particle " << n << " :" << endl;
-        cout << "Avant Integration : " << endl;
-        cout << "Position : " << endl;
-        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
-        cout << "Velocite : " << endl;
-        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
-        cout << "Acceleration : " << endl;
-        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;*/
-        particle->integrator(deltaTime);
-        /*cout << "Après Integration : " << endl;
-        cout << "Position : " << endl;
-        cout << '\t' << "x : " << (*it)->getPosition()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getPosition()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getPosition()->getZ() << endl;
-        cout << "Velocite : " << endl;
-        cout << '\t' << "x : " << (*it)->getVelocite()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getVelocite()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getVelocite()->getZ() << endl;
-        cout << "Acceleration : " << endl;
-        cout << '\t' << "x : " << (*it)->getAcceleration()->getX() << endl;
-        cout << '\t' << "y : " << (*it)->getAcceleration()->getY() << endl;
-        cout << '\t' << "z : " << (*it)->getAcceleration()->getZ() << endl;
-        cout << endl;
-        n++;*/
+}
+
+/// Méthode de réinitialisation de la physique du World
+void WorldPhysics::erasePhysics() {
+    contacts.clear();
+    registerForces.clearRegister();
+}
+
+/// Méthode de génération de forces pour toutes les particules concernées par ces dernières
+void WorldPhysics::applyForces(float duration) {
+    for(auto it = registerForces.m_register.begin();it != registerForces.m_register.end();it++){
+        it->forceGenerator->UpdateForce(it->particle,duration);
     }
 }
 
-const vector<ParticleContact *> &WorldPhysics::getContacts() const {
-    return contacts;
+/// Méthode d'intégration permettant de mettre à jour la position, la vitesse et l'accélération des Particle du World
+void WorldPhysics::particlesIntegrator(vector<Particle *> particles, float deltaTime) {
+
+    for (auto &particle : particles) {
+        particle->integrator(deltaTime);
+    }
 }
 
-void WorldPhysics::setContacts(const vector<ParticleContact *> &contacts) {
-    WorldPhysics::contacts = contacts;
-}
-
+/// Méthode de recherche et résolution des contacts entre les Particle du World et le sol
 void WorldPhysics::searchAndResolveContactsWithGround(World world) {
     vector<Particle*>::iterator iterator;
     vector<float>::iterator separations;
@@ -87,6 +70,7 @@ void WorldPhysics::searchAndResolveContactsWithGround(World world) {
     }
 }
 
+/// Méthode de recherche et création de tous les contacts présents pour une Frame de jeu
 void WorldPhysics::searchContacts(World world){
 
     vector<Particle*>::iterator iterator;
@@ -110,65 +94,42 @@ void WorldPhysics::searchContacts(World world){
     for(auto it = links.begin();it != links.end();it++){
         ParticleContact* contact = (*it)->addContact();
         if(contact != nullptr){
-            cout<<"Link contact normale X : "<<contact->getPerpendicularAngle()->getX()<<endl;
-            cout<<"Link contact normale Y : "<<contact->getPerpendicularAngle()->getY()<<endl;
-            cout<<"Link contact normale Z : "<<contact->getPerpendicularAngle()->getZ()<<endl;
             contacts.push_back(contact);
         }
     }
-
-
 }
 
-void WorldPhysics::applyForces(float duration) {
-    for(auto it = registerForces.m_register.begin();it != registerForces.m_register.end();it++){
-//        cout << "Avant Application des forces : " << endl;
-//        cout << "Forces Accum : " << endl;
-//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
-//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
-//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
-//        cout << "Force à appliquer : " << endl;
-//        ParticleForceGenerator* pointer = it->forceGenerator;
-//        cout << '\t' << "x : " << dynamic_cast<GravityGenerator*>(pointer)->getGravity()->getX() << endl;
-//        cout << '\t' << "y : " << dynamic_cast<GravityGenerator*>(pointer)->getGravity()->getY() << endl;
-//        cout << '\t' << "z : " << dynamic_cast<GravityGenerator*>(pointer)->getGravity()->getZ() << endl;
-//        cout << "Acceleration : " << endl;
-//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
-//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
-//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
-        it->forceGenerator->UpdateForce(it->particle,duration);
-//        cout << "Après Application des forces : " << endl;
-//        cout << "ForceAccum : " << endl;
-//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
-//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
-//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
-//        cout << "Velocite : " << endl;
-//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
-//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
-//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
-//        cout << "Acceleration : " << endl;
-//        cout << '\t' << "x : " << it->particle->getForcesAccum()->getX() << endl;
-//        cout << '\t' << "y : " << it->particle->getForcesAccum()->getY() << endl;
-//        cout << '\t' << "z : " << it->particle->getForcesAccum()->getZ() << endl;
-    }
-}
-
+/// Méthode de résolution des contacts détectés préalablement
 void WorldPhysics::resolveContacts(float duration) {
     contactResolver.resolveContact(contacts,duration);
 }
 
+/// Méthode de réinitialisation du resolver de contact utilisé à chaque Frame de jeu
 void WorldPhysics::initFrameContactResolver(int nbIterMax) {
     contactResolver.setIterationsMax(2*nbIterMax);
     contactResolver.setConsumedIterations(0);
 }
 
-WorldPhysics::WorldPhysics() {
+/// Getters - Setters -----------------------------------------------------------------------------------------------
+
+const vector<ParticleContact *> &WorldPhysics::getContacts() const {
+    return contacts;
 }
 
-WorldPhysics::~WorldPhysics() {
-
+void WorldPhysics::setContacts(const vector<ParticleContact *> &contacts) {
+    WorldPhysics::contacts = contacts;
 }
 
+const ParticleContactResolver &WorldPhysics::getContactResolver() const {
+    return contactResolver;
+}
+
+void WorldPhysics::setContactResolver(const ParticleContactResolver &contactResolver) {
+    WorldPhysics::contactResolver = contactResolver;
+}
+///------------------------------------------------------------------------------------------------------------------
+
+/// Génération de la physique de chacun des World de démonstration --------------------------------------------------
 void WorldPhysics::initWorldPhysics1(World world) {
     ParticleForceGenerator* bs1 = new BungeeSpring();
     dynamic_cast<BungeeSpring*>(bs1)->setK(0.01f);
@@ -276,23 +237,6 @@ void WorldPhysics::initWorldPhysics4(World world) {
 
 void WorldPhysics::initWorldPhysics5(World world) {
 
-//    ParticleForceGenerator* grav = new GravityGenerator();
-//    Vector3D * gravity = new Vector3D(0,-0.10f,0);
-//    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
-
-//    ParticleForceGenerator* drag = new DragGenerator();
-//    dynamic_cast<DragGenerator*>(drag)->setK1(0.1f);
-//    dynamic_cast<DragGenerator*>(drag)->setK2(0.1f);
-//
-//    SaveForce grav1{world.getWorldParticles()[0],grav};
-//    SaveForce grav2{world.getWorldParticles()[1],grav};
-//    SaveForce drag1{world.getWorldParticles()[0],drag};
-//    SaveForce drag2{world.getWorldParticles()[1],drag};
-//
-//    registerForces.addRegister(grav1);
-//    registerForces.addRegister(grav2);
-//    registerForces.addRegister(drag1);
-//    registerForces.addRegister(drag2);
 }
 
 void WorldPhysics::initWorldPhysics6(World world) {
@@ -305,12 +249,12 @@ void WorldPhysics::initWorldPhysics6(World world) {
     dynamic_cast<ParticleSpring*>(ps2)->setK(0.01f);
     dynamic_cast<ParticleSpring*>(ps2)->setL0(16.0f);
     dynamic_cast<ParticleSpring*>(ps2)->setSecondParticle(world.getWorldParticles()[0]);
-//
+
     ParticleForceGenerator* bs3 = new BungeeSpring();
     dynamic_cast<BungeeSpring*>(bs3)->setK(0.01f);
     dynamic_cast<BungeeSpring*>(bs3)->setL0(16.0f);
     dynamic_cast<BungeeSpring*>(bs3)->setSecondParticle(world.getWorldParticles()[0]);
-//
+
     ParticleForceGenerator* bs4 = new BungeeSpring();
     dynamic_cast<BungeeSpring*>(bs4)->setK(0.01f);
     dynamic_cast<BungeeSpring*>(bs4)->setL0(16.0f);
@@ -362,16 +306,4 @@ void WorldPhysics::initWorldPhysics6(World world) {
     registerForces.addRegister(drag4);
     registerForces.addRegister(drag5);
 }
-
-const ParticleContactResolver &WorldPhysics::getContactResolver() const {
-    return contactResolver;
-}
-
-void WorldPhysics::setContactResolver(const ParticleContactResolver &contactResolver) {
-    WorldPhysics::contactResolver = contactResolver;
-}
-
-void WorldPhysics::erasePhysics() {
-    contacts.clear();
-    registerForces.clearRegister();
-}
+///------------------------------------------------------------------------------------------------------------------
