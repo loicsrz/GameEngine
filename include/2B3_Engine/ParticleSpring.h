@@ -11,7 +11,7 @@
 class ParticleSpring : public ParticleForceGenerator {
 
 protected:
-Particle secondParticle;
+Particle* secondParticle;
 float K;
 float l0;
 
@@ -21,9 +21,9 @@ public:
 
     void UpdateForce(Particle *particle, float frame_duration) override;
 
-    const Particle &getSecondParticle() const;
+    Particle *getSecondParticle();
 
-    void setSecondParticle(const Particle &secondParticle);
+    void setSecondParticle(Particle *secondParticle);
 
     float getK() const;
 

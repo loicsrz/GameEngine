@@ -11,11 +11,11 @@
 class ParticleCable : public ParticleLink {
 protected:
 
-    float maxLenght;
+    float maxLength;
     float restitutionCoefficient;
 
 public:
-    ParticleCable(float maxLenght, float restitutionCoefficient);
+    ParticleCable(float maxLength, float restitutionCoefficient);
 
     virtual ~ParticleCable();
 

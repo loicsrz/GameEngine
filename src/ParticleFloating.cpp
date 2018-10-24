@@ -11,9 +11,9 @@ ParticleFloating::~ParticleFloating() {}
 void ParticleFloating::UpdateForce(Particle *particle, float frame_duration) {
 
     float d = (particle->getPosition()->getY() - liquidLevel - depth)/(2*depth);
-    std::cout<<"hauteur de la particule :" <<particle->getPosition()->getY()<<std::endl;
-    std::cout<<d<<std::endl;
+
     Vector3D * direction = new Vector3D(0,1,0);
+
     if(d<=0){
         direction = direction->scalarMultiplier(volume*liquidDensity);
     }

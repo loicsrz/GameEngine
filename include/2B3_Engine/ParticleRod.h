@@ -12,7 +12,7 @@ class ParticleRod : public ParticleLink{
 
 protected:
 
-    float maxLenght;
+    float maxLength;
     float restitutionCoefficient;
 
 public:

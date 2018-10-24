@@ -260,17 +260,11 @@ void keyboard(unsigned char c) {
     }
     else{
         switch (c) {
-            case '1':
-//            projectile = new Particle(new Vector3D(-0.99f, 0, 0), new Vector3D(35.0f, 0, 0),
-//                                      new Vector3D(0, -1.0f, 0), 2, 0.99f);
-                cout << "Projectile chosen : Pistol bullet" << endl;
-                cout
-                        << "Press ENTER to shoot the particle,"
-                        << "\nor select another projectile by pressing the corresponding key."
-                        << endl;
-
-                isSceneLoaded = true;
-
+            case 'r':
+                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()+5.0f,0,0));
+                break;
+            case 'e':
+                world.getWorldParticles()[0]->setVelocity(new Vector3D(world.getWorldParticles()[0]->getVelocity()->getX()-5.0f,0,0));
                 break;
             case 'x':
                 isSceneLoaded = false;
@@ -347,7 +341,6 @@ void timer(int value) {
 
     if(isSceneLoaded){
         physics.applyForces(dt);
-        cout << "MA BITE : " <<world.getWorldParticles()[0]->getForcesAccum()->getY()<< endl;
         physics.particlesIntegrator(world.getWorldParticles(),dt);
 
         world.clearForceAccums();
