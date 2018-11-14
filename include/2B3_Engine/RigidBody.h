@@ -27,6 +27,44 @@ protected:
     //
     //Matrix3 transformMatrix;
     //
+public:
+    float getInvertedMass() const;
+
+    void setInvertedMass(float invertedMass);
+
+    float getLinearDamping() const;
+
+    void setLinearDamping(float linearDamping);
+
+    Vector3D *getPosition() const;
+
+    void setPosition(Vector3D *position);
+
+    Vector3D *getVelocity() const;
+
+    void setVelocity(Vector3D *velocity);
+
+    const Quaternion &getOrientation() const;
+
+    void setOrientation(const Quaternion &orientation);
+
+    const Vector3D &getRotation() const;
+
+    void setRotation(const Vector3D &rotation);
+
+    float getAngularDamping() const;
+
+    void setAngularDamping(float angularDamping);
+
+    Vector3D *getForcesAccum() const;
+
+    void setForcesAccum(Vector3D *forcesAccum);
+
+    Vector3D *getTorqueAccum() const;
+
+    void setTorqueAccum(Vector3D *torqueAccum);
+
+protected:
     //Matrix3 inverseInertieTensor;
 
     float angularDamping;
