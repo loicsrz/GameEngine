@@ -28,11 +28,11 @@ public:
 
     void UpdateAngularVelocity(Vector3D v, float duration);
 
-    Quaternion operator*(Quaternion const &b);
+    Quaternion* operator*(Quaternion const &b);
 
-    Quaternion operator*(float const &number);
+    Quaternion* operator*(float const &number);
 
-    Quaternion operator+(Quaternion const &quaternion);
+    Quaternion* operator+(Quaternion const &quaternion);
 
 };
 
