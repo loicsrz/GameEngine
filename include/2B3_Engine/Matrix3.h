@@ -32,7 +32,7 @@ public:
 
     Matrix3* transposition();
 
-//    Matrix3* setOrientation(Quaternion* q);
+    Matrix3* setOrientation(Quaternion* q);
 
 
 };

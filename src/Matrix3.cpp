@@ -85,7 +85,16 @@ Matrix3 *Matrix3::operator*(float const &coef) {
     return new Matrix3(matrix);
 }
 
-//Matrix3 *Matrix3::setOrientation(Quaternion *q) {
-//    float quatMatCoefs[9];
-//    quatMatCoefs[0] = 1 - (2*(pow(q->getJ(),2)+2*(pow(q->getJ(),2))
-//}
+Matrix3 *Matrix3::setOrientation(Quaternion *q) {
+    float quatMatCoefs[9];
+    quatMatCoefs[0] = 1 - (2*pow(q->getJ(),2.0f)+2*pow(q->getK(),2.0f));
+    quatMatCoefs[1] = 2*q->getI()*q->getJ()+2*q->getK()*q->getR();
+    quatMatCoefs[2] = 2*q->getI()*q->getK()-2*q->getJ()*q->getR();
+    quatMatCoefs[3] = 2*q->getI()*q->getJ()-2*q->getK()*q->getR();
+    quatMatCoefs[4] = 1 - (2*pow(q->getI(),2.0f)+2*pow(q->getK(),2.0f));
+    quatMatCoefs[5] = 2*q->getJ()*q->getK()+2*q->getI()*q->getR();
+    quatMatCoefs[6] = 2*q->getI()*q->getK()+2*q->getJ()*q->getR();
+    quatMatCoefs[7] = 2*q->getJ()*q->getK()-2*q->getI()*q->getR();
+    quatMatCoefs[8] = 1 - (2*pow(q->getI(),2.0f)+2*pow(q->getJ(),2.0f));
+    return new Matrix3(quatMatCoefs);
+}

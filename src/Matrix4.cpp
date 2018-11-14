@@ -2,6 +2,7 @@
 // Created by totoa on 13/11/2018.
 //
 
+#include <cmath>
 #include "../include/2B3_Engine/Matrix4.h"
 
 Matrix4::Matrix4(float *matrix) : matrix(matrix) {}
@@ -56,9 +57,22 @@ Matrix4 *Matrix4::operator*(float const &coef) {
     return new Matrix4(mCoefs);
 }
 
-//Matrix4 *Matrix4::setOrientation(Quaternion *q) {
-//
-//}
+Matrix4 *Matrix4::setOrientation(Quaternion *q) {
+    float quatMatCoefs[12];
+    quatMatCoefs[0] = 1 - (2*pow(q->getJ(),2.0f)+2*pow(q->getK(),2.0f));
+    quatMatCoefs[1] = 2*q->getI()*q->getJ()+2*q->getK()*q->getR();
+    quatMatCoefs[2] = 2*q->getI()*q->getK()-2*q->getJ()*q->getR();
+    quatMatCoefs[3] = q->getI();
+    quatMatCoefs[4] = 2*q->getI()*q->getJ()-2*q->getK()*q->getR();
+    quatMatCoefs[5] = 1 - (2*pow(q->getI(),2.0f)+2*pow(q->getK(),2.0f));
+    quatMatCoefs[6] = 2*q->getJ()*q->getK()+2*q->getI()*q->getR();
+    quatMatCoefs[7] = q->getJ();
+    quatMatCoefs[8] = 2*q->getI()*q->getK()+2*q->getJ()*q->getR();
+    quatMatCoefs[9] = 2*q->getJ()*q->getK()-2*q->getI()*q->getR();
+    quatMatCoefs[10] = 1 - (2*pow(q->getI(),2.0f)+2*pow(q->getJ(),2.0f));
+    quatMatCoefs[11] = q->getK();
+    return new Matrix4(quatMatCoefs);
+}
 
 float Matrix4::getDeterminant() {
     return
@@ -67,7 +81,7 @@ float Matrix4::getDeterminant() {
     + this->matrix[8]*this->matrix[1]*this->matrix[6]
     - this->matrix[0]*this->matrix[9]*this->matrix[6]
     - this->matrix[4]*this->matrix[1]*this->matrix[10]
-    - this->matrix[0]*this->matrix[5]*this->matrix[10];
+    + this->matrix[0]*this->matrix[5]*this->matrix[10]; //Modif du - en + ici
 }
 
 Matrix4 *Matrix4::invert() {

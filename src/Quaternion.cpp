@@ -22,8 +22,11 @@ void Quaternion::normalize() {
 }
 
 void Quaternion::UpdateAngularVelocity(Vector3D v, float duration) {
-    (*this) = (*this) + (Quaternion(0,v.getX(),v.getY(), v.getZ())*(duration/2))*(*this);
-
+    Quaternion * newQuat = (*this) + *((*(Quaternion(0,v.getX(),v.getY(), v.getZ())*(duration/2)))*(*this));
+    this->setR(newQuat->getR());
+    this->setI(newQuat->getI());
+    this->setJ(newQuat->getJ());
+    this->setK(newQuat->getK());
 }
 
 Quaternion* Quaternion::operator*(Quaternion const &b) {

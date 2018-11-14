@@ -28,7 +28,7 @@ public:
 
     Matrix4* invert();
 
-//    Matrix4* setOrientation(Quaternion* q);
+    Matrix4* setOrientation(Quaternion* q);
 };
 
 
