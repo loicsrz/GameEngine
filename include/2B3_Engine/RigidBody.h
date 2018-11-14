@@ -21,12 +21,17 @@ protected:
     // Vélocité.
     Vector3D *velocity;
     // Orientation
-    Quaternion orientation;
+    Quaternion *orientation;
     // Rotation
-    Vector3D rotation;
+    Vector3D *rotation;
     //
     //Matrix3 transformMatrix;
     //
+    float angularDamping;
+
+    Vector3D *forcesAccum;
+
+    Vector3D *torqueAccum;
 public:
     float getInvertedMass() const;
 
@@ -63,24 +68,12 @@ public:
     Vector3D *getTorqueAccum() const;
 
     void setTorqueAccum(Vector3D *torqueAccum);
-
-protected:
-    //Matrix3 inverseInertieTensor;
-
-    float angularDamping;
-
-    Vector3D *forcesAccum;
-
-    Vector3D *torqueAccum;
-
-
-public:
-
+    
     void CalculDerivedData();
 
-    void addForceAtPoint(Vector3D Force, Vector3D position);
+    void addForceAtPoint(Vector3D* Force, Vector3D* position);
 
-    void addForceAtBodyPoint(Vector3D Force, Vector3D position);
+    void addForceAtBodyPoint(Vector3D* Force, Vector3D* position);
 
     /// Méthode visant à calculer la position et la vitesse de la prochaine frame.
     void integrator(float time);
