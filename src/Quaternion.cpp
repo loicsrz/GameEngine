@@ -64,3 +64,35 @@ Quaternion* Quaternion::operator+(Quaternion const &quaternion) {
     Quaternion *quaternion1 = new Quaternion(this->r + quaternion.r, this->i + quaternion.i, this->j + quaternion.j, this->k + quaternion.k);
     return quaternion1;
 }
+
+float Quaternion::getR() const {
+    return r;
+}
+
+void Quaternion::setR(float r) {
+    Quaternion::r = r;
+}
+
+float Quaternion::getI() const {
+    return i;
+}
+
+void Quaternion::setI(float i) {
+    Quaternion::i = i;
+}
+
+float Quaternion::getJ() const {
+    return j;
+}
+
+void Quaternion::setJ(float j) {
+    Quaternion::j = j;
+}
+
+float Quaternion::getK() const {
+    return k;
+}
+
+void Quaternion::setK(float k) {
+    Quaternion::k = k;
+}

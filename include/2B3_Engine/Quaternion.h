@@ -34,6 +34,22 @@ public:
 
     Quaternion* operator+(Quaternion const &quaternion);
 
+    float getR() const;
+
+    void setR(float r);
+
+    float getI() const;
+
+    void setI(float i);
+
+    float getJ() const;
+
+    void setJ(float j);
+
+    float getK() const;
+
+    void setK(float k);
+
 };
 
 
