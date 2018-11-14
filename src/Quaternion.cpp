@@ -21,8 +21,8 @@ void Quaternion::normalize() {
 
 }
 
-void Quaternion::UpdateAngularVelocity(Vector3D v, float duration) {
-    Quaternion * newQuat = (*this) + *((*(Quaternion(0,v.getX(),v.getY(), v.getZ())*(duration/2)))*(*this));
+void Quaternion::UpdateAngularVelocity(Vector3D* v, float duration) {
+    Quaternion * newQuat = (*this) + *((*(Quaternion(0,v->getX(),v->getY(), v->getZ())*(duration/2)))*(*this));
     this->setR(newQuat->getR());
     this->setI(newQuat->getI());
     this->setJ(newQuat->getJ());
@@ -47,9 +47,9 @@ Quaternion::~Quaternion() {
 
 }
 
-void Quaternion::doRotation(Vector3D v) {
+void Quaternion::doRotation(Vector3D* v) {
 
-    Quaternion *quaternion = new Quaternion(0,v.getX(),v.getY(),v.getZ());
+    Quaternion *quaternion = new Quaternion(0,v->getX(),v->getY(),v->getZ());
     quaternion = (*this)*(*quaternion);
     this->r = quaternion->r;
     this->i = quaternion->i;

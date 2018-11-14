@@ -24,9 +24,9 @@ public:
 
     void normalize();
 
-    void doRotation(Vector3D v);
+    void doRotation(Vector3D* v);
 
-    void UpdateAngularVelocity(Vector3D v, float duration);
+    void UpdateAngularVelocity(Vector3D* v, float duration);
 
     Quaternion* operator*(Quaternion const &b);
 
