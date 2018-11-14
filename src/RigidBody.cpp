@@ -8,13 +8,13 @@ void RigidBody::CalculDerivedData() {
 
 }
 
-void RigidBody::addForceAtPoint(Vector3D Force, Vector3D position) {
+void RigidBody::addForceAtPoint(Vector3D * Force, Vector3D * position) {
 
 
 
 }
 
-void RigidBody::addForceAtBodyPoint(Vector3D Force, Vector3D position) {
+void RigidBody::addForceAtBodyPoint(Vector3D * Force, Vector3D * position) {
 
 }
 
