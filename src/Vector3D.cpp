@@ -119,4 +119,12 @@ float Vector3D::getZ() const {
 void Vector3D::setZ(float z) {
     this->z = z;
 }
+
+Vector3D *Vector3D::localToWorld(Matrix3* baseChange) {
+    return (*baseChange) * (*this);
+}
+
+Vector3D *Vector3D::worldToLocal(Matrix3 *baseChange) {
+    return (*(baseChange->invert())) * (*this);
+}
 /// Fin de l'ensemble des getters et setters de la classe Vector3D --------------------------------------------------

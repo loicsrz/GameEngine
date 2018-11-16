@@ -29,6 +29,12 @@ public:
     Matrix4* invert();
 
     Matrix4* setOrientation(Quaternion* q);
+
+    Matrix4* directionTransformRotation(Matrix4* otherBase);
+
+    Matrix4* invertDirectionTransformRotation(Matrix4* otherBase);
+
+
 };
 
 

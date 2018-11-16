@@ -5,13 +5,16 @@
 #ifndef GAMEENGINE_MATRIX3_H
 #define GAMEENGINE_MATRIX3_H
 
-#include <vector>
+class Vector3D;
+class Quaternion;
+
 #include "Vector3D.h"
 #include "Quaternion.h"
 
 using namespace std;
 
 class Matrix3 {
+
 protected:
     float * matrix;
 
@@ -36,6 +39,5 @@ public:
 
 
 };
-
 
 #endif //GAMEENGINE_MATRIX3_H

@@ -2,6 +2,7 @@
 // Created by totoa on 07/11/2018.
 //
 
+#include <cmath>
 #include "../include/2B3_Engine/Matrix3.h"
 
 float *Matrix3::getMatrix() const {

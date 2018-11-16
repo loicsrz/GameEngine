@@ -2,10 +2,11 @@
 // Created by loicsrz on 07/11/2018.
 //
 
+
 #ifndef GAMEENGINE_QUATERNION_H
 #define GAMEENGINE_QUATERNION_H
 
-
+class Vector3D;
 #include "Vector3D.h"
 
 class Quaternion {

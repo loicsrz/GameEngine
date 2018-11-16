@@ -116,3 +116,11 @@ Matrix4 *Matrix4::invert() {
     Matrix4 * invertedMatrix = new Matrix4(invertedCoefs);
     return (*invertedMatrix)*this->getDeterminant();
 }
+
+Matrix4 *Matrix4::directionTransformRotation(Matrix4 *otherBase) {
+    return NULL;
+}
+
+Matrix4 *Matrix4::invertDirectionTransformRotation(Matrix4 *otherBase) {
+    return NULL;
+}
