@@ -33,6 +33,11 @@ protected:
 
     Vector3D *torqueAccum;
 public:
+    void setOrientation(Quaternion *orientation);
+
+    void setRotation(Vector3D *rotation);
+
+public:
     float getInvertedMass() const;
 
     void setInvertedMass(float invertedMass);
