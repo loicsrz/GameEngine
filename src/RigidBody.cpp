@@ -10,11 +10,18 @@ void RigidBody::CalculDerivedData() {
 
 void RigidBody::addForceAtPoint(Vector3D * Force, Vector3D * position) {
 
+    // TODO : convertir la position en coordonnées relatives au centre de masse
+    forcesAccum = forcesAccum->addVector(Force);
+    torqueAccum = torqueAccum->addVector(position->vectorialProduct(Force));
 
 
 }
 
 void RigidBody::addForceAtBodyPoint(Vector3D * Force, Vector3D * position) {
+
+    // TODO : convertir la position en coordonnées relatives au repère du monde
+    addForceAtPoint(Force, position);
+
 
 }
 
