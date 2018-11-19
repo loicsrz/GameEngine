@@ -70,22 +70,6 @@ void RigidBody::setVelocity(Vector3D *velocity) {
     RigidBody::velocity = velocity;
 }
 
-const Quaternion &RigidBody::getOrientation() const {
-    return orientation;
-}
-
-void RigidBody::setOrientation(const Quaternion &orientation) {
-    RigidBody::orientation = orientation;
-}
-
-const Vector3D &RigidBody::getRotation() const {
-    return rotation;
-}
-
-void RigidBody::setRotation(const Vector3D &rotation) {
-    RigidBody::rotation = rotation;
-}
-
 float RigidBody::getAngularDamping() const {
     return angularDamping;
 }
@@ -108,4 +92,12 @@ Vector3D *RigidBody::getTorqueAccum() const {
 
 void RigidBody::setTorqueAccum(Vector3D *torqueAccum) {
     RigidBody::torqueAccum = torqueAccum;
+}
+
+void RigidBody::setOrientation(Quaternion *orientation) {
+    RigidBody::orientation = orientation;
+}
+
+void RigidBody::setRotation(Vector3D *rotation) {
+    RigidBody::rotation = rotation;
 }
