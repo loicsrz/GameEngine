@@ -27,17 +27,48 @@ protected:
     //
     //Matrix3 transformMatrix;
     //
+    //
+    // Matrix3 inversedInertieTensor
     float angularDamping;
 
     Vector3D *forcesAccum;
 
     Vector3D *torqueAccum;
 public:
+
+    /// Début Constructeur/Destructeur
+    RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
+            Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum);
+
+    ~RigidBody();
+
+    /// Fin Constructeur/Destructeur
+
+    void CalculDerivedData();
+
+    /// Méthode visant à calculer les forces s'appliquant à un point (particule) du Corps Rigide.
+    void addForceAtPoint(Vector3D* Force, Vector3D* position);
+
+    void addForceAtBodyPoint(Vector3D* Force, Vector3D* position);
+
+    /// Méthode visant à calculer la position et la vitesse de la prochaine frame.
+    void integrator(float time);
+
+    /// Méthode d'ajout de force à la force accumulé par le Corps Rigide
+    void addForceAccumulator(Vector3D * force);
+
+    /// Méthode d'ajout de torque au torque accumulé par le Corps Rigide
+    void addTorqueAccumulator(Vector3D * torque);
+
+    /// Methode de réinitialisation à 0 de la force accumulé et du torque accumulé par le Corps Rigide
+    void clearAccumulator();
+
+
+    /// Début de l'ensemble des getters et setters de la classe Corps Rigide.
     void setOrientation(Quaternion *orientation);
 
     void setRotation(Vector3D *rotation);
 
-public:
     float getInvertedMass() const;
 
     void setInvertedMass(float invertedMass);
@@ -54,14 +85,6 @@ public:
 
     void setVelocity(Vector3D *velocity);
 
-    const Quaternion &getOrientation() const;
-
-    void setOrientation(const Quaternion &orientation);
-
-    const Vector3D &getRotation() const;
-
-    void setRotation(const Vector3D &rotation);
-
     float getAngularDamping() const;
 
     void setAngularDamping(float angularDamping);
@@ -73,23 +96,18 @@ public:
     Vector3D *getTorqueAccum() const;
 
     void setTorqueAccum(Vector3D *torqueAccum);
-    
-    void CalculDerivedData();
 
-    void addForceAtPoint(Vector3D* Force, Vector3D* position);
+    /// Fin de l'ensemble des getters et setters de la classe Corps Rigide.
 
-    void addForceAtBodyPoint(Vector3D* Force, Vector3D* position);
+protected:
 
-    /// Méthode visant à calculer la position et la vitesse de la prochaine frame.
-    void integrator(float time);
+    /// Méthode de mise à jour de la vélocité du Corps Rigide
+    void UpdateSpeed(float time, Vector3D *acceleration);
 
-    /// Méthode d'ajout de force à la force accumulée par la Particle
-    void addForceAccumulator(Vector3D * force);
+    /// Méthode de mise à jour de la position du Corps Rigide
+    void UpdatePosition(float time);
 
-    void addTorqueAccumulator(Vector3D * torque);
 
-    /// Methode de réinitialisation à 0 de la force accumulée par la Particle
-    void clearAccumulator();
 };
 
 
