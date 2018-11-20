@@ -30,9 +30,9 @@ public:
 
     Matrix4* setOrientation(Quaternion* q);
 
-    Matrix4* directionTransformRotation(Matrix4* otherBase);
+    Vector3D* directionTransformRotation(Vector3D* direction);
 
-    Matrix4* invertDirectionTransformRotation(Matrix4* otherBase);
+    Vector3D* invertDirectionTransformRotation(Vector3D* direction);
 
 
 };

@@ -117,10 +117,17 @@ Matrix4 *Matrix4::invert() {
     return (*invertedMatrix)*this->getDeterminant();
 }
 
-Matrix4 *Matrix4::directionTransformRotation(Matrix4 *otherBase) {
-    return NULL;
+Vector3D *Matrix4::directionTransformRotation(Vector3D *direction) {
+    float x = this->matrix[0]*direction->getX()+this->matrix[1]*direction->getY()+this->matrix[2]*direction->getZ();
+    float y = this->matrix[4]*direction->getX()+this->matrix[5]*direction->getY()+this->matrix[6]*direction->getZ();
+    float z = this->matrix[8]*direction->getX()+this->matrix[9]*direction->getY()+this->matrix[10]*direction->getZ();
+    return new Vector3D(x,y,z);
 }
 
-Matrix4 *Matrix4::invertDirectionTransformRotation(Matrix4 *otherBase) {
-    return NULL;
+Vector3D *Matrix4::invertDirectionTransformRotation(Vector3D *direction) {
+    Matrix4 * invertedMatrix = this->invert();
+    float x = invertedMatrix->matrix[0]*direction->getX()+invertedMatrix->matrix[1]*direction->getY()+invertedMatrix->matrix[2]*direction->getZ();
+    float y = invertedMatrix->matrix[4]*direction->getX()+invertedMatrix->matrix[5]*direction->getY()+invertedMatrix->matrix[6]*direction->getZ();
+    float z = invertedMatrix->matrix[8]*direction->getX()+invertedMatrix->matrix[9]*direction->getY()+invertedMatrix->matrix[10]*direction->getZ();
+    return new Vector3D(x,y,z);
 }
