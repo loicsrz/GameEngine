@@ -19,7 +19,7 @@ protected:
 
 public:
 
-    Quaternion(float a, float b, float c, float d);
+    Quaternion(float r, float i, float j, float k);
 
     ~Quaternion();
 

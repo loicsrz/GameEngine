@@ -43,12 +43,12 @@ public:
 
     /// Début Constructeur/Destructeur
     RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
-              Vector3D *rotation, Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, float angularDamping,
-              Vector3D *forcesAccum, Vector3D *torqueAccum);
+            Vector3D *rotation, Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, float angularDamping,
+            Vector3D *forcesAccum, Vector3D *torqueAccum);
 
     RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
-            Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum, Matrix4 *transformMatrix,
-            Matrix3 *inversedInertieTensor, vector<Particle*> particles);
+            Vector3D *rotation, Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, float angularDamping,
+            Vector3D *forcesAccum, Vector3D *torqueAccum, vector<Particle *> &bodyParticles);
 
     ~RigidBody();
 

@@ -5,6 +5,14 @@
 #include <cmath>
 #include "../include/2B3_Engine/Quaternion.h"
 
+Quaternion::Quaternion(float r, float i, float j, float k):r(r),i(i),j(j),k(k) {
+
+}
+
+Quaternion::~Quaternion() {
+
+}
+
 void Quaternion::normalize() {
 
     float d = r*r+i*i+j*j+k*k;
@@ -37,14 +45,6 @@ Quaternion* Quaternion::operator*(Quaternion const &b) {
 
     Quaternion *quaternion = new Quaternion(w, i, j, k);
     return quaternion;
-}
-
-Quaternion::Quaternion(float a, float b, float c, float d):r(a),i(b),j(c),k(d) {
-
-}
-
-Quaternion::~Quaternion() {
-
 }
 
 void Quaternion::doRotation(Vector3D* v) {
