@@ -15,8 +15,8 @@ class World {
 
 protected:
     vector<Particle*> worldParticles;
-    vector<float > groundSeparations;
     vector<float> grounds;
+    vector<float> groundSeparations;
     vector<ParticleLink*> particleLinks;
 
 public:
