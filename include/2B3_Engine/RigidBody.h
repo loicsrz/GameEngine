@@ -94,6 +94,14 @@ public:
 
     void setForcesAccum(Vector3D *forcesAccum);
 
+    Matrix3 *getTransformMatrix() const;
+
+    void setTransformMatrix(Matrix3 *transformMatrix);
+
+    Matrix3 *getInversedInertieTensor() const;
+
+    void setInversedInertieTensor(Matrix3 *inversedInertieTensor);
+
     Vector3D *getTorqueAccum() const;
 
     void setTorqueAccum(Vector3D *torqueAccum);

@@ -166,6 +166,22 @@ Vector3D *RigidBody::getRotation() const {
     return rotation;
 }
 
+Matrix3 *RigidBody::getTransformMatrix() const {
+    return transformMatrix;
+}
+
+void RigidBody::setTransformMatrix(Matrix3 *transformMatrix) {
+    RigidBody::transformMatrix = transformMatrix;
+}
+
+Matrix3 *RigidBody::getInversedInertieTensor() const {
+    return inversedInertieTensor;
+}
+
+void RigidBody::setInversedInertieTensor(Matrix3 *inversedInertieTensor) {
+    RigidBody::inversedInertieTensor = inversedInertieTensor;
+}
+
 /// Fin de l'ensemble des getters et setters de la classe RigidBody ------------------------------------------------
 
 
@@ -179,5 +195,7 @@ void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
     this->velocity = (this->velocity->scalarMultiplier(pow(this->linearDamping, time)))
             ->addVector(acceleration->scalarMultiplier(time));
 }
+
+
 
 
