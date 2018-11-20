@@ -25,10 +25,10 @@ protected:
     // Rotation
     Vector3D *rotation;
     //
-    //Matrix3 transformMatrix;
+    Matrix3 *transformMatrix;
     //
-    //
-    // Matrix3 inversedInertieTensor
+    Matrix3 *inversedInertieTensor;
+
     float angularDamping;
 
     Vector3D *forcesAccum;
@@ -38,13 +38,14 @@ public:
 
     /// Début Constructeur/Destructeur
     RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
-            Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum);
+            Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum, Matrix3 *transformMatrix,
+            Matrix3 *inversedInertieTensor);
 
     ~RigidBody();
 
     /// Fin Constructeur/Destructeur
 
-    void CalculDerivedData();
+    void calculDerivedData();
 
     /// Méthode visant à calculer les forces s'appliquant à un point (particule) du Corps Rigide.
     void addForceAtPoint(Vector3D* Force, Vector3D* position);

@@ -8,10 +8,11 @@
 /// Début Constructeurs/Destructeur ---------------------------------------------------------------------------------
 
 RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
-                     Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum)
+                     Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum,
+                     Matrix3 *transformMatrix, Matrix3 *inversedInertieTensor)
                      : invertedMass(invertedMass), linearDamping(linearDamping), position(position), velocity(velocity),
                      orientation(orientation), rotation(rotation), angularDamping(angularDamping), forcesAccum(forcesAccum)
-                     , torqueAccum(torqueAccum){
+                     , torqueAccum(torqueAccum), transformMatrix(transformMatrix), inversedInertieTensor(inversedInertieTensor){
 
 }
 
@@ -27,14 +28,20 @@ RigidBody::~RigidBody() {
 
 /// Fin Constructeurs/Destructeur ---------------------------------------------------------------------------------
 
-void RigidBody::CalculDerivedData() {
+void RigidBody::calculDerivedData() {
+
+
+    // TODO : rajouter transformmatrix
+    inversedInertieTensor = transformMatrix->operator*(*inversedInertieTensor);
+    inversedInertieTensor = inversedInertieTensor->operator*(*transformMatrix->invert());
 
 }
 
 /// Méthode visant à calculer les forces s'appliquant à un point (particule) du Corps Rigide
 void RigidBody::addForceAtPoint(Vector3D * Force, Vector3D * position) {
 
-    // TODO : convertir la position en coordonnées relatives au centre de masse
+    // TODO : checker s'il faut faire transformMatrix ou inversetransformMatrix (si changement, le faire sur AddForceAtBodyPoint)
+    position = transformMatrix->operator*(*position);
     forcesAccum = forcesAccum->addVector(Force);
     torqueAccum = torqueAccum->addVector(position->vectorialProduct(Force));
 
@@ -43,7 +50,7 @@ void RigidBody::addForceAtPoint(Vector3D * Force, Vector3D * position) {
 
 void RigidBody::addForceAtBodyPoint(Vector3D * Force, Vector3D * position) {
 
-    // TODO : convertir la position en coordonnées relatives au repère du monde
+    position = transformMatrix->invert()->operator*(*position);
     addForceAtPoint(Force, position);
 
 
@@ -58,11 +65,12 @@ void RigidBody::addForceAccumulator(Vector3D *force) {
 void RigidBody::integrator(float time) {
 
     Vector3D * acceleration = this->forcesAccum->scalarMultiplier(invertedMass);
-    // TODO : faire torqueAccum * moment d'inertie (qu'on trouve dans la fonction derivedData)
-    // TODO : update de la vélocité angulaire
+    Vector3D * derOrientation = inversedInertieTensor->operator*(*torqueAccum);
+    rotation = rotation->scalarMultiplier(powf(angularDamping, time))->addVector(derOrientation->scalarMultiplier(time));
     UpdateSpeed(time, acceleration);
     UpdatePosition(time);
-    // TODO : calculer derived data
+    orientation->UpdateAngularVelocity(rotation,time);
+    calculDerivedData();
     clearAccumulator();
 }
 
