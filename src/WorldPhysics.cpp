@@ -214,9 +214,9 @@ void WorldPhysics::initWorldPhysics3(World world) {
 
 void WorldPhysics::initWorldPhysics4(World world) {
     ParticleForceGenerator* ss1 = new ParticleStiffSpring();
-    dynamic_cast<ParticleStiffSpring*>(ss1)->setK(0.20f);
-    dynamic_cast<ParticleStiffSpring*>(ss1)->setDamping(0.8f);
-    dynamic_cast<ParticleStiffSpring*>(ss1)->setAnchor(new Vector3D(250.0f,100.0f,0.0f));
+//    dynamic_cast<ParticleStiffSpring*>(ss1)->setK(0.20f);
+//    dynamic_cast<ParticleStiffSpring*>(ss1)->setDamping(0.8f);
+//    dynamic_cast<ParticleStiffSpring*>(ss1)->setAnchor(new Vector3D(250.0f,100.0f,0.0f));
 
     ParticleForceGenerator* grav = new GravityGenerator();
     Vector3D * gravity = new Vector3D(0,-10.0f,0);
@@ -240,15 +240,15 @@ void WorldPhysics::initWorldPhysics5(World world) {
 }
 
 void WorldPhysics::initWorldPhysics6(World world) {
-    ParticleForceGenerator* ps1 = new ParticleSpring();
-    dynamic_cast<ParticleSpring*>(ps1)->setK(0.01f);
-    dynamic_cast<ParticleSpring*>(ps1)->setL0(16.0f);
-    dynamic_cast<ParticleSpring*>(ps1)->setSecondParticle(world.getWorldParticles()[0]);
-
-    ParticleForceGenerator* ps2 = new ParticleSpring();
-    dynamic_cast<ParticleSpring*>(ps2)->setK(0.01f);
-    dynamic_cast<ParticleSpring*>(ps2)->setL0(16.0f);
-    dynamic_cast<ParticleSpring*>(ps2)->setSecondParticle(world.getWorldParticles()[0]);
+//    ParticleForceGenerator* ps1 = new ParticleSpring();
+//    dynamic_cast<ParticleSpring*>(ps1)->setK(0.01f);
+//    dynamic_cast<ParticleSpring*>(ps1)->setL0(16.0f);
+//    dynamic_cast<ParticleSpring*>(ps1)->setSecondParticle(world.getWorldParticles()[0]);
+//
+//    ParticleForceGenerator* ps2 = new ParticleSpring();
+//    dynamic_cast<ParticleSpring*>(ps2)->setK(0.01f);
+//    dynamic_cast<ParticleSpring*>(ps2)->setL0(16.0f);
+//    dynamic_cast<ParticleSpring*>(ps2)->setSecondParticle(world.getWorldParticles()[0]);
 
     ParticleForceGenerator* bs3 = new BungeeSpring();
     dynamic_cast<BungeeSpring*>(bs3)->setK(0.01f);
@@ -272,8 +272,8 @@ void WorldPhysics::initWorldPhysics6(World world) {
     dynamic_cast<DragGenerator*>(drag)->setK1(0.05f);
     dynamic_cast<DragGenerator*>(drag)->setK2(0.04f);
 
-    SaveForce sfps1{world.getWorldParticles()[1],ps1};
-    SaveForce sfps2{world.getWorldParticles()[2],ps2};
+//    SaveForce sfps1{world.getWorldParticles()[1],ps1};
+//    SaveForce sfps2{world.getWorldParticles()[2],ps2};
     SaveForce sfbs3{world.getWorldParticles()[3],bs3};
     SaveForce sfbs4{world.getWorldParticles()[4],bs4};
 
@@ -289,8 +289,8 @@ void WorldPhysics::initWorldPhysics6(World world) {
     SaveForce drag4{world.getWorldParticles()[3],drag};
     SaveForce drag5{world.getWorldParticles()[4],drag};
 
-    registerForces.addRegister(sfps1);
-    registerForces.addRegister(sfps2);
+//    registerForces.addRegister(sfps1);
+//    registerForces.addRegister(sfps2);
     registerForces.addRegister(sfbs3);
     registerForces.addRegister(sfbs4);
 
