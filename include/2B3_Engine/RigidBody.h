@@ -8,6 +8,7 @@
 
 #include "Vector3D.h"
 #include "Quaternion.h"
+#include "Matrix4.h"
 
 class RigidBody {
 
@@ -25,7 +26,7 @@ protected:
     // Rotation
     Vector3D *rotation;
     //
-    Matrix3 *transformMatrix;
+    Matrix4 *transformMatrix;
     //
     Matrix3 *inversedInertieTensor;
 
@@ -38,7 +39,7 @@ public:
 
     /// Début Constructeur/Destructeur
     RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
-            Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum, Matrix3 *transformMatrix,
+            Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum, Matrix4 *transformMatrix,
             Matrix3 *inversedInertieTensor);
 
     ~RigidBody();
