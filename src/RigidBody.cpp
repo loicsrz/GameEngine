@@ -4,15 +4,24 @@
 
 #include <cmath>
 #include "../include/2B3_Engine/RigidBody.h"
+#include "../include/2B3_Engine/Matrix4.h"
 
 /// Début Constructeurs/Destructeur ---------------------------------------------------------------------------------
+RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity,
+                     Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
+                     Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum)
+        : invertedMass(invertedMass), linearDamping(linearDamping), position(position), velocity(velocity),
+          orientation(orientation), rotation(rotation), transformMatrix(transformMatrix),
+          inversedInertieTensor(inversedInertieTensor), angularDamping(angularDamping), forcesAccum(forcesAccum),
+          torqueAccum(torqueAccum) {}
 
 RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
                      Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum,
-                     Matrix3 *transformMatrix, Matrix3 *inversedInertieTensor)
+                     Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, vector<Particle*> particles)
                      : invertedMass(invertedMass), linearDamping(linearDamping), position(position), velocity(velocity),
                      orientation(orientation), rotation(rotation), angularDamping(angularDamping), forcesAccum(forcesAccum)
-                     , torqueAccum(torqueAccum), transformMatrix(transformMatrix), inversedInertieTensor(inversedInertieTensor){
+                     , torqueAccum(torqueAccum), transformMatrix(transformMatrix), inversedInertieTensor(inversedInertieTensor),
+                     bodyParticles(particles){
 
 }
 
@@ -21,39 +30,67 @@ RigidBody::~RigidBody() {
     delete this->velocity;
     delete this->orientation;
     delete this->rotation;
-    this->forcesAccum = new Vector3D(0, 0, 0);
-    this->torqueAccum = new Vector3D(0, 0, 0);
-
+    delete this->forcesAccum;
+    delete this->torqueAccum;
+    for(vector<Particle*>::iterator it = bodyParticles.begin(); it!= bodyParticles.end(); it++){
+        delete *it;
+    }
 }
 
 /// Fin Constructeurs/Destructeur ---------------------------------------------------------------------------------
 
+/// Méthode de mise à jour de la matrice de transformation du bodySpace vers le worldSpace et de l'inverse de la matrice d'inertie du RigidBody
 void RigidBody::calculDerivedData() {
 
+    //Transform matrix update
 
-    // TODO : rajouter transformmatrix
-    inversedInertieTensor = transformMatrix->operator*(*inversedInertieTensor);
-    inversedInertieTensor = inversedInertieTensor->operator*(*transformMatrix->invert());
+    Matrix4 * updatedTransformMatrix = new Matrix4();
+    updatedTransformMatrix = updatedTransformMatrix->setOrientation(this->orientation);
+
+    updatedTransformMatrix->getMatrix()[3]=this->position->getX();
+    updatedTransformMatrix->getMatrix()[7]=this->position->getY();
+    updatedTransformMatrix->getMatrix()[11]=this->position->getZ();
+
+    this->transformMatrix = updatedTransformMatrix;
+
+    // Inverted inertia update
+    float rotationCoefs[9];
+    rotationCoefs[0] = updatedTransformMatrix->getMatrix()[0];
+    rotationCoefs[1] = updatedTransformMatrix->getMatrix()[1];
+    rotationCoefs[2] = updatedTransformMatrix->getMatrix()[2];
+    rotationCoefs[3] = updatedTransformMatrix->getMatrix()[4];
+    rotationCoefs[4] = updatedTransformMatrix->getMatrix()[5];
+    rotationCoefs[5] = updatedTransformMatrix->getMatrix()[6];
+    rotationCoefs[6] = updatedTransformMatrix->getMatrix()[8];
+    rotationCoefs[7] = updatedTransformMatrix->getMatrix()[9];
+    rotationCoefs[8] = updatedTransformMatrix->getMatrix()[10];
+
+    Matrix3 * transformMatrixRotation = new Matrix3(rotationCoefs);
+
+    inversedInertieTensor = transformMatrixRotation->operator*(*inversedInertieTensor);
+    inversedInertieTensor = inversedInertieTensor->operator*(*transformMatrixRotation->invert());
 
 }
 
 /// Méthode visant à calculer les forces s'appliquant à un point (particule) du Corps Rigide
 void RigidBody::addForceAtPoint(Vector3D * Force, Vector3D * position) {
 
-    // TODO : checker s'il faut faire transformMatrix ou inversetransformMatrix (si changement, le faire sur AddForceAtBodyPoint)
-    position = transformMatrix->operator*(*position);
+    position = transformMatrix->invert()->operator*(*position);
     forcesAccum = forcesAccum->addVector(Force);
     torqueAccum = torqueAccum->addVector(position->vectorialProduct(Force));
-
 
 }
 
 void RigidBody::addForceAtBodyPoint(Vector3D * Force, Vector3D * position) {
 
-    position = transformMatrix->invert()->operator*(*position);
+    position = transformMatrix->operator*(*position);
     addForceAtPoint(Force, position);
 
 
+}
+
+void RigidBody::addParticleToBody(Particle *particle) {
+    this->bodyParticles.push_back(particle);
 }
 
 /// Méthode d'ajout de force à la force accumulé par le Corps Rigide
@@ -195,7 +232,3 @@ void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
     this->velocity = (this->velocity->scalarMultiplier(pow(this->linearDamping, time)))
             ->addVector(acceleration->scalarMultiplier(time));
 }
-
-
-
-

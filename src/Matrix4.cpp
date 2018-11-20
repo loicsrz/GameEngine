@@ -5,6 +5,8 @@
 #include <cmath>
 #include "../include/2B3_Engine/Matrix4.h"
 
+Matrix4::Matrix4() {}
+
 Matrix4::Matrix4(float *matrix) : matrix(matrix) {}
 
 Matrix4::~Matrix4() {
@@ -131,3 +133,5 @@ Vector3D *Matrix4::invertDirectionTransformRotation(Vector3D *direction) {
     float z = invertedMatrix->matrix[8]*direction->getX()+invertedMatrix->matrix[9]*direction->getY()+invertedMatrix->matrix[10]*direction->getZ();
     return new Vector3D(x,y,z);
 }
+
+

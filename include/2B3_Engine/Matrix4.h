@@ -14,6 +14,8 @@ class Matrix4 {
 protected:
     float * matrix;
 public:
+    Matrix4();
+
     Matrix4(float *matrix);
 
     virtual ~Matrix4();

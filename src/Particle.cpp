@@ -50,7 +50,7 @@ Particle::~Particle() {
     delete this->position;
     delete this->velocity;
     delete this->acceleration;
-    this->forcesAccum = new Vector3D(0, 0, 0);
+    delete this->forcesAccum;
 }
 /// Fin Constructeurs/Destructeur -----------------------------------------------------------------------------------
 
