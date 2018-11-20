@@ -8,6 +8,7 @@
 #include <vector>
 #include "Particle.h"
 #include "ParticleLink.h"
+#include "RigidBody.h"
 
 /// Classe World
     /// Classe qui contient tout ce qui appartient au monde en terme d'objet et de structure
@@ -15,6 +16,7 @@ class World {
 
 protected:
     vector<Particle*> worldParticles;
+    vector<RigidBody*> worldRigidBodies;
     vector<float> grounds;
     vector<float> groundSeparations;
     vector<ParticleLink*> particleLinks;
@@ -55,6 +57,10 @@ public:
     void setGrounds(const vector<float> &grounds);
 
     vector<ParticleLink*> getParticleLinks();
+
+    vector<RigidBody *> &getWorldRigidBodies();
+
+    void setWorldRigidBodies(vector<RigidBody *> &worldRigidBodies);
     ///-------------------------------------------------------------------------
 
     /// Créations des World de démonstration -----------------------------------

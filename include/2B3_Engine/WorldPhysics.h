@@ -11,6 +11,7 @@
 #include "World.h"
 #include "RegisterForces.h"
 #include "ParticleContactResolver.h"
+#include "RigidBody.h"
 
 using namespace std;
 
@@ -51,6 +52,9 @@ public:
     /// Méthode de réinitialisation du resolver de contact utilisé à chaque Frame de jeu
     void initFrameContactResolver(int nbIterMax);
 
+    ///Méthode d'intégration permettant de mettre à jour les informations des RigidBody du World
+    void rigidBodyIntegrator(vector<RigidBody*> rigidBodies, float deltaTime);
+
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;
 
@@ -66,14 +70,6 @@ public:
     void initWorldPhysics1(World world);
 
     void initWorldPhysics2(World world);
-
-    void initWorldPhysics3(World world);
-
-    void initWorldPhysics4(World world);
-
-    void initWorldPhysics5(World world);
-
-    void initWorldPhysics6(World world);
     ///--------------------------------------------------------------------------------------
 };
 

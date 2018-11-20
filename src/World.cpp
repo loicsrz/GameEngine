@@ -75,6 +75,14 @@ void World::setGrounds(const vector<float> &grounds) {
     World::grounds = grounds;
 }
 
+vector<RigidBody *> &World::getWorldRigidBodies(){
+    return worldRigidBodies;
+}
+
+void World::setWorldRigidBodies(vector<RigidBody *> &worldRigidBodies) {
+    World::worldRigidBodies = worldRigidBodies;
+}
+
 ///------------------------------------------------------------------------------------------------------------------
 
 /// Créations des World de démonstration ----------------------------------------------------------------------------
@@ -104,15 +112,25 @@ void World::initWorld1() {
     float coefInert [9];
     coefInert[0] = vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0));
     coefInert[1] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0)));
-    coefInert[2] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0)));
-    coefInert[3] = ;
+    coefInert[2] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
+    coefInert[3] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0)));
     coefInert[4] = vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0));
-    coefInert[5] = ;
-    coefInert[6] = ;
-    coefInert[7] = ;
+    coefInert[5] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
+    coefInert[6] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
+    coefInert[7] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
     coefInert[8] = vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1));
 
-    RigidBody* rb = new RigidBody(1.0f, 0.99f, massCenter->getPosition(), massCenter->getVelocity(), qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, );
+    Matrix3 * invertedInertiaMatrix = new Matrix3(coefInert);
+    invertedInertiaMatrix = invertedInertiaMatrix->invert();
+
+    vector<Particle*> bodyParticles;
+    bodyParticles.push_back(vertex0);
+    bodyParticles.push_back(vertex1);
+    bodyParticles.push_back(vertex2);
+
+    RigidBody* rb = new RigidBody(1.0f, 0.99f, massCenter->getPosition(), massCenter->getVelocity(), qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+
+    worldRigidBodies.push_back(rb);
 }
 
 void World::initWorld2() {
@@ -135,4 +153,6 @@ void World::initWorld2() {
     worldParticles.push_back(vertex1_2);
     worldParticles.push_back(vertex1_3);
 }
+
+
 ///------------------------------------------------------------------------------------------------------------------
