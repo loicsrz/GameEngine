@@ -7,13 +7,21 @@
 #include "../include/2B3_Engine/Matrix4.h"
 
 /// Début Constructeurs/Destructeur ---------------------------------------------------------------------------------
+RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity,
+                     Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
+                     Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum)
+        : invertedMass(invertedMass), linearDamping(linearDamping), position(position), velocity(velocity),
+          orientation(orientation), rotation(rotation), transformMatrix(transformMatrix),
+          inversedInertieTensor(inversedInertieTensor), angularDamping(angularDamping), forcesAccum(forcesAccum),
+          torqueAccum(torqueAccum) {}
 
 RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
                      Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum,
-                     Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor)
+                     Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, vector<Particle*> particles)
                      : invertedMass(invertedMass), linearDamping(linearDamping), position(position), velocity(velocity),
                      orientation(orientation), rotation(rotation), angularDamping(angularDamping), forcesAccum(forcesAccum)
-                     , torqueAccum(torqueAccum), transformMatrix(transformMatrix), inversedInertieTensor(inversedInertieTensor){
+                     , torqueAccum(torqueAccum), transformMatrix(transformMatrix), inversedInertieTensor(inversedInertieTensor),
+                     bodyParticles(particles){
 
 }
 
@@ -24,6 +32,9 @@ RigidBody::~RigidBody() {
     delete this->rotation;
     delete this->forcesAccum;
     delete this->torqueAccum;
+    for(vector<Particle*>::iterator it = bodyParticles.begin(); it!= bodyParticles.end(); it++){
+        delete *it;
+    }
 }
 
 /// Fin Constructeurs/Destructeur ---------------------------------------------------------------------------------
@@ -76,6 +87,10 @@ void RigidBody::addForceAtBodyPoint(Vector3D * Force, Vector3D * position) {
     addForceAtPoint(Force, position);
 
 
+}
+
+void RigidBody::addParticleToBody(Particle *particle) {
+    this->bodyParticles.push_back(particle);
 }
 
 /// Méthode d'ajout de force à la force accumulé par le Corps Rigide
@@ -201,5 +216,3 @@ void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
     this->velocity = (this->velocity->scalarMultiplier(pow(this->linearDamping, time)))
             ->addVector(acceleration->scalarMultiplier(time));
 }
-
-

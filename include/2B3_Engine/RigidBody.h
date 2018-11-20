@@ -9,6 +9,8 @@
 #include "Vector3D.h"
 #include "Quaternion.h"
 #include "Matrix4.h"
+#include "Particle.h"
+#include <vector>
 
 class RigidBody {
 
@@ -35,12 +37,18 @@ protected:
     Vector3D *forcesAccum;
 
     Vector3D *torqueAccum;
+
+    vector<Particle*> bodyParticles;
 public:
 
     /// Début Constructeur/Destructeur
     RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
+              Vector3D *rotation, Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, float angularDamping,
+              Vector3D *forcesAccum, Vector3D *torqueAccum);
+
+    RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
             Vector3D *rotation, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum, Matrix4 *transformMatrix,
-            Matrix3 *inversedInertieTensor);
+            Matrix3 *inversedInertieTensor, vector<Particle*> particles);
 
     ~RigidBody();
 
@@ -64,6 +72,8 @@ public:
 
     /// Methode de réinitialisation à 0 de la force accumulé et du torque accumulé par le Corps Rigide
     void clearAccumulator();
+
+    void addParticleToBody(Particle * particle);
 
 
     /// Début de l'ensemble des getters et setters de la classe Corps Rigide.
