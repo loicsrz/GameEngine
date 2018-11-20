@@ -72,7 +72,6 @@ void RigidBody::clearAccumulator() {
     this->forcesAccum->setY(0.0f);
     this->forcesAccum->setZ(0.0f);
 
-    // TODO : checker si torqueAccum doit être réinitialiser à chaque Frame
     this->torqueAccum->setX(0.0f);
     this->torqueAccum->setY(0.0f);
     this->torqueAccum->setZ(0.0f);
@@ -149,6 +148,14 @@ void RigidBody::setOrientation(Quaternion *orientation) {
 
 void RigidBody::setRotation(Vector3D *rotation) {
     RigidBody::rotation = rotation;
+}
+
+Quaternion *RigidBody::getOrientation() const {
+    return orientation;
+}
+
+Vector3D *RigidBody::getRotation() const {
+    return rotation;
 }
 
 /// Fin de l'ensemble des getters et setters de la classe RigidBody ------------------------------------------------

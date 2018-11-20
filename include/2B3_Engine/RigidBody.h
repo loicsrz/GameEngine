@@ -97,6 +97,10 @@ public:
 
     void setTorqueAccum(Vector3D *torqueAccum);
 
+    Quaternion *getOrientation() const;
+
+    Vector3D *getRotation() const;
+
     /// Fin de l'ensemble des getters et setters de la classe Corps Rigide.
 
 protected:
