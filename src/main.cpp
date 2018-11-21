@@ -483,7 +483,6 @@ void timer(int value) {
         {
             RigidBody* rb1 = world.getWorldRigidBodies()[0];
             RigidBody* rb2 = world.getWorldRigidBodies()[1];
-            cout << world.distanceBetweenParticles(rb1->getMassCenter(), rb2->getMassCenter()) << endl;
             if(world.distanceBetweenParticles(rb1->getMassCenter(),rb2->getMassCenter()) <= 35.0f)
             {
                 rb1->getMassCenter()->setVelocity(new Vector3D(-1.8f, 0.0f, 1.8f));
