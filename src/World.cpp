@@ -35,6 +35,7 @@ void World::eraseParticle(Particle *particle) {
 void World::eraseWorld() {
     worldParticles.clear();
     particleLinks.clear();
+    worldRigidBodies.clear();
     grounds.clear();
 }
 
@@ -290,14 +291,12 @@ void World::initWorld2() {
     transformMatrix1->setValue(3, massCenter1->getPosition()->getX());
     transformMatrix1->setValue(7, massCenter1->getPosition()->getY());
     transformMatrix1->setValue(11, massCenter1->getPosition()->getZ());
-    transformMatrix1->toString();
 
     Matrix4 * transformMatrix2 = new Matrix4();
     transformMatrix2 = transformMatrix2->setOrientation(qt2);
     transformMatrix2->setValue(3, massCenter2->getPosition()->getX());
     transformMatrix2->setValue(7, massCenter2->getPosition()->getY());
     transformMatrix2->setValue(11, massCenter2->getPosition()->getZ());
-    transformMatrix2->toString();
 
     vector<float> coefInert;
     for (int i = 0; i < 9; ++i) {

@@ -423,21 +423,17 @@ void keyboard(unsigned char c) {
     else if(!isSceneLoaded){
         switch (c) {
             case '1':
-                cout<<"World init for "<<endl;
                 world.initWorld1();
                 physics.initWorldPhysics1(world);
-                cout<<"init finished"<<endl;
                 isSceneLoaded = true;
                 scene = 1;
 
 
                 break;
             case '2':
-                cout<<"init begin"<<endl;
                 world.initWorld2();
                 physics.initWorldPhysics2(world);
                 isSceneLoaded = true;
-                cout<<"init finished"<<endl;
                 scene = 2;
 
                 break;
@@ -479,7 +475,7 @@ void timer(int value) {
         // Réinitialisation des forces accumulées
         world.clearAccums();
 
-        if(scene = 2)
+        if(scene == 2)
         {
             RigidBody* rb1 = world.getWorldRigidBodies()[0];
             RigidBody* rb2 = world.getWorldRigidBodies()[1];
