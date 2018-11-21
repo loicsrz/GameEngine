@@ -85,14 +85,15 @@ void RigidBody::addForceAtPoint(Vector3D * Force, Vector3D * position) {
 
 }
 
+/// Méthode visant à calculer les forces s'appliquant à un point (repère du monde) du Corps Rigide
 void RigidBody::addForceAtBodyPoint(Vector3D * Force, Vector3D * position) {
 
     position = transformMatrix->operator*(*position);
     addForceAtPoint(Force, position);
 
-
 }
 
+/// Méthode qui ajoute une particule au rigidBody
 void RigidBody::addParticleToBody(Particle *particle) {
     this->bodyParticles.push_back(particle);
     updateTotalMass();
@@ -107,7 +108,11 @@ void RigidBody::addForceAccumulator(Vector3D *force) {
 void RigidBody::integrator(float time) {
     Vector3D * acceleration = this->forcesAccum->scalarMultiplier(massCenter->getInvertedMass());
     Vector3D * derOrientation = inversedInertieTensor->operator*(*torqueAccum);
+//    cout<<"------------------------BEFORE-----------------------"<<endl;
+//    rotation->toString();
     rotation = rotation->scalarMultiplier(powf(angularDamping, time))->addVector(derOrientation->scalarMultiplier(time));
+//    cout<<"------------------------AFTER-----------------------"<<endl;
+//    rotation->toString();
     UpdateSpeed(time, acceleration);
     UpdatePosition(time);
     orientation->UpdateAngularVelocity(rotation,time);
@@ -137,6 +142,69 @@ void RigidBody::clearAccumulator() {
 void RigidBody::addTorqueAccumulator(Vector3D *torque) {
     torqueAccum = this->torqueAccum->addVector(torque);
 
+}
+
+/// Méthode de mise à jour de la vélocité du corps rigide.
+void RigidBody::UpdatePosition(float time) {
+    this->massCenter->setPosition(this->massCenter->getPosition()->addVector(this->massCenter->getVelocity()->scalarMultiplier(time)));
+//    cout<<"mass center position before : "<<endl;
+//    cout<<"position X : "<<massCenter->getPosition()->getX()<<endl;
+//    cout<<"position Y : "<<massCenter->getPosition()->getY()<<endl;
+//    cout<<"position Z : "<<massCenter->getPosition()->getZ()<<endl;
+}
+
+/// Méthode de mise à jour de la position du corps rigide.
+void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
+    this->massCenter->setVelocity((this->massCenter->getVelocity()->scalarMultiplier(pow(this->massCenter->getDamping(), time)))
+                                          ->addVector(acceleration->scalarMultiplier(time)));
+}
+
+///Méthode qui ajoute les forceAccum des particules du rigidBody au forceAccum du RigidBody
+void RigidBody::updateAllAccum() {
+//    cout<<"forceAccum before : "<<endl;
+//    cout<<"force X : "<<forcesAccum->getX()<<endl;
+//    cout<<"force Y : "<<forcesAccum->getY()<<endl;
+//    cout<<"force Z : "<<forcesAccum->getZ()<<endl;
+//    cout<<"mass center : "<<endl;
+//    cout<<"mass X : "<<massCenter->getForcesAccum()->getX()<<endl;
+//    cout<<"mass Y : "<<massCenter->getForcesAccum()->getY()<<endl;
+//    cout<<"mass Z : "<<massCenter->getForcesAccum()->getZ()<<endl;
+    forcesAccum = forcesAccum->addVector(massCenter->getForcesAccum());
+    for(Particle* &particle : bodyParticles){
+        forcesAccum = forcesAccum->addVector(particle->getForcesAccum());
+        if(particle->getPosition()->getNorm() != 0){
+            torqueAccum = torqueAccum->addVector(particle->getPosition()->vectorialProduct(particle->getForcesAccum()));
+        }
+
+    }
+}
+
+///Méthode de calcul de la masse totale du corps rigide
+void RigidBody::updateTotalMass() {
+    totalMass = 0.0f;
+    for(Particle* &particle : bodyParticles){
+        totalMass += particle->getMass();
+    }
+    totalMass += massCenter->getMass();
+}
+
+///Méthode de mise à jour des positions des particules autres que le centre de masse
+void RigidBody::updateVerticesPositions() {
+    vector<Vector3D*>::iterator it = particleObjectPositions.begin();
+    for(Particle* &particle : bodyParticles){
+        particle->setPosition((*transformMatrix)*(**it));
+        it++;
+    }
+//    cout << "----------BODY PARTICLES-----------" << endl;
+//    for (Particle * &particle : bodyParticles) {
+//        particle->getPosition()->toString();
+//    }
+
+    Vector3D * test = *(transformMatrix->invert())**(bodyParticles[0]->getPosition());
+    cout<<"v1 position : "<<endl;
+    cout<<"v1 X : "<<test->getX()<<endl;
+    cout<<"v1 Y : "<<test->getY()<<endl;
+    cout<<"v1 Z : "<<test->getZ()<<endl;
 }
 
 /// Début de l'ensemble des getters et setters de la classe RigidBody ------------------------------------------------
@@ -213,57 +281,12 @@ void RigidBody::setInversedInertieTensor(Matrix3 *inversedInertieTensor) {
     RigidBody::inversedInertieTensor = inversedInertieTensor;
 }
 
-/// Fin de l'ensemble des getters et setters de la classe RigidBody ------------------------------------------------
-
-
-/// Méthode de mise à jour de la vélocité du corps rigide.
-void RigidBody::UpdatePosition(float time) {
-    this->massCenter->setPosition(this->massCenter->getPosition()->addVector(this->massCenter->getVelocity()->scalarMultiplier(time)));
-//    cout<<"mass center position before : "<<endl;
-//    cout<<"position X : "<<massCenter->getPosition()->getX()<<endl;
-//    cout<<"position Y : "<<massCenter->getPosition()->getY()<<endl;
-//    cout<<"position Z : "<<massCenter->getPosition()->getZ()<<endl;
-}
-
-/// Méthode de mise à jour de la position du corps rigide.
-void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
-    this->massCenter->setVelocity((this->massCenter->getVelocity()->scalarMultiplier(pow(this->massCenter->getDamping(), time)))
-                                          ->addVector(acceleration->scalarMultiplier(time)));
-}
-
-void RigidBody::updateAllAccum() {
-//    cout<<"forceAccum before : "<<endl;
-//    cout<<"force X : "<<forcesAccum->getX()<<endl;
-//    cout<<"force Y : "<<forcesAccum->getY()<<endl;
-//    cout<<"force Z : "<<forcesAccum->getZ()<<endl;
-//    cout<<"mass center : "<<endl;
-//    cout<<"mass X : "<<massCenter->getForcesAccum()->getX()<<endl;
-//    cout<<"mass Y : "<<massCenter->getForcesAccum()->getY()<<endl;
-//    cout<<"mass Z : "<<massCenter->getForcesAccum()->getZ()<<endl;
-    forcesAccum = forcesAccum->addVector(massCenter->getForcesAccum());
-    for(Particle* &particle : bodyParticles){
-        forcesAccum = forcesAccum->addVector(particle->getForcesAccum());
-        if(particle->getPosition()->getNorm() != 0){
-            torqueAccum = torqueAccum->addVector(particle->getPosition()->vectorialProduct(particle->getForcesAccum()));
-        }
-
-    }
-}
-
 float RigidBody::getTotalMass() const {
     return totalMass;
 }
 
 void RigidBody::setTotalMass(float invertedTotalMass) {
     RigidBody::totalMass = totalMass;
-}
-
-void RigidBody::updateTotalMass() {
-    totalMass = 0.0f;
-    for(Particle* &particle : bodyParticles){
-        totalMass += particle->getMass();
-    }
-    totalMass += massCenter->getMass();
 }
 
 vector<Vector3D *> &RigidBody::getParticleObjectPositions() {
@@ -274,20 +297,7 @@ void RigidBody::setParticleObjectPositions( vector<Vector3D *> &particleObjectPo
     RigidBody::particleObjectPositions = particleObjectPositions;
 }
 
-void RigidBody::updateVerticesPositions() {
-    vector<Vector3D*>::iterator it = particleObjectPositions.begin();
-    for(Particle* &particle : bodyParticles){
-        particle->setPosition((*transformMatrix)*(**it));
-        it++;
-    }
-//    cout << "----------BODY PARTICLES-----------" << endl;
-//    for (Particle * &particle : bodyParticles) {
-//        particle->getPosition()->toString();
-//    }
+/// Fin de l'ensemble des getters et setters de la classe RigidBody ------------------------------------------------
 
-    Vector3D * test = *(transformMatrix->invert())**(bodyParticles[0]->getPosition());
-//    cout<<"v1 position : "<<endl;
-//    cout<<"v1 X : "<<test->getX()<<endl;
-//    cout<<"v1 Y : "<<test->getY()<<endl;
-//    cout<<"v1 Z : "<<test->getZ()<<endl;
-}
+
+

@@ -12,8 +12,10 @@
 #include "Particle.h"
 #include <vector>
 
+///Classe RigidBody
 class RigidBody {
 
+    ///Attributs
 protected:
 
     // Centre de masse
@@ -38,6 +40,8 @@ protected:
     vector<Particle*> bodyParticles;
 
     vector<Vector3D*> particleObjectPositions;
+
+    ///Méthodes
 public:
 
     /// Début Constructeur/Destructeur
@@ -57,6 +61,7 @@ public:
     /// Méthode visant à calculer les forces s'appliquant à un point (particule) du Corps Rigide.
     void addForceAtPoint(Vector3D* Force, Vector3D* position);
 
+    /// Méthode visant à calculer les forces s'appliquant à un point (repère du monde) du Corps Rigide
     void addForceAtBodyPoint(Vector3D* Force, Vector3D* position);
 
     /// Méthode visant à calculer la position et la vitesse de la prochaine frame.
@@ -77,8 +82,10 @@ public:
     ///Méthode qui ajoute les forceAccum des particules du rigidBody au forceAccum du RigidBody
     void updateAllAccum();
 
+    ///Méthode de calcul de la masse totale du corps rigide
     void updateTotalMass();
 
+    ///Méthode de mise à jour des positions des particules autres que le centre de masse
     void updateVerticesPositions();
 
     /// Début de l'ensemble des getters et setters de la classe Corps Rigide.

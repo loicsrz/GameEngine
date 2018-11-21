@@ -14,6 +14,7 @@
     /// Classe qui contient tout ce qui appartient au monde en terme d'objet et de structure
 class World {
 
+    ///Attributs
 protected:
     vector<Particle*> worldParticles;
     vector<RigidBody*> worldRigidBodies;

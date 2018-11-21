@@ -117,6 +117,12 @@ void WorldPhysics::rigidBodyIntegrator(vector<RigidBody *> rigidBodies, float de
     }
 }
 
+///Méthode de mise à jour des forceAccum de tous les rigidBody
+void WorldPhysics::updateAllRigidBodiesAccum(vector<RigidBody *> rigidBodies) {
+    for(RigidBody* &rigidBody : rigidBodies){
+        rigidBody->updateAllAccum();
+    }
+}
 
 /// Getters - Setters -----------------------------------------------------------------------------------------------
 
@@ -140,7 +146,7 @@ void WorldPhysics::setContactResolver(const ParticleContactResolver &contactReso
 /// Génération de la physique de chacun des World de démonstration --------------------------------------------------
 void WorldPhysics::initWorldPhysics1(World world) {
     ParticleForceGenerator* grav = new GravityGenerator();
-    Vector3D * gravity = new Vector3D(0,-0.05f,0);
+    Vector3D * gravity = new Vector3D(0,-0.003f,0);
     dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
 
 //    ParticleForceGenerator* drag = new DragGenerator();
@@ -156,11 +162,7 @@ void WorldPhysics::initWorldPhysics2(World world) {
     //Empty
 }
 
-void WorldPhysics::updateAllRigidBodiesAccum(vector<RigidBody *> rigidBodies) {
-    for(RigidBody* &rigidBody : rigidBodies){
-        rigidBody->updateAllAccum();
-    }
-}
+
 
 
 ///------------------------------------------------------------------------------------------------------------------

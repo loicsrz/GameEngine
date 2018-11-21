@@ -69,9 +69,14 @@ public:
     /// Méthode qui permet de faire le produit mixte entre le vecteur, un vecteur v et un vecteur w.
     float mixedProduct(Vector3D *v, Vector3D *w);
 
+    ///Méthode de changement de base d'un vecteur depuis le repère local vers le repère du monde
     Vector3D *localToWorld(Matrix3* baseChange);
 
+    ///Méthode de changement de base d'un vecteur depuis le repère du monde vers le repère local
     Vector3D *worldToLocal(Matrix3* baseChange);
+
+    ///Méthode d'affichage d'un vecteur
+    void toString();
 
     /// Début de l'ensemble des getters et setters de la classe Vector3D.
     float getX() const;
@@ -87,7 +92,7 @@ public:
     void setZ(float z);
     /// Fin de l'ensemble des getters et setters de la classe Vector3D.
 
-    void toString();
+
 };
 
 

@@ -13,6 +13,7 @@
     ///Classe qui permet la génération de forces de types ressorts classiques
 class ParticleSpring : public ParticleForceGenerator {
 
+    ///Attributs
 protected:
 
     Particle * extremite1;

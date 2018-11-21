@@ -18,6 +18,7 @@ using namespace std;
 ///Classe WorldPhysics
     ///Classe qui contient tous les éléments permettant de calculer et mettre à jour la physique du World
 class WorldPhysics {
+    ///Attributs
 protected:
     vector<ParticleContact*> contacts;
     ParticleContactGenerator contactGenerator;
