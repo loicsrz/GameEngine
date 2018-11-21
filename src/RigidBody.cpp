@@ -280,10 +280,10 @@ void RigidBody::updateVerticesPositions() {
         particle->setPosition((*transformMatrix)*(**it));
         it++;
     }
-    cout << "----------BODY PARTICLES-----------" << endl;
-    for (Particle * &particle : bodyParticles) {
-        particle->getPosition()->toString();
-    }
+//    cout << "----------BODY PARTICLES-----------" << endl;
+//    for (Particle * &particle : bodyParticles) {
+//        particle->getPosition()->toString();
+//    }
 
     Vector3D * test = *(transformMatrix->invert())**(bodyParticles[0]->getPosition());
 //    cout<<"v1 position : "<<endl;
