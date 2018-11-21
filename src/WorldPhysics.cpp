@@ -140,7 +140,7 @@ void WorldPhysics::setContactResolver(const ParticleContactResolver &contactReso
 /// Génération de la physique de chacun des World de démonstration --------------------------------------------------
 void WorldPhysics::initWorldPhysics1(World world) {
     ParticleForceGenerator* grav = new GravityGenerator();
-    Vector3D * gravity = new Vector3D(0,-10.0f,0);
+    Vector3D * gravity = new Vector3D(0,-0.005f,0);
     dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
 
 //    ParticleForceGenerator* drag = new DragGenerator();

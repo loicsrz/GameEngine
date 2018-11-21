@@ -93,7 +93,7 @@ void World::initWorld1() {
     grounds.push_back(-13.0f);
 
     //Init Particles
-    auto * massCenter = new Particle(new Vector3D(0.0f, 2.0f, 0.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * massCenter = new Particle(new Vector3D(0.0f, 2.0f, 0.0f),new Vector3D(1.0f,1.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-20.0f, massCenter->getPosition()->getY()-15.0f,
             0.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex1 = new Particle(new Vector3D(massCenter->getPosition()->getX()+5.0f, massCenter->getPosition()->getY()+25.0f,

@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <iostream>
 #include "../include/2B3_Engine/RigidBody.h"
 #include "../include/2B3_Engine/Matrix4.h"
 
@@ -117,6 +118,11 @@ void RigidBody::clearAccumulator() {
     this->torqueAccum->setY(0.0f);
     this->torqueAccum->setZ(0.0f);
 
+    massCenter->clearAccumulator();
+    for(Particle* &particle : bodyParticles){
+        particle->clearAccumulator();
+    }
+
 }
 
 /// Méthode d'ajout de torque au torque accumulé par le Corps Rigide
@@ -214,11 +220,19 @@ void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
 }
 
 void RigidBody::updateAllAccum() {
-    forcesAccum->addVector(massCenter->getForcesAccum());
+    cout<<"forceAccum before : "<<endl;
+    cout<<"force X : "<<forcesAccum->getX()<<endl;
+    cout<<"force Y : "<<forcesAccum->getY()<<endl;
+    cout<<"force Z : "<<forcesAccum->getZ()<<endl;
+    cout<<"mass center : "<<endl;
+    cout<<"mass X : "<<massCenter->getForcesAccum()->getX()<<endl;
+    cout<<"mass Y : "<<massCenter->getForcesAccum()->getY()<<endl;
+    cout<<"mass Z : "<<massCenter->getForcesAccum()->getZ()<<endl;
+    forcesAccum = forcesAccum->addVector(massCenter->getForcesAccum());
     for(Particle* &particle : bodyParticles){
-        forcesAccum->addVector(particle->getForcesAccum());
+        forcesAccum = forcesAccum->addVector(particle->getForcesAccum());
         if(particle->getPosition()->getNorm() != 0){
-            torqueAccum->addVector(particle->getPosition()->vectorialProduct(particle->getForcesAccum()));
+            torqueAccum = torqueAccum->addVector(particle->getPosition()->vectorialProduct(particle->getForcesAccum()));
         }
 
     }
