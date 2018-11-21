@@ -41,7 +41,7 @@ public:
     void eraseWorld();
 
     /// Méthode de réinitialisation des forces accumulées par les Particle du World
-    void clearForceAccums();
+    void clearAccums();
 
     /// Getters - Setters -----------------------------------------------------
     vector<Particle*> &getWorldParticles();

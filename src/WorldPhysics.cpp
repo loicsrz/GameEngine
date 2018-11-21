@@ -177,9 +177,9 @@ void WorldPhysics::initWorldPhysics2(World world) {
     registerForces.addRegister(drag1);
 }
 
-void WorldPhysics::updateAllRigidBodiesForceAccum(vector<RigidBody *> rigidBodies) {
+void WorldPhysics::updateAllRigidBodiesAccum(vector<RigidBody *> rigidBodies) {
     for(RigidBody* &rigidBody : rigidBodies){
-        rigidBody->addAllForceAccum();
+        rigidBody->updateAllAccum();
     }
 }
 

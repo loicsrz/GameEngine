@@ -213,9 +213,13 @@ void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
                                           ->addVector(acceleration->scalarMultiplier(time)));
 }
 
-void RigidBody::addAllForceAccum() {
+void RigidBody::updateAllAccum() {
     forcesAccum->addVector(massCenter->getForcesAccum());
     for(Particle* &particle : bodyParticles){
         forcesAccum->addVector(particle->getForcesAccum());
+        if(particle->getPosition()->getNorm() != 0){
+            torqueAccum->addVector(particle->getPosition()->vectorialProduct(particle->getForcesAccum()));
+        }
+
     }
 }

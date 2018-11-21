@@ -51,7 +51,7 @@ void render() {
             glLineWidth(1.0f);
             glColor3f(0.0, 1.0, 0.0);
             glBegin(GL_TRIANGLES);
-            for (int i = 1; i < 4; ++i) {
+            for (int i = 0; i < 3; ++i) {
                 glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getX(), world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getY(), 0.0f);
             }
             glEnd();
@@ -149,15 +149,15 @@ void timer(int value) {
 
     //Boucle de calculs physiques en cas de Scene de jeu chargée
     if(runScenario){
-        // Application des forces aux particules
+        // Application des forces et torques aux rigidBodies
         physics.applyForces(dt);
-        physics.updateAllRigidBodiesForceAccum(world.getWorldRigidBodies());
+        physics.updateAllRigidBodiesAccum(world.getWorldRigidBodies());
 
         // Intégration
         physics.rigidBodyIntegrator(world.getWorldRigidBodies(),dt);
 
         // Réinitialisation des forces accumulées
-        world.clearForceAccums(); //TODO : application aux rigidBodies
+        world.clearAccums();
 
         // Résolution de contacts avec le sol
 //        physics.searchAndResolveContactsWithGround(world);

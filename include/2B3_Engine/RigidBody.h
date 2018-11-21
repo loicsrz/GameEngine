@@ -70,7 +70,7 @@ public:
     void addParticleToBody(Particle * particle);
 
     ///Méthode qui ajoute les forceAccum des particules du rigidBody au forceAccum du RigidBody
-    void addAllForceAccum();
+    void updateAllAccum();
 
 
     /// Début de l'ensemble des getters et setters de la classe Corps Rigide.

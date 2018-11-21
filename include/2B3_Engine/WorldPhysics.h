@@ -56,7 +56,7 @@ public:
     void rigidBodyIntegrator(vector<RigidBody*> rigidBodies, float deltaTime);
 
     ///Méthode de mise à jour des forceAccum de tous les rigidBody
-    void updateAllRigidBodiesForceAccum(vector<RigidBody*> rigidBodies);
+    void updateAllRigidBodiesAccum(vector<RigidBody*> rigidBodies);
 
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;

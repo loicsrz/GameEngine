@@ -39,8 +39,8 @@ void World::eraseWorld() {
 }
 
 /// Méthode de réinitialisation des forces accumulées par les Particle du World
-void World::clearForceAccums() {
-    for(vector<Particle*>::iterator it = worldParticles.begin();it != worldParticles.end();++it){
+void World::clearAccums() {
+    for(vector<RigidBody*>::iterator it = getWorldRigidBodies().begin();it != getWorldRigidBodies().end();++it){
         (*it)->clearAccumulator();
     }
 }
