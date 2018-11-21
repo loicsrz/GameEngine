@@ -2,6 +2,7 @@
 // Created by Vince on 29/08/2018.
 //
 #include <math.h>
+#include <iostream>
 #include "../include/2B3_Engine/Vector3D.h"
 
 /// Constructeur par défaut.
@@ -94,6 +95,21 @@ float Vector3D::mixedProduct(Vector3D *v, Vector3D *w) {
     return this->scalarProduct(v->vectorialProduct(w));
 }
 
+///Méthode de changement de base d'un vecteur depuis le repère local vers le repère du monde
+Vector3D *Vector3D::localToWorld(Matrix3* baseChange) {
+    return (*baseChange) * (*this);
+}
+
+///Méthode de changement de base d'un vecteur depuis le repère du monde vers le repère local
+Vector3D *Vector3D::worldToLocal(Matrix3 *baseChange) {
+    return (*(baseChange->invert())) * (*this);
+}
+
+///Méthode d'affichage d'un vecteur
+void Vector3D::toString() {
+    cout << "x : " << x << " | y : " << y << " | z : " << z << endl;
+}
+
 /// Début de l'ensemble des getters et setters de la classe Vector3D ------------------------------------------------
 
 float Vector3D::getX() const {
@@ -119,4 +135,6 @@ float Vector3D::getZ() const {
 void Vector3D::setZ(float z) {
     this->z = z;
 }
+
+
 /// Fin de l'ensemble des getters et setters de la classe Vector3D --------------------------------------------------

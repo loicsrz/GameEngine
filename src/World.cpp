@@ -4,6 +4,7 @@
 #include "../include/2B3_Engine/World.h"
 #include "../include/2B3_Engine/ParticleCable.h"
 #include "../include/2B3_Engine/ParticleRod.h"
+#include "../include/2B3_Engine/RigidBody.h"
 
 ///Constructeur par défaut
 World::World() {}
@@ -34,13 +35,13 @@ void World::eraseParticle(Particle *particle) {
 void World::eraseWorld() {
     worldParticles.clear();
     particleLinks.clear();
-    groundSeparations.clear();
+    worldRigidBodies.clear();
     grounds.clear();
 }
 
 /// Méthode de réinitialisation des forces accumulées par les Particle du World
-void World::clearForceAccums() {
-    for(vector<Particle*>::iterator it = worldParticles.begin();it != worldParticles.end();++it){
+void World::clearAccums() {
+    for(vector<RigidBody*>::iterator it = getWorldRigidBodies().begin();it != getWorldRigidBodies().end();++it){
         (*it)->clearAccumulator();
     }
 }
@@ -59,7 +60,7 @@ vector<ParticleLink*> World::getParticleLinks() {
     return particleLinks;
 }
 
-vector<float> &World::getGroundSeparations()  {
+vector<float> &World::getGroundSeparations() {
     return groundSeparations;
 }
 
@@ -75,6 +76,19 @@ void World::setGrounds(const vector<float> &grounds) {
     World::grounds = grounds;
 }
 
+vector<RigidBody *> &World::getWorldRigidBodies(){
+    return worldRigidBodies;
+}
+
+void World::setWorldRigidBodies(vector<RigidBody *> &worldRigidBodies) {
+    World::worldRigidBodies = worldRigidBodies;
+}
+
+float World::distanceBetweenParticles(Particle* a, Particle* b)
+{
+    return (a->getPosition()->substractVector(b->getPosition()))->getNorm();
+}
+
 ///------------------------------------------------------------------------------------------------------------------
 
 /// Créations des World de démonstration ----------------------------------------------------------------------------
@@ -82,224 +96,247 @@ void World::initWorld1() {
     //init world for test 1
 
     //Init ground
-    grounds.push_back(-200.0f);
+    grounds.push_back(-13.0f);
 
     //Init Particles
-    Vector3D* positionA = new Vector3D(-0.5f,0.0f,0.0f);
-    Vector3D* speedA = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accA = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* a = new Particle();
-    a->setDamping(0.99f);
-    a->setInvertedMass(1);
-    a->setPosition(positionA);
-    a->setVelocity(speedA);
-    a->setAcceleration(accA);
-    a->setRadius(5.0f);
+    auto * massCenter = new Particle(new Vector3D(-200.0f, 10.0f, 0.0f),new Vector3D(1.0f,0.5f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()-20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()+20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex3 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()+20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
 
-    Vector3D* positionB = new Vector3D(400.0f,0.0f,0.0f);
-    Vector3D* speedB = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accB = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* b = new Particle();
-    b->setDamping(0.99f);
-    b->setInvertedMass(1);
-    b->setPosition(positionB);
-    b->setVelocity(speedB);
-    b->setAcceleration(accB);
-    b->setRadius(5.0f);
+    auto * vertex4 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex5 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()-20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex6 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()+20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex7 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()+20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
 
-    worldParticles.push_back(a);
-    worldParticles.push_back(b);
+    vector<Particle*> bodyParticles;
+    bodyParticles.push_back(vertex0);
+    bodyParticles.push_back(vertex1);
+    bodyParticles.push_back(vertex2);
+    bodyParticles.push_back(vertex3);
+    bodyParticles.push_back(vertex4);
+    bodyParticles.push_back(vertex5);
+    bodyParticles.push_back(vertex6);
+    bodyParticles.push_back(vertex7);
+
+    vector<Vector3D*> particleObjectPositions;
+
+    float x;
+    float y;
+    float z;
+
+    for(Particle * &particle : bodyParticles){
+        x = particle->getPosition()->getX() - massCenter->getPosition()->getX();
+        y = particle->getPosition()->getY() - massCenter->getPosition()->getY();
+        z = particle->getPosition()->getZ() - massCenter->getPosition()->getZ();
+        particleObjectPositions.push_back(new Vector3D(x,y,z));
+    }
+
+    float totalMass = 0.0f;
+    totalMass += massCenter->getMass();
+    for(Particle* &particle : bodyParticles){
+        totalMass += particle->getMass();
+    }
+
+
+    Quaternion* qt =  new Quaternion(1,0,0,0);
+    qt->normalize();
+    Matrix4 * transformMatrix = new Matrix4();
+    transformMatrix = transformMatrix->setOrientation(qt);
+    transformMatrix->setValue(3, massCenter->getPosition()->getX());
+    transformMatrix->setValue(7, massCenter->getPosition()->getY());
+    transformMatrix->setValue(11, massCenter->getPosition()->getZ());
+
+    vector<float> coefInert;
+    for (int i = 0; i < 9; ++i) {
+        coefInert.push_back(0.0f);
+    }
+    coefInert[0] = (1.0f/12.0f)*totalMass*(40.0f*40.0f+40.0f*40.0f);
+    coefInert[1] = 0 ;
+    coefInert[2] = 0 ;
+    coefInert[3] = 0 ;
+    coefInert[4] = (1.0f/12.0f)*totalMass*(20.0f*20.0f+40.0f*40.0f);
+    coefInert[5] = 0 ;
+    coefInert[6] = 0 ;
+    coefInert[7] = 0 ;
+    coefInert[8] = (1.0f/12.0f)*totalMass*(20.0f*20.0f+40.0f*40.0f);
+    Matrix3 * invertedInertiaMatrix = new Matrix3(coefInert);
+    invertedInertiaMatrix = invertedInertiaMatrix->invert();
+
+
+
+    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.09f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+
+    rb->setParticleObjectPositions(particleObjectPositions);
+
+    worldRigidBodies.push_back(rb);
 }
 
 void World::initWorld2() {
-    //init world for test 1
+    //init world for test 2
 
     //Init ground
-    grounds.push_back(0.0f);
+    grounds.push_back(-13.0f);
 
-    //Init Particle
-    Vector3D* positionA = new Vector3D(-0.5f,50.0f,0.0f);
-    Vector3D* speedA = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accA = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* a = new Particle();
-    a->setDamping(0.99);
-    a->setInvertedMass(1);
-    a->setPosition(positionA);
-    a->setVelocity(speedA);
-    a->setAcceleration(accA);
-    a->setRadius(5.0f);
+    //Init First car
+    auto * massCenter1 = new Particle(new Vector3D(-200.0f, 10.0f, 0.0f),new Vector3D(2.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1_0 = new Particle(new Vector3D(massCenter1->getPosition()->getX()-10.0f, massCenter1->getPosition()->getY()-20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1_1 = new Particle(new Vector3D(massCenter1->getPosition()->getX()+10.0f, massCenter1->getPosition()->getY()-20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1_2 = new Particle(new Vector3D(massCenter1->getPosition()->getX()+10.0f, massCenter1->getPosition()->getY()+20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1_3 = new Particle(new Vector3D(massCenter1->getPosition()->getX()-10.0f, massCenter1->getPosition()->getY()+20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
 
-    worldParticles.push_back(a);
+    auto * vertex1_4 = new Particle(new Vector3D(massCenter1->getPosition()->getX()-10.0f, massCenter1->getPosition()->getY()-20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1_5 = new Particle(new Vector3D(massCenter1->getPosition()->getX()+10.0f, massCenter1->getPosition()->getY()-20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1_6 = new Particle(new Vector3D(massCenter1->getPosition()->getX()+10.0f, massCenter1->getPosition()->getY()+20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex1_7 = new Particle(new Vector3D(massCenter1->getPosition()->getX()-10.0f, massCenter1->getPosition()->getY()+20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+
+    //Init Second car
+    auto * massCenter2 = new Particle(new Vector3D(200.0f, 10.0f, 30.0f),new Vector3D(-2.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2_0 = new Particle(new Vector3D(massCenter2->getPosition()->getX()-10.0f, massCenter2->getPosition()->getY()-20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2_1 = new Particle(new Vector3D(massCenter2->getPosition()->getX()+10.0f, massCenter2->getPosition()->getY()-20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2_2 = new Particle(new Vector3D(massCenter2->getPosition()->getX()+10.0f, massCenter2->getPosition()->getY()+20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2_3 = new Particle(new Vector3D(massCenter2->getPosition()->getX()-10.0f, massCenter2->getPosition()->getY()+20.0f,
+                                               -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+
+    auto * vertex2_4 = new Particle(new Vector3D(massCenter2->getPosition()->getX()-10.0f, massCenter2->getPosition()->getY()-20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2_5 = new Particle(new Vector3D(massCenter2->getPosition()->getX()+10.0f, massCenter2->getPosition()->getY()-20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2_6 = new Particle(new Vector3D(massCenter2->getPosition()->getX()+10.0f, massCenter2->getPosition()->getY()+20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * vertex2_7 = new Particle(new Vector3D(massCenter2->getPosition()->getX()-10.0f, massCenter2->getPosition()->getY()+20.0f,
+                                               20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+
+    vector<Particle*> bodyParticles1;
+    bodyParticles1.push_back(vertex1_0);
+    bodyParticles1.push_back(vertex1_1);
+    bodyParticles1.push_back(vertex1_2);
+    bodyParticles1.push_back(vertex1_3);
+    bodyParticles1.push_back(vertex1_4);
+    bodyParticles1.push_back(vertex1_5);
+    bodyParticles1.push_back(vertex1_6);
+    bodyParticles1.push_back(vertex1_7);
+
+    vector<Particle*> bodyParticles2;
+    bodyParticles2.push_back(vertex2_0);
+    bodyParticles2.push_back(vertex2_1);
+    bodyParticles2.push_back(vertex2_2);
+    bodyParticles2.push_back(vertex2_3);
+    bodyParticles2.push_back(vertex2_4);
+    bodyParticles2.push_back(vertex2_5);
+    bodyParticles2.push_back(vertex2_6);
+    bodyParticles2.push_back(vertex2_7);
+
+    vector<Vector3D*> particleObjectPositions1;
+    vector<Vector3D*> particleObjectPositions2;
+
+    float x;
+    float y;
+    float z;
+
+    for(Particle * &particle : bodyParticles1){
+        x = particle->getPosition()->getX() - massCenter1->getPosition()->getX();
+        y = particle->getPosition()->getY() - massCenter1->getPosition()->getY();
+        z = particle->getPosition()->getZ() - massCenter1->getPosition()->getZ();
+        particleObjectPositions1.push_back(new Vector3D(x,y,z));
+    }
+
+    for(Particle * &particle : bodyParticles2){
+        x = particle->getPosition()->getX() - massCenter2->getPosition()->getX();
+        y = particle->getPosition()->getY() - massCenter2->getPosition()->getY();
+        z = particle->getPosition()->getZ() - massCenter2->getPosition()->getZ();
+        particleObjectPositions2.push_back(new Vector3D(x,y,z));
+    }
+
+    float totalMass1 = 0.0f;
+    totalMass1 += massCenter1->getMass();
+    for(Particle* &particle : bodyParticles1){
+        totalMass1 += particle->getMass();
+    }
+
+    float totalMass2 = 0.0f;
+    totalMass2 += massCenter2->getMass();
+    for(Particle* &particle : bodyParticles2){
+        totalMass2 += particle->getMass();
+    }
+
+
+    Quaternion* qt1 =  new Quaternion(1,0,0,0);
+
+    Quaternion* qt2 =  new Quaternion(1,0,0,0);
+
+    Matrix4 * transformMatrix1 = new Matrix4();
+    transformMatrix1 = transformMatrix1->setOrientation(qt1);
+    transformMatrix1->setValue(3, massCenter1->getPosition()->getX());
+    transformMatrix1->setValue(7, massCenter1->getPosition()->getY());
+    transformMatrix1->setValue(11, massCenter1->getPosition()->getZ());
+
+    Matrix4 * transformMatrix2 = new Matrix4();
+    transformMatrix2 = transformMatrix2->setOrientation(qt2);
+    transformMatrix2->setValue(3, massCenter2->getPosition()->getX());
+    transformMatrix2->setValue(7, massCenter2->getPosition()->getY());
+    transformMatrix2->setValue(11, massCenter2->getPosition()->getZ());
+
+    vector<float> coefInert;
+    for (int i = 0; i < 9; ++i) {
+        coefInert.push_back(0.0f);
+    }
+    coefInert[0] = (1.0f/12.0f)*totalMass1*(40.0f*40.0f+40.0f*40.0f);
+    coefInert[1] = 0 ;
+    coefInert[2] = 0 ;
+    coefInert[3] = 0 ;
+    coefInert[4] = (1.0f/12.0f)*totalMass1*(20.0f*20.0f+40.0f*40.0f);
+    coefInert[5] = 0 ;
+    coefInert[6] = 0 ;
+    coefInert[7] = 0 ;
+    coefInert[8] = (1.0f/12.0f)*totalMass1*(20.0f*20.0f+40.0f*40.0f);
+    Matrix3 * invertedInertiaMatrix1 = new Matrix3(coefInert);
+    invertedInertiaMatrix1 = invertedInertiaMatrix1->invert();
+
+    coefInert[0] = (1.0f/12.0f)*totalMass2*(40.0f*40.0f+40.0f*40.0f);
+    coefInert[1] = 0 ;
+    coefInert[2] = 0 ;
+    coefInert[3] = 0 ;
+    coefInert[4] = (1.0f/12.0f)*totalMass2*(20.0f*20.0f+40.0f*40.0f);
+    coefInert[5] = 0 ;
+    coefInert[6] = 0 ;
+    coefInert[7] = 0 ;
+    coefInert[8] = (1.0f/12.0f)*totalMass2*(20.0f*20.0f+40.0f*40.0f);
+    Matrix3 * invertedInertiaMatrix2 = new Matrix3(coefInert);
+    invertedInertiaMatrix2 = invertedInertiaMatrix2->invert();
+
+    RigidBody* rb1 = new RigidBody(massCenter1, qt1, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix1, invertedInertiaMatrix1,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles1);
+
+    RigidBody* rb2 = new RigidBody(massCenter2, qt2, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix2, invertedInertiaMatrix2,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles2);
+
+    rb1->setParticleObjectPositions(particleObjectPositions1);
+
+    rb2->setParticleObjectPositions(particleObjectPositions2);
+
+    worldRigidBodies.push_back(rb1);
+
+    worldRigidBodies.push_back(rb2);
 }
 
-void World::initWorld3() {
-    //init world for test 3
 
-    //Init ground
-    grounds.push_back(-200.0f);
-
-    //Init Particle
-    Vector3D* positionA = new Vector3D(50.0f,150.0f,0.0f);
-    Vector3D* speedA = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accA = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* a = new Particle();
-    a->setDamping(0.99f);
-    a->setInvertedMass(1);
-    a->setPosition(positionA);
-    a->setVelocity(speedA);
-    a->setAcceleration(accA);
-    a->setRadius(5.0f);
-
-    worldParticles.push_back(a);
-}
-
-void World::initWorld4() {
-    //init world for test 4
-
-    //Init ground
-    grounds.push_back(-200.0f);
-
-    //Init Particle
-    Vector3D* positionA = new Vector3D(250.0f,50.0f,0.0f);
-    Vector3D* speedA = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accA = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* a = new Particle();
-    a->setDamping(0.99f);
-    a->setInvertedMass(1);
-    a->setPosition(positionA);
-    a->setVelocity(speedA);
-    a->setAcceleration(accA);
-    a->setRadius(5.0f);
-
-    worldParticles.push_back(a);
-}
-
-void World::initWorld5() {
-    //Init ground and separations
-
-    grounds.push_back(0.0f);
-
-    //Init Particles
-    Vector3D* positionA = new Vector3D(80.0f,5.0f,0.0f);
-    Vector3D* speedA = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accA = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* a = new Particle();
-    a->setDamping(0.99f);
-    a->setInvertedMass(1);
-    a->setPosition(positionA);
-    a->setVelocity(speedA);
-    a->setAcceleration(accA);
-    a->setRadius(5.0f);
-
-    Vector3D* positionB = new Vector3D(180.0f,5.0f,0.0f);
-    Vector3D* speedB = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accB = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* b = new Particle();
-    b->setDamping(0.99f);
-    b->setInvertedMass(1);
-    b->setPosition(positionB);
-    b->setVelocity(speedB);
-    b->setAcceleration(accB);
-    b->setRadius(5.0f);
-
-    worldParticles.push_back(a);
-    worldParticles.push_back(b);
-
-    ParticleLink* linkAB = new ParticleRod(100,0.05f);
-    linkAB->setParticles(a,b);
-
-    particleLinks.push_back(linkAB);
-}
-
-void World::initWorld6() {
-//init world for test 5
-
-    //Init ground and separations
-    groundSeparations.push_back(150.0f);
-    groundSeparations.push_back(300.0f);
-
-    grounds.push_back(0.0f);
-    grounds.push_back(-100.0f);
-    grounds.push_back(-200.0f);
-
-    //Init Particles
-    Vector3D* positionA = new Vector3D(10.0f,20.0f,0.0f);
-    Vector3D* speedA = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accA = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* a = new Particle();
-    a->setDamping(0.99f);
-    a->setInvertedMass(1);
-    a->setPosition(positionA);
-    a->setVelocity(speedA);
-    a->setAcceleration(accA);
-    a->setRadius(5.0f);
-
-    Vector3D* positionB = new Vector3D(30.0f,20.0f,0.0f);
-    Vector3D* speedB = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accB = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* b = new Particle();
-    b->setDamping(0.99f);
-    b->setInvertedMass(1);
-    b->setPosition(positionB);
-    b->setVelocity(speedB);
-    b->setAcceleration(accB);
-    b->setRadius(5.0f);
-
-    Vector3D* positionC = new Vector3D(20.0f,20.0f,0.0f);
-    Vector3D* speedC = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accC = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* c = new Particle();
-    c->setDamping(1.0f);
-    c->setInvertedMass(1);
-    c->setPosition(positionC);
-    c->setVelocity(speedC);
-    c->setAcceleration(accC);
-    c->setRadius(5.0f);
-
-    Vector3D* positionD = new Vector3D(40.0f,27.0f,0.0f);
-    Vector3D* speedD = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accD = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* d = new Particle();
-    d->setDamping(0.99f);
-    d->setInvertedMass(1);
-    d->setPosition(positionD);
-    d->setVelocity(speedD);
-    d->setAcceleration(accD);
-    d->setRadius(5.0f);
-
-    Vector3D* positionE = new Vector3D(35.0f,40.0f,0.0f);
-    Vector3D* speedE = new Vector3D(0.0f,0.0f,0.0f);
-    Vector3D* accE = new Vector3D(0.0f,0.0f,0.0f);
-    Particle* e = new Particle();
-    e->setDamping(0.99f);
-    e->setInvertedMass(1);
-    e->setPosition(positionE);
-    e->setVelocity(speedE);
-    e->setAcceleration(accE);
-    e->setRadius(5.0f);
-
-    worldParticles.push_back(a);
-    worldParticles.push_back(b);
-    worldParticles.push_back(c);
-    worldParticles.push_back(d);
-    worldParticles.push_back(e);
-
-    //Init special links
-    ParticleLink* linkAB = new ParticleCable(100,0.05f);
-    linkAB->setParticles(a,b);
-
-    ParticleLink* linkAC = new ParticleCable(100,0.05f);
-    linkAC->setParticles(a,c);
-
-    ParticleLink* linkAD = new ParticleCable(100,0.05f);
-    linkAD->setParticles(a,d);
-
-    ParticleLink* linkAE = new ParticleCable(100,0.05f);
-    linkAE->setParticles(a,e);
-
-    particleLinks.push_back(linkAB);
-    particleLinks.push_back(linkAC);
-    particleLinks.push_back(linkAD);
-    particleLinks.push_back(linkAE);
-}
 ///------------------------------------------------------------------------------------------------------------------

@@ -8,15 +8,18 @@
 #include <vector>
 #include "Particle.h"
 #include "ParticleLink.h"
+#include "RigidBody.h"
 
 /// Classe World
     /// Classe qui contient tout ce qui appartient au monde en terme d'objet et de structure
 class World {
 
+    ///Attributs
 protected:
     vector<Particle*> worldParticles;
-    vector<float > groundSeparations;
+    vector<RigidBody*> worldRigidBodies;
     vector<float> grounds;
+    vector<float> groundSeparations;
     vector<ParticleLink*> particleLinks;
 
 public:
@@ -39,7 +42,7 @@ public:
     void eraseWorld();
 
     /// Méthode de réinitialisation des forces accumulées par les Particle du World
-    void clearForceAccums();
+    void clearAccums();
 
     /// Getters - Setters -----------------------------------------------------
     vector<Particle*> &getWorldParticles();
@@ -55,6 +58,12 @@ public:
     void setGrounds(const vector<float> &grounds);
 
     vector<ParticleLink*> getParticleLinks();
+
+    vector<RigidBody *> &getWorldRigidBodies();
+
+    void setWorldRigidBodies(vector<RigidBody *> &worldRigidBodies);
+
+    float distanceBetweenParticles(Particle* a, Particle* b);
     ///-------------------------------------------------------------------------
 
     /// Créations des World de démonstration -----------------------------------

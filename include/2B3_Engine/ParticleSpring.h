@@ -7,15 +7,20 @@
 
 
 #include "ParticleForceGenerator.h"
+#include "RigidBody.h"
 
 ///Classe ParticleSpring
     ///Classe qui permet la génération de forces de types ressorts classiques
 class ParticleSpring : public ParticleForceGenerator {
 
+    ///Attributs
 protected:
-Particle* secondParticle;
-float K;
-float l0;
+
+    Particle * extremite1;
+    RigidBody* AutreRigidBody;
+    Particle * extremite2;
+    float K;
+    float l0;
 
 public:
     ///Constructeur par défaut
@@ -24,13 +29,21 @@ public:
     ///Destructeur
     ~ParticleSpring();
 
-    ///Méthode de mise à jour de la force accumulée par la Particle particle en ajoutant une force de ressort classique
-    void UpdateForce(Particle *particle, float frame_duration) override;
+    ///Méthode de mise à jour de la force accumulée par le RigidBody en ajoutant une force de ressort classique
+    void UpdateForce(RigidBody * rigidBody, float frame_duration);
 
     ///Getters - Setters ----------------------------------------
-    Particle *getSecondParticle();
+    Particle *getExtremite1() const;
 
-    void setSecondParticle(Particle *secondParticle);
+    void setExtremite1(Particle *extremite1);
+
+    RigidBody *getAutreRigidBody() const;
+
+    void setAutreRigidBody(RigidBody *AutreRigidBody);
+
+    Particle *getExtremite2() const;
+
+    void setExtremite2(Particle *extremite2);
 
     float getK() const;
 
