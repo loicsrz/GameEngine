@@ -1,4 +1,4 @@
-set(SOURCE_FILES ../src/Particule.cpp ../include/2B3_Engine/Particule.h Test_Particule.cpp ../src/Vecteur3D.cpp ../include/2B3_Engine/Vecteur3D.h)
+set(SOURCE_FILES ../src/Particle.cpp ../include/2B3_Engine/Particle.h Test_Particle.cpp ../src/Vector3D.cpp ../include/2B3_Engine/Vector3D.h)
 
 # Déclaration de la librarie Google Test
 set(GTEST_INCLUDE_DIRS ../googletest/include)
