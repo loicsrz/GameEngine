@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <iostream>
 #include "../include/2B3_Engine/Quaternion.h"
 
 Quaternion::Quaternion(float r, float i, float j, float k):r(r),i(i),j(j),k(k) {
@@ -30,6 +31,7 @@ void Quaternion::normalize() {
 }
 
 void Quaternion::UpdateAngularVelocity(Vector3D* v, float duration) {
+
     Quaternion * newQuat = (*this) + *((*(Quaternion(0,v->getX(),v->getY(), v->getZ())*(duration/2)))*(*this));
     this->setR(newQuat->getR());
     this->setI(newQuat->getI());
@@ -98,4 +100,8 @@ float Quaternion::getK() const {
 
 void Quaternion::setK(float k) {
     Quaternion::k = k;
+}
+
+void Quaternion::toString(){
+    cout << "r : " << r << " | i : " << i << " | j : " << j << " | k : " << k << endl;
 }

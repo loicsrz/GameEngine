@@ -46,16 +46,19 @@ void RigidBody::calculDerivedData() {
     //Transform matrix update
 
     Matrix4 * updatedTransformMatrix = new Matrix4();
+
     updatedTransformMatrix = updatedTransformMatrix->setOrientation(this->orientation);
 
-    updatedTransformMatrix->getMatrix()[3]=this->massCenter->getPosition()->getX();
-    updatedTransformMatrix->getMatrix()[7]=this->massCenter->getPosition()->getY();
-    updatedTransformMatrix->getMatrix()[11]=this->massCenter->getPosition()->getZ();
+    updatedTransformMatrix->setValue(3, this->massCenter->getPosition()->getX());
+    updatedTransformMatrix->setValue(7, this->massCenter->getPosition()->getY());
+    updatedTransformMatrix->setValue(11, this->massCenter->getPosition()->getZ());
 
     this->transformMatrix = updatedTransformMatrix;
-
     // Inverted inertia update
-    float rotationCoefs[9];
+    vector<float> rotationCoefs;
+    for (int i = 0; i < 9; ++i) {
+        rotationCoefs.push_back(0.0f);
+    }
     rotationCoefs[0] = updatedTransformMatrix->getMatrix()[0];
     rotationCoefs[1] = updatedTransformMatrix->getMatrix()[1];
     rotationCoefs[2] = updatedTransformMatrix->getMatrix()[2];
@@ -66,11 +69,11 @@ void RigidBody::calculDerivedData() {
     rotationCoefs[7] = updatedTransformMatrix->getMatrix()[9];
     rotationCoefs[8] = updatedTransformMatrix->getMatrix()[10];
 
+
     Matrix3 * transformMatrixRotation = new Matrix3(rotationCoefs);
 
     inversedInertieTensor = transformMatrixRotation->operator*(*inversedInertieTensor);
     inversedInertieTensor = inversedInertieTensor->operator*(*transformMatrixRotation->invert());
-
 }
 
 /// Méthode visant à calculer les forces s'appliquant à un point (particule) du Corps Rigide
@@ -102,7 +105,6 @@ void RigidBody::addForceAccumulator(Vector3D *force) {
 
 /// Méthode visant à calculer la position et la vélocité de la prochaine frame.
 void RigidBody::integrator(float time) {
-
     Vector3D * acceleration = this->forcesAccum->scalarMultiplier(massCenter->getInvertedMass());
     Vector3D * derOrientation = inversedInertieTensor->operator*(*torqueAccum);
     rotation = rotation->scalarMultiplier(powf(angularDamping, time))->addVector(derOrientation->scalarMultiplier(time));
@@ -217,12 +219,10 @@ void RigidBody::setInversedInertieTensor(Matrix3 *inversedInertieTensor) {
 /// Méthode de mise à jour de la vélocité du corps rigide.
 void RigidBody::UpdatePosition(float time) {
     this->massCenter->setPosition(this->massCenter->getPosition()->addVector(this->massCenter->getVelocity()->scalarMultiplier(time)));
-    cout<<"mass center position before : "<<endl;
-    cout<<"position X : "<<massCenter->getPosition()->getX()<<endl;
-    cout<<"position Y : "<<massCenter->getPosition()->getY()<<endl;
-    cout<<"position Z : "<<massCenter->getPosition()->getZ()<<endl;
-
-
+//    cout<<"mass center position before : "<<endl;
+//    cout<<"position X : "<<massCenter->getPosition()->getX()<<endl;
+//    cout<<"position Y : "<<massCenter->getPosition()->getY()<<endl;
+//    cout<<"position Z : "<<massCenter->getPosition()->getZ()<<endl;
 }
 
 /// Méthode de mise à jour de la position du corps rigide.
@@ -280,10 +280,14 @@ void RigidBody::updateVerticesPositions() {
         particle->setPosition((*transformMatrix)*(**it));
         it++;
     }
+    cout << "----------BODY PARTICLES-----------" << endl;
+    for (Particle * &particle : bodyParticles) {
+        particle->getPosition()->toString();
+    }
 
     Vector3D * test = *(transformMatrix->invert())**(bodyParticles[0]->getPosition());
-    cout<<"v1 position : "<<endl;
-    cout<<"v1 X : "<<test->getX()<<endl;
-    cout<<"v1 Y : "<<test->getY()<<endl;
-    cout<<"v1 Z : "<<test->getZ()<<endl;
+//    cout<<"v1 position : "<<endl;
+//    cout<<"v1 X : "<<test->getX()<<endl;
+//    cout<<"v1 Y : "<<test->getY()<<endl;
+//    cout<<"v1 Z : "<<test->getZ()<<endl;
 }

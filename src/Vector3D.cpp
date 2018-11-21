@@ -2,6 +2,7 @@
 // Created by Vince on 29/08/2018.
 //
 #include <math.h>
+#include <iostream>
 #include "../include/2B3_Engine/Vector3D.h"
 
 /// Constructeur par défaut.
@@ -128,3 +129,7 @@ Vector3D *Vector3D::worldToLocal(Matrix3 *baseChange) {
     return (*(baseChange->invert())) * (*this);
 }
 /// Fin de l'ensemble des getters et setters de la classe Vector3D --------------------------------------------------
+
+void Vector3D::toString() {
+    cout << "x : " << x << " | y : " << y << " | z : " << z << endl;
+}

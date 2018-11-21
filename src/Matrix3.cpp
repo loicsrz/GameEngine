@@ -5,14 +5,16 @@
 #include <cmath>
 #include "../include/2B3_Engine/Matrix3.h"
 
-float *Matrix3::getMatrix() const {
+vector<float> Matrix3::getMatrix() const {
     return matrix;
 }
 
-Matrix3::Matrix3(float *matrix) : matrix(matrix) {}
+Matrix3::Matrix3(vector<float> matrix) : matrix(matrix) {}
 
-Matrix3::~Matrix3() {
-    delete matrix;
+Matrix3::~Matrix3(){
+    for (int i = 0; i < 9; ++i) {
+        matrix.push_back(0.0f);
+    }
 }
 
 Vector3D *Matrix3::operator*(Vector3D const &v) {
@@ -23,8 +25,11 @@ Vector3D *Matrix3::operator*(Vector3D const &v) {
 }
 
 Matrix3 *Matrix3::operator*(Matrix3 const &m) {
-    float coefs[9];
-    float * mCoefs = m.getMatrix();
+    vector<float> coefs;
+    for (int i = 0; i < 9; ++i) {
+        coefs.push_back(0.0f);
+    }
+    vector<float> mCoefs = m.getMatrix();
     coefs[0]=this->matrix[0]*mCoefs[0]+this->matrix[1]*mCoefs[3]+this->matrix[2]*mCoefs[6];
     coefs[1]=this->matrix[0]*mCoefs[1]+this->matrix[1]*mCoefs[4]+this->matrix[2]*mCoefs[7];
     coefs[2]=this->matrix[0]*mCoefs[2]+this->matrix[1]*mCoefs[5]+this->matrix[2]*mCoefs[8];
@@ -39,7 +44,10 @@ Matrix3 *Matrix3::operator*(Matrix3 const &m) {
 
 Matrix3 *Matrix3::invert() {
     if(this->getDeterminant()!=0){
-        float invertCoefs[9];
+        vector<float> invertCoefs;
+        for (int i = 0; i < 9; ++i) {
+            invertCoefs.push_back(0.0f);
+        }
         invertCoefs[0] = this->matrix[4]*this->matrix[8]-this->matrix[5]*this->matrix[7];
         invertCoefs[1] = this->matrix[2]*this->matrix[7]-this->matrix[1]*this->matrix[8];
         invertCoefs[2] = this->matrix[1]*this->matrix[5]-this->matrix[2]*this->matrix[4];
@@ -57,7 +65,10 @@ Matrix3 *Matrix3::invert() {
 }
 
 Matrix3 *Matrix3::transposition() {
-    float transposeCoefs[9];
+    vector<float> transposeCoefs;
+    for (int i = 0; i < 9; ++i) {
+        transposeCoefs.push_back(0.0f);
+    }
     transposeCoefs[0] = this->matrix[0];
     transposeCoefs[1] = this->matrix[3];
     transposeCoefs[2] = this->matrix[6];
@@ -87,7 +98,10 @@ Matrix3 *Matrix3::operator*(float const &coef) {
 }
 
 Matrix3 *Matrix3::setOrientation(Quaternion *q) {
-    float quatMatCoefs[9];
+    vector<float> quatMatCoefs;
+    for (int i = 0; i < 9; ++i) {
+        quatMatCoefs.push_back(0.0f);
+    }
     quatMatCoefs[0] = 1 - (2*powf(q->getJ(),2.0f)+2*powf(q->getK(),2.0f));
     quatMatCoefs[1] = 2*q->getI()*q->getJ()+2*q->getK()*q->getR();
     quatMatCoefs[2] = 2*q->getI()*q->getK()-2*q->getJ()*q->getR();

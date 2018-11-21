@@ -51,6 +51,7 @@ public:
 
     void setK(float k);
 
+    void toString();
 };
 
 

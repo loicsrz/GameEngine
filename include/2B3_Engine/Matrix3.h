@@ -10,20 +10,21 @@ class Quaternion;
 
 #include "Vector3D.h"
 #include "Quaternion.h"
+#include <vector>
 
 using namespace std;
 
 class Matrix3 {
 
 protected:
-    float * matrix;
+    vector<float> matrix;
 
 public:
-    Matrix3(float *matrix);
+    Matrix3(vector<float> matrix);
 
     virtual ~Matrix3();
 
-    float *getMatrix() const;
+    vector<float> getMatrix() const;
 
     Vector3D* operator*(Vector3D const &v);
     Matrix3* operator*(Matrix3 const &m);

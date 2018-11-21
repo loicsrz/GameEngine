@@ -86,6 +86,8 @@ public:
 
     void setZ(float z);
     /// Fin de l'ensemble des getters et setters de la classe Vector3D.
+
+    void toString();
 };
 
 

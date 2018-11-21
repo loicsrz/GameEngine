@@ -93,7 +93,7 @@ void World::initWorld1() {
     grounds.push_back(-13.0f);
 
     //Init Particles
-    auto * massCenter = new Particle(new Vector3D(-200.0f, 10.0f, 0.0f),new Vector3D(1.0f,0.5f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * massCenter = new Particle(new Vector3D(-200.0f, 10.0f, 0.0f),new Vector3D(4.0f,2.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
                                                -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex1 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()-20.0f,
@@ -146,11 +146,15 @@ void World::initWorld1() {
 
     Matrix4 * transformMatrix = new Matrix4();
     transformMatrix = transformMatrix->setOrientation(qt);
-    transformMatrix->getMatrix()[3]=massCenter->getPosition()->getX();
-    transformMatrix->getMatrix()[7]=massCenter->getPosition()->getY();
-    transformMatrix->getMatrix()[11]=massCenter->getPosition()->getZ();
+    transformMatrix->setValue(3, massCenter->getPosition()->getX());
+    transformMatrix->setValue(7, massCenter->getPosition()->getY());
+    transformMatrix->setValue(11, massCenter->getPosition()->getZ());
+    transformMatrix->toString();
 
-    float coefInert [9];
+    vector<float> coefInert;
+    for (int i = 0; i < 9; ++i) {
+        coefInert.push_back(0.0f);
+    }
     coefInert[0] = (1.0f/12.0f)*totalMass*(40.0f*40.0f+40.0f*40.0f);
     coefInert[1] = 0 ;
     coefInert[2] = 0 ;
@@ -165,7 +169,7 @@ void World::initWorld1() {
 
 
 
-    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.09f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
 
     rb->setParticleObjectPositions(particleObjectPositions);
 
