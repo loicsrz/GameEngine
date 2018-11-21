@@ -61,17 +61,17 @@ Matrix4 *Matrix4::operator*(float const &coef) {
 
 Matrix4 *Matrix4::setOrientation(Quaternion *q) {
     float quatMatCoefs[12];
-    quatMatCoefs[0] = 1 - (2*pow(q->getJ(),2.0f)+2*pow(q->getK(),2.0f));
+    quatMatCoefs[0] = 1 - (2*powf(q->getJ(),2.0f)+2*powf(q->getK(),2.0f));
     quatMatCoefs[1] = 2*q->getI()*q->getJ()+2*q->getK()*q->getR();
     quatMatCoefs[2] = 2*q->getI()*q->getK()-2*q->getJ()*q->getR();
     quatMatCoefs[3] = q->getI();
     quatMatCoefs[4] = 2*q->getI()*q->getJ()-2*q->getK()*q->getR();
-    quatMatCoefs[5] = 1 - (2*pow(q->getI(),2.0f)+2*pow(q->getK(),2.0f));
+    quatMatCoefs[5] = 1 - (2*powf(q->getI(),2.0f)+2*powf(q->getK(),2.0f));
     quatMatCoefs[6] = 2*q->getJ()*q->getK()+2*q->getI()*q->getR();
     quatMatCoefs[7] = q->getJ();
     quatMatCoefs[8] = 2*q->getI()*q->getK()+2*q->getJ()*q->getR();
     quatMatCoefs[9] = 2*q->getJ()*q->getK()-2*q->getI()*q->getR();
-    quatMatCoefs[10] = 1 - (2*pow(q->getI(),2.0f)+2*pow(q->getJ(),2.0f));
+    quatMatCoefs[10] = 1 - (2*powf(q->getI(),2.0f)+2*powf(q->getJ(),2.0f));
     quatMatCoefs[11] = q->getK();
     return new Matrix4(quatMatCoefs);
 }

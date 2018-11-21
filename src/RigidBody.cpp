@@ -12,7 +12,9 @@ RigidBody::RigidBody(Particle *massCenter, Quaternion *orientation, Vector3D *ro
                      Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum)
         : massCenter(massCenter), orientation(orientation), rotation(rotation), transformMatrix(transformMatrix),
           inversedInertieTensor(inversedInertieTensor), angularDamping(angularDamping), forcesAccum(forcesAccum),
-          torqueAccum(torqueAccum) {}
+          torqueAccum(torqueAccum) {
+    totalMass = 0.0f;
+}
 
 RigidBody::RigidBody(Particle *massCenter, Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
                      Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum,
@@ -21,7 +23,9 @@ RigidBody::RigidBody(Particle *massCenter, Quaternion *orientation, Vector3D *ro
                                                                 inversedInertieTensor(inversedInertieTensor),
                                                                 angularDamping(angularDamping),
                                                                 forcesAccum(forcesAccum), torqueAccum(torqueAccum),
-                                                                bodyParticles(bodyParticles) {}
+                                                                bodyParticles(bodyParticles) {
+    updateTotalMass();
+}
 
 RigidBody::~RigidBody() {
     delete this->massCenter;
@@ -88,6 +92,7 @@ void RigidBody::addForceAtBodyPoint(Vector3D * Force, Vector3D * position) {
 
 void RigidBody::addParticleToBody(Particle *particle) {
     this->bodyParticles.push_back(particle);
+    updateTotalMass();
 }
 
 /// Méthode d'ajout de force à la force accumulé par le Corps Rigide
@@ -105,6 +110,7 @@ void RigidBody::integrator(float time) {
     UpdatePosition(time);
     orientation->UpdateAngularVelocity(rotation,time);
     calculDerivedData();
+    updateVerticesPositions();
     clearAccumulator();
 }
 
@@ -211,6 +217,12 @@ void RigidBody::setInversedInertieTensor(Matrix3 *inversedInertieTensor) {
 /// Méthode de mise à jour de la vélocité du corps rigide.
 void RigidBody::UpdatePosition(float time) {
     this->massCenter->setPosition(this->massCenter->getPosition()->addVector(this->massCenter->getVelocity()->scalarMultiplier(time)));
+    cout<<"mass center position before : "<<endl;
+    cout<<"position X : "<<massCenter->getPosition()->getX()<<endl;
+    cout<<"position Y : "<<massCenter->getPosition()->getY()<<endl;
+    cout<<"position Z : "<<massCenter->getPosition()->getZ()<<endl;
+
+
 }
 
 /// Méthode de mise à jour de la position du corps rigide.
@@ -220,14 +232,14 @@ void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
 }
 
 void RigidBody::updateAllAccum() {
-    cout<<"forceAccum before : "<<endl;
-    cout<<"force X : "<<forcesAccum->getX()<<endl;
-    cout<<"force Y : "<<forcesAccum->getY()<<endl;
-    cout<<"force Z : "<<forcesAccum->getZ()<<endl;
-    cout<<"mass center : "<<endl;
-    cout<<"mass X : "<<massCenter->getForcesAccum()->getX()<<endl;
-    cout<<"mass Y : "<<massCenter->getForcesAccum()->getY()<<endl;
-    cout<<"mass Z : "<<massCenter->getForcesAccum()->getZ()<<endl;
+//    cout<<"forceAccum before : "<<endl;
+//    cout<<"force X : "<<forcesAccum->getX()<<endl;
+//    cout<<"force Y : "<<forcesAccum->getY()<<endl;
+//    cout<<"force Z : "<<forcesAccum->getZ()<<endl;
+//    cout<<"mass center : "<<endl;
+//    cout<<"mass X : "<<massCenter->getForcesAccum()->getX()<<endl;
+//    cout<<"mass Y : "<<massCenter->getForcesAccum()->getY()<<endl;
+//    cout<<"mass Z : "<<massCenter->getForcesAccum()->getZ()<<endl;
     forcesAccum = forcesAccum->addVector(massCenter->getForcesAccum());
     for(Particle* &particle : bodyParticles){
         forcesAccum = forcesAccum->addVector(particle->getForcesAccum());
@@ -236,4 +248,42 @@ void RigidBody::updateAllAccum() {
         }
 
     }
+}
+
+float RigidBody::getTotalMass() const {
+    return totalMass;
+}
+
+void RigidBody::setTotalMass(float invertedTotalMass) {
+    RigidBody::totalMass = totalMass;
+}
+
+void RigidBody::updateTotalMass() {
+    totalMass = 0.0f;
+    for(Particle* &particle : bodyParticles){
+        totalMass += particle->getMass();
+    }
+    totalMass += massCenter->getMass();
+}
+
+vector<Vector3D *> &RigidBody::getParticleObjectPositions() {
+    return particleObjectPositions;
+}
+
+void RigidBody::setParticleObjectPositions( vector<Vector3D *> &particleObjectPositions) {
+    RigidBody::particleObjectPositions = particleObjectPositions;
+}
+
+void RigidBody::updateVerticesPositions() {
+    vector<Vector3D*>::iterator it = particleObjectPositions.begin();
+    for(Particle* &particle : bodyParticles){
+        particle->setPosition((*transformMatrix)*(**it));
+        it++;
+    }
+
+    Vector3D * test = *(transformMatrix->invert())**(bodyParticles[0]->getPosition());
+    cout<<"v1 position : "<<endl;
+    cout<<"v1 X : "<<test->getX()<<endl;
+    cout<<"v1 Y : "<<test->getY()<<endl;
+    cout<<"v1 Z : "<<test->getZ()<<endl;
 }

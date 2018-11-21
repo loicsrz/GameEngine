@@ -15,8 +15,11 @@
 class RigidBody {
 
 protected:
-        // Centre de masse
+
+    // Centre de masse
     Particle * massCenter;
+    //Masse totale du rigidBody
+    float totalMass;
     // Orientation
     Quaternion *orientation;
     // Rotation
@@ -33,6 +36,8 @@ protected:
     Vector3D *torqueAccum;
 
     vector<Particle*> bodyParticles;
+
+    vector<Vector3D*> particleObjectPositions;
 public:
 
     /// Début Constructeur/Destructeur
@@ -72,6 +77,9 @@ public:
     ///Méthode qui ajoute les forceAccum des particules du rigidBody au forceAccum du RigidBody
     void updateAllAccum();
 
+    void updateTotalMass();
+
+    void updateVerticesPositions();
 
     /// Début de l'ensemble des getters et setters de la classe Corps Rigide.
     Particle *getMassCenter();
@@ -109,6 +117,14 @@ public:
     Quaternion *getOrientation() const;
 
     Vector3D *getRotation() const;
+
+    float getTotalMass() const;
+
+    void setTotalMass(float invertedTotalMass);
+
+    vector<Vector3D *> &getParticleObjectPositions();
+
+    void setParticleObjectPositions( vector<Vector3D *> &particleObjectPositions);
 
     /// Fin de l'ensemble des getters et setters de la classe Corps Rigide.
 

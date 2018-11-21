@@ -152,45 +152,19 @@ void render() {
                        world.getWorldRigidBodies()[0]->getBodyParticles()[4]->getPosition()->getZ());
             glEnd();
 
-//            glLineWidth(1.0f);
-//            glColor3f(1.0, 0.0, 0.0);
-//            glBegin(GL_TRIANGLES);
-//            for (int i = 0; i < 3; ++i) {
-//                glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getX(),
-//                           world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getY(), +100.0f);
-//            }
-//            glEnd();
-
-//            glColor3f(0.0f, 0.0f, 1.0f);
-//            glBegin(GL_LINES);
-//            for (int i = 0; i < 3; ++i) {
-//                glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getX(),
-//                           world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getY(), 0.0f);
-//                glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getX(),
-//                           world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getY(), +100.0f);
-//            }
-//            glEnd();
-
-//            glPointSize(5.0f);
-//            glColor3f(0.0, 1.0, 0.0);
-//            glBegin(GL_POINTS);
-//                glVertex3f(world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getX(),world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getY(),0.0f);
-//            glEnd();
+            glPointSize(5.0f);
+            glColor3f(0.0, 1.0, 0.0);
+            glBegin(GL_POINTS);
+                glVertex3f(world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getX(),world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getY(),0.0f);
+            glEnd();
 
 
-//            glLineWidth(1.0f);
-//            glColor3f(1.0, 1.0, 1.0);
-//            glBegin(GL_LINES);
-//            glVertex3f(-200.0f, world.getGrounds()[0],0.0f);
-//            glVertex3f(600.0f, world.getGrounds()[0],0.0f);
-//            glEnd();
             glFlush();
             glutSwapBuffers();
         }
 
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
-        //glFlush();
         //cout<<"Fin de Rendu"<<endl;
         //cout<<endl;
     }

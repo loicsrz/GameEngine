@@ -93,7 +93,7 @@ void World::initWorld1() {
     grounds.push_back(-13.0f);
 
     //Init Particles
-    auto * massCenter = new Particle(new Vector3D(-200.0f, 10.0f, 0.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * massCenter = new Particle(new Vector3D(-200.0f, 10.0f, 0.0f),new Vector3D(1.0f,0.5f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
                                                -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex1 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()-20.0f,
@@ -112,28 +112,6 @@ void World::initWorld1() {
     auto * vertex7 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()+20.0f,
                                                20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
 
-    Quaternion* qt =  new Quaternion(1,1,0,0);
-
-    Matrix4 * transformMatrix = new Matrix4();
-    transformMatrix = transformMatrix->setOrientation(qt);
-    transformMatrix->getMatrix()[3]=massCenter->getPosition()->getX();
-    transformMatrix->getMatrix()[7]=massCenter->getPosition()->getY();
-    transformMatrix->getMatrix()[11]=massCenter->getPosition()->getZ();
-
-    float coefInert [9];
-    coefInert[0] = vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0));
-    coefInert[1] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0)));
-    coefInert[2] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
-    coefInert[3] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0)));
-    coefInert[4] = vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0));
-    coefInert[5] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
-    coefInert[6] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(1,0,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
-    coefInert[7] = -(vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,1,0))*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1)));
-    coefInert[8] = vertex0->getMass()*vertex0->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex1->getMass()*vertex1->getPosition()->scalarProduct(new Vector3D(0,0,1))+vertex2->getMass()*vertex2->getPosition()->scalarProduct(new Vector3D(0,0,1));
-
-    Matrix3 * invertedInertiaMatrix = new Matrix3(coefInert);
-    invertedInertiaMatrix = invertedInertiaMatrix->invert();
-
     vector<Particle*> bodyParticles;
     bodyParticles.push_back(vertex0);
     bodyParticles.push_back(vertex1);
@@ -144,7 +122,52 @@ void World::initWorld1() {
     bodyParticles.push_back(vertex6);
     bodyParticles.push_back(vertex7);
 
+    vector<Vector3D*> particleObjectPositions;
+
+    float x;
+    float y;
+    float z;
+
+    for(Particle * &particle : bodyParticles){
+        x = particle->getPosition()->getX() - massCenter->getPosition()->getX();
+        y = particle->getPosition()->getY() - massCenter->getPosition()->getY();
+        z = particle->getPosition()->getZ() - massCenter->getPosition()->getZ();
+        particleObjectPositions.push_back(new Vector3D(x,y,z));
+    }
+
+    float totalMass = 0.0f;
+    totalMass += massCenter->getMass();
+    for(Particle* &particle : bodyParticles){
+        totalMass += particle->getMass();
+    }
+
+
+    Quaternion* qt =  new Quaternion(1,0,0,0);
+
+    Matrix4 * transformMatrix = new Matrix4();
+    transformMatrix = transformMatrix->setOrientation(qt);
+    transformMatrix->getMatrix()[3]=massCenter->getPosition()->getX();
+    transformMatrix->getMatrix()[7]=massCenter->getPosition()->getY();
+    transformMatrix->getMatrix()[11]=massCenter->getPosition()->getZ();
+
+    float coefInert [9];
+    coefInert[0] = (1.0f/12.0f)*totalMass*(40.0f*40.0f+40.0f*40.0f);
+    coefInert[1] = 0 ;
+    coefInert[2] = 0 ;
+    coefInert[3] = 0 ;
+    coefInert[4] = (1.0f/12.0f)*totalMass*(20.0f*20.0f+40.0f*40.0f);
+    coefInert[5] = 0 ;
+    coefInert[6] = 0 ;
+    coefInert[7] = 0 ;
+    coefInert[8] = (1.0f/12.0f)*totalMass*(20.0f*20.0f+40.0f*40.0f);
+    Matrix3 * invertedInertiaMatrix = new Matrix3(coefInert);
+    invertedInertiaMatrix = invertedInertiaMatrix->invert();
+
+
+
     RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+
+    rb->setParticleObjectPositions(particleObjectPositions);
 
     worldRigidBodies.push_back(rb);
 }
