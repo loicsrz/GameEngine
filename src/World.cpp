@@ -155,7 +155,6 @@ void World::initWorld1() {
     transformMatrix->setValue(3, massCenter->getPosition()->getX());
     transformMatrix->setValue(7, massCenter->getPosition()->getY());
     transformMatrix->setValue(11, massCenter->getPosition()->getZ());
-    transformMatrix->toString();
 
     vector<float> coefInert;
     for (int i = 0; i < 9; ++i) {

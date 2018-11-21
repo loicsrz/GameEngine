@@ -195,16 +195,6 @@ void RigidBody::updateVerticesPositions() {
         particle->setPosition((*transformMatrix)*(**it));
         it++;
     }
-//    cout << "----------BODY PARTICLES-----------" << endl;
-//    for (Particle * &particle : bodyParticles) {
-//        particle->getPosition()->toString();
-//    }
-
-    Vector3D * test = *(transformMatrix->invert())**(bodyParticles[0]->getPosition());
-    cout<<"v1 position : "<<endl;
-    cout<<"v1 X : "<<test->getX()<<endl;
-    cout<<"v1 Y : "<<test->getY()<<endl;
-    cout<<"v1 Z : "<<test->getZ()<<endl;
 }
 
 /// Début de l'ensemble des getters et setters de la classe RigidBody ------------------------------------------------
