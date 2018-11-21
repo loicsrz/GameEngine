@@ -61,6 +61,8 @@ public:
     vector<RigidBody *> &getWorldRigidBodies();
 
     void setWorldRigidBodies(vector<RigidBody *> &worldRigidBodies);
+
+    float distanceBetweenParticles(Particle* a, Particle* b);
     ///-------------------------------------------------------------------------
 
     /// Créations des World de démonstration -----------------------------------

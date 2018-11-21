@@ -162,6 +162,236 @@ void render() {
             glFlush();
             glutSwapBuffers();
         }
+        else if (scene == 2)
+        {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            glMatrixMode(GL_PROJECTION);  //Je mets la matrice MODEL_VIEW en utilisation courante.
+            glLoadIdentity();
+            gluPerspective(45.0f, (float) 960 / (float) 960, 0.1f, 2000.0f);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            glTranslatef(100.0f, -200.0f, -800.0f);
+            //gluLookAt(0.0f, -200.0f, 700.0f, 0.0f, 0.0f, 0.0f, 0.f, 1.0f, 0.0f);
+
+
+            //glColor3f(0.0, 1.0, 0.0)
+
+            //-------------------------FIRST CAR-------------------------------
+            //FRONT
+            glColor3f(1.0, 0.0, 0.0);
+            glBegin(GL_POLYGON);
+            for (int i = 4; i < 8; i++) {
+                glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+                glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getX(),
+                           world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getY(),
+                           world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getZ());
+            }
+            glEnd();
+
+            //BACK
+            glBegin(GL_POLYGON);
+            for (int i = 0; i < 4; i++) {
+                glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+                glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getX(),
+                           world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getY(),
+                           world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getZ());
+            }
+            glEnd();
+
+            //RIGHT
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[5]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[5]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[5]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[1]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[1]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[1]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[6]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[6]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[6]->getPosition()->getZ());
+            glEnd();
+
+            //RIGHT
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[4]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[4]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[4]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[0]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[0]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[0]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[3]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[3]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[3]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[7]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[7]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[7]->getPosition()->getZ());
+            glEnd();
+
+            //TOP
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[7]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[7]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[7]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[6]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[6]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[6]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[3]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[3]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[3]->getPosition()->getZ());
+            glEnd();
+
+            //DOWN
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[1]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[1]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[1]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[2]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[5]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[5]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[5]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[4]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[4]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[0]->getBodyParticles()[4]->getPosition()->getZ());
+            glEnd();
+
+//            glPointSize(5.0f);
+//            glColor3f(0.0, 1.0, 0.0);
+//            glBegin(GL_POINTS);
+//            glVertex3f(world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getX(),world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getY(),0.0f);
+//            glEnd();
+
+            //-------------------------SECOND CAR-------------------------------
+
+            //FRONT
+            glColor3f(1.0, 0.0, 0.0);
+            glBegin(GL_POLYGON);
+            for (int i = 4; i < 8; i++) {
+                glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+                glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[i]->getPosition()->getX(),
+                           world.getWorldRigidBodies()[1]->getBodyParticles()[i]->getPosition()->getY(),
+                           world.getWorldRigidBodies()[1]->getBodyParticles()[i]->getPosition()->getZ());
+            }
+            glEnd();
+
+            //BACK
+            glBegin(GL_POLYGON);
+            for (int i = 0; i < 4; i++) {
+                glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+                glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[i]->getPosition()->getX(),
+                           world.getWorldRigidBodies()[1]->getBodyParticles()[i]->getPosition()->getY(),
+                           world.getWorldRigidBodies()[1]->getBodyParticles()[i]->getPosition()->getZ());
+            }
+            glEnd();
+
+            //RIGHT
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[5]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[5]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[5]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[1]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[1]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[1]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[6]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[6]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[6]->getPosition()->getZ());
+            glEnd();
+
+            //RIGHT
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[4]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[4]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[4]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[0]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[0]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[0]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[3]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[3]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[3]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[7]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[7]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[7]->getPosition()->getZ());
+            glEnd();
+
+            //TOP
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[7]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[7]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[7]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[6]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[6]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[6]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[3]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[3]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[3]->getPosition()->getZ());
+            glEnd();
+
+            //DOWN
+            glBegin(GL_POLYGON);
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[1]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[1]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[1]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[2]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[5]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[5]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[5]->getPosition()->getZ());
+            glColor3f((float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100, (float) (rand() % 100 + 1)/100);
+            glVertex3f(world.getWorldRigidBodies()[1]->getBodyParticles()[4]->getPosition()->getX(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[4]->getPosition()->getY(),
+                       world.getWorldRigidBodies()[1]->getBodyParticles()[4]->getPosition()->getZ());
+            glEnd();
+
+
+            glFlush();
+            glutSwapBuffers();
+        }
 
         //cout << "IPS : " << gImagesParSeconde << "\r\n";
 
@@ -249,6 +479,19 @@ void timer(int value) {
         // Réinitialisation des forces accumulées
         world.clearAccums();
 
+        if(scene = 2)
+        {
+            RigidBody* rb1 = world.getWorldRigidBodies()[0];
+            RigidBody* rb2 = world.getWorldRigidBodies()[1];
+            cout << world.distanceBetweenParticles(rb1->getMassCenter(), rb2->getMassCenter()) << endl;
+            if(world.distanceBetweenParticles(rb1->getMassCenter(),rb2->getMassCenter()) <= 35.0f)
+            {
+                rb1->getMassCenter()->setVelocity(new Vector3D(-1.8f, 0.0f, 1.8f));
+                rb2->getMassCenter()->setVelocity(new Vector3D(1.8f, 0.0f, -1.8f));
+                rb1->setRotation(new Vector3D(0.0f, 0.09f, 0.0f));
+                rb2->setRotation(new Vector3D(0.0f, 0.09f, 0.0f));
+            }
+        }
         // Résolution de contacts avec le sol
 //        physics.searchAndResolveContactsWithGround(world);
 
