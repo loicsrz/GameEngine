@@ -55,6 +55,9 @@ public:
     ///Méthode d'intégration permettant de mettre à jour les informations des RigidBody du World
     void rigidBodyIntegrator(vector<RigidBody*> rigidBodies, float deltaTime);
 
+    ///Méthode de mise à jour des forceAccum de tous les rigidBody
+    void updateAllRigidBodiesForceAccum(vector<RigidBody*> rigidBodies);
+
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;
 

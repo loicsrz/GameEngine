@@ -143,23 +143,13 @@ void WorldPhysics::initWorldPhysics1(World world) {
     Vector3D * gravity = new Vector3D(0,-10.0f,0);
     dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
 
-    ParticleForceGenerator* drag = new DragGenerator();
-    dynamic_cast<DragGenerator*>(drag)->setK1(0.04f);
-    dynamic_cast<DragGenerator*>(drag)->setK2(0);
+//    ParticleForceGenerator* drag = new DragGenerator();
+//    dynamic_cast<DragGenerator*>(drag)->setK1(0.04f);
+//    dynamic_cast<DragGenerator*>(drag)->setK2(0);
 
-    SaveForce sfbs1{world.getWorldRigidBodies()[0],bs1};
-    SaveForce sfbs2{world.getWorldParticles()[1],bs2};
-    SaveForce grav1{world.getWorldParticles()[0],grav};
-    SaveForce grav2{world.getWorldParticles()[1],grav};
-    SaveForce drag1{world.getWorldParticles()[0],drag};
-    SaveForce drag2{world.getWorldParticles()[1],drag};
+    SaveForce grav1{world.getWorldRigidBodies()[0]->getMassCenter(),grav};
 
-    registerForces.addRegister(sfbs1);
-    registerForces.addRegister(sfbs2);
     registerForces.addRegister(grav1);
-    registerForces.addRegister(grav2);
-    registerForces.addRegister(drag1);
-    registerForces.addRegister(drag2);
 }
 
 void WorldPhysics::initWorldPhysics2(World world) {
@@ -186,5 +176,12 @@ void WorldPhysics::initWorldPhysics2(World world) {
     registerForces.addRegister(grav1);
     registerForces.addRegister(drag1);
 }
+
+void WorldPhysics::updateAllRigidBodiesForceAccum(vector<RigidBody *> rigidBodies) {
+    for(RigidBody* &rigidBody : rigidBodies){
+        rigidBody->addAllForceAccum();
+    }
+}
+
 
 ///------------------------------------------------------------------------------------------------------------------

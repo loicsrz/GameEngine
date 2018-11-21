@@ -7,20 +7,15 @@
 #include "../include/2B3_Engine/Matrix4.h"
 
 /// Début Constructeurs/Destructeur ---------------------------------------------------------------------------------
-RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity,
-                     Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
+RigidBody::RigidBody(Particle *massCenter, Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
                      Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum)
-        : invertedMass(invertedMass), linearDamping(linearDamping), position(position), velocity(velocity),
-          orientation(orientation), rotation(rotation), transformMatrix(transformMatrix),
+        : massCenter(massCenter), orientation(orientation), rotation(rotation), transformMatrix(transformMatrix),
           inversedInertieTensor(inversedInertieTensor), angularDamping(angularDamping), forcesAccum(forcesAccum),
           torqueAccum(torqueAccum) {}
 
-RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity,
-                     Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
+RigidBody::RigidBody(Particle *massCenter, Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
                      Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum,
-                     vector<Particle *> &bodyParticles) : invertedMass(invertedMass),
-                                                                linearDamping(linearDamping), position(position),
-                                                                velocity(velocity), orientation(orientation),
+                     const vector<Particle *> &bodyParticles) : massCenter(massCenter), orientation(orientation),
                                                                 rotation(rotation), transformMatrix(transformMatrix),
                                                                 inversedInertieTensor(inversedInertieTensor),
                                                                 angularDamping(angularDamping),
@@ -28,8 +23,7 @@ RigidBody::RigidBody(float invertedMass, float linearDamping, Vector3D *position
                                                                 bodyParticles(bodyParticles) {}
 
 RigidBody::~RigidBody() {
-    delete this->position;
-    delete this->velocity;
+    delete this->massCenter;
     delete this->orientation;
     delete this->rotation;
     delete this->forcesAccum;
@@ -49,9 +43,9 @@ void RigidBody::calculDerivedData() {
     Matrix4 * updatedTransformMatrix = new Matrix4();
     updatedTransformMatrix = updatedTransformMatrix->setOrientation(this->orientation);
 
-    updatedTransformMatrix->getMatrix()[3]=this->position->getX();
-    updatedTransformMatrix->getMatrix()[7]=this->position->getY();
-    updatedTransformMatrix->getMatrix()[11]=this->position->getZ();
+    updatedTransformMatrix->getMatrix()[3]=this->massCenter->getPosition()->getX();
+    updatedTransformMatrix->getMatrix()[7]=this->massCenter->getPosition()->getY();
+    updatedTransformMatrix->getMatrix()[11]=this->massCenter->getPosition()->getZ();
 
     this->transformMatrix = updatedTransformMatrix;
 
@@ -103,7 +97,7 @@ void RigidBody::addForceAccumulator(Vector3D *force) {
 /// Méthode visant à calculer la position et la vélocité de la prochaine frame.
 void RigidBody::integrator(float time) {
 
-    Vector3D * acceleration = this->forcesAccum->scalarMultiplier(invertedMass);
+    Vector3D * acceleration = this->forcesAccum->scalarMultiplier(massCenter->getInvertedMass());
     Vector3D * derOrientation = inversedInertieTensor->operator*(*torqueAccum);
     rotation = rotation->scalarMultiplier(powf(angularDamping, time))->addVector(derOrientation->scalarMultiplier(time));
     UpdateSpeed(time, acceleration);
@@ -133,36 +127,20 @@ void RigidBody::addTorqueAccumulator(Vector3D *torque) {
 
 /// Début de l'ensemble des getters et setters de la classe RigidBody ------------------------------------------------
 
-float RigidBody::getInvertedMass() const {
-    return invertedMass;
+Particle *RigidBody::getMassCenter(){
+    return massCenter;
 }
 
-void RigidBody::setInvertedMass(float invertedMass) {
-    RigidBody::invertedMass = invertedMass;
+void RigidBody::setMassCenter(Particle *massCenter) {
+    RigidBody::massCenter = massCenter;
 }
 
-float RigidBody::getLinearDamping() const {
-    return linearDamping;
+vector<Particle *> &RigidBody::getBodyParticles() {
+    return bodyParticles;
 }
 
-void RigidBody::setLinearDamping(float linearDamping) {
-    RigidBody::linearDamping = linearDamping;
-}
-
-Vector3D *RigidBody::getPosition() const {
-    return position;
-}
-
-void RigidBody::setPosition(Vector3D *position) {
-    RigidBody::position = position;
-}
-
-Vector3D *RigidBody::getVelocity() const {
-    return velocity;
-}
-
-void RigidBody::setVelocity(Vector3D *velocity) {
-    RigidBody::velocity = velocity;
+void RigidBody::setBodyParticles(vector<Particle *> &bodyParticles) {
+    RigidBody::bodyParticles = bodyParticles;
 }
 
 float RigidBody::getAngularDamping() const {
@@ -205,11 +183,11 @@ Vector3D *RigidBody::getRotation() const {
     return rotation;
 }
 
-Matrix3 *RigidBody::getTransformMatrix() const {
+Matrix4 *RigidBody::getTransformMatrix() {
     return transformMatrix;
 }
 
-void RigidBody::setTransformMatrix(Matrix3 *transformMatrix) {
+void RigidBody::setTransformMatrix(Matrix4 *transformMatrix) {
     RigidBody::transformMatrix = transformMatrix;
 }
 
@@ -226,11 +204,18 @@ void RigidBody::setInversedInertieTensor(Matrix3 *inversedInertieTensor) {
 
 /// Méthode de mise à jour de la vélocité du corps rigide.
 void RigidBody::UpdatePosition(float time) {
-    this->position = this->position->addVector(this->velocity->scalarMultiplier(time));
+    this->massCenter->setPosition(this->massCenter->getPosition()->addVector(this->massCenter->getVelocity()->scalarMultiplier(time)));
 }
 
 /// Méthode de mise à jour de la position du corps rigide.
 void RigidBody::UpdateSpeed(float time, Vector3D *acceleration) {
-    this->velocity = (this->velocity->scalarMultiplier(pow(this->linearDamping, time)))
-            ->addVector(acceleration->scalarMultiplier(time));
+    this->massCenter->setVelocity((this->massCenter->getVelocity()->scalarMultiplier(pow(this->massCenter->getDamping(), time)))
+                                          ->addVector(acceleration->scalarMultiplier(time)));
+}
+
+void RigidBody::addAllForceAccum() {
+    forcesAccum->addVector(massCenter->getForcesAccum());
+    for(Particle* &particle : bodyParticles){
+        forcesAccum->addVector(particle->getForcesAccum());
+    }
 }

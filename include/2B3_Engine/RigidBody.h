@@ -15,14 +15,8 @@
 class RigidBody {
 
 protected:
-    //Inverse Masse
-    float invertedMass;
-    //Damping (forces de frottement)
-    float linearDamping;
-    // Position.
-    Vector3D *position;
-    // Vélocité.
-    Vector3D *velocity;
+        // Centre de masse
+    Particle * massCenter;
     // Orientation
     Quaternion *orientation;
     // Rotation
@@ -42,13 +36,12 @@ protected:
 public:
 
     /// Début Constructeur/Destructeur
-    RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
-            Vector3D *rotation, Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, float angularDamping,
-            Vector3D *forcesAccum, Vector3D *torqueAccum);
+    RigidBody(Particle *massCenter, Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
+              Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum);
 
-    RigidBody(float invertedMass, float linearDamping, Vector3D *position, Vector3D *velocity, Quaternion *orientation,
-            Vector3D *rotation, Matrix4 *transformMatrix, Matrix3 *inversedInertieTensor, float angularDamping,
-            Vector3D *forcesAccum, Vector3D *torqueAccum, vector<Particle *> &bodyParticles);
+    RigidBody(Particle *massCenter, Quaternion *orientation, Vector3D *rotation, Matrix4 *transformMatrix,
+              Matrix3 *inversedInertieTensor, float angularDamping, Vector3D *forcesAccum, Vector3D *torqueAccum,
+              const vector<Particle *> &bodyParticles);
 
     ~RigidBody();
 
@@ -73,29 +66,25 @@ public:
     /// Methode de réinitialisation à 0 de la force accumulé et du torque accumulé par le Corps Rigide
     void clearAccumulator();
 
+    /// Méthode qui ajoute une particule au rigidBody
     void addParticleToBody(Particle * particle);
+
+    ///Méthode qui ajoute les forceAccum des particules du rigidBody au forceAccum du RigidBody
+    void addAllForceAccum();
 
 
     /// Début de l'ensemble des getters et setters de la classe Corps Rigide.
+    Particle *getMassCenter();
+
+    void setMassCenter(Particle *massCenter);
+
+    vector<Particle *> &getBodyParticles();
+
+    void setBodyParticles(vector<Particle *> &bodyParticles);
+
     void setOrientation(Quaternion *orientation);
 
     void setRotation(Vector3D *rotation);
-
-    float getInvertedMass() const;
-
-    void setInvertedMass(float invertedMass);
-
-    float getLinearDamping() const;
-
-    void setLinearDamping(float linearDamping);
-
-    Vector3D *getPosition() const;
-
-    void setPosition(Vector3D *position);
-
-    Vector3D *getVelocity() const;
-
-    void setVelocity(Vector3D *velocity);
 
     float getAngularDamping() const;
 
@@ -105,9 +94,9 @@ public:
 
     void setForcesAccum(Vector3D *forcesAccum);
 
-    Matrix3 *getTransformMatrix() const;
+    Matrix4 *getTransformMatrix();
 
-    void setTransformMatrix(Matrix3 *transformMatrix);
+    void setTransformMatrix(Matrix4 *transformMatrix);
 
     Matrix3 *getInversedInertieTensor() const;
 

@@ -128,7 +128,7 @@ void World::initWorld1() {
     bodyParticles.push_back(vertex1);
     bodyParticles.push_back(vertex2);
 
-    RigidBody* rb = new RigidBody(1.0f, 0.99f, massCenter->getPosition(), massCenter->getVelocity(), qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
 
     worldRigidBodies.push_back(rb);
 }

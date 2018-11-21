@@ -52,14 +52,14 @@ void render() {
             glColor3f(0.0, 1.0, 0.0);
             glBegin(GL_TRIANGLES);
             for (int i = 1; i < 4; ++i) {
-                glVertex3f(world.getWorldParticles()[i]->getPosition()->getX(), world.getWorldParticles()[i]->getPosition()->getY(), 0.0f);
+                glVertex3f(world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getX(), world.getWorldRigidBodies()[0]->getBodyParticles()[i]->getPosition()->getY(), 0.0f);
             }
             glEnd();
 
             glPointSize(5.0f);
             glColor3f(1.0, 0.0, 0.0);
             glBegin(GL_POINTS);
-                glVertex3f(world.getWorldParticles()[0]->getPosition()->getX(),world.getWorldParticles()[0]->getPosition()->getX(),0.0f);
+                glVertex3f(world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getX(),world.getWorldRigidBodies()[0]->getMassCenter()->getPosition()->getY(),0.0f);
             glEnd();
 
             glLineWidth(1.0f);
@@ -151,31 +151,32 @@ void timer(int value) {
     if(runScenario){
         // Application des forces aux particules
         physics.applyForces(dt);
+        physics.updateAllRigidBodiesForceAccum(world.getWorldRigidBodies());
 
         // Intégration
-        physics.particlesIntegrator(world.getWorldParticles(),dt);
+        physics.rigidBodyIntegrator(world.getWorldRigidBodies(),dt);
 
         // Réinitialisation des forces accumulées
-        world.clearForceAccums();
+        world.clearForceAccums(); //TODO : application aux rigidBodies
 
         // Résolution de contacts avec le sol
-        physics.searchAndResolveContactsWithGround(world);
+//        physics.searchAndResolveContactsWithGround(world);
 
         // Résolution de contacts
-        physics.searchContacts(world);
-        if(!physics.getContacts().empty()){
-            physics.initFrameContactResolver(physics.getContacts().size());
-            physics.resolveContacts(dt);
-        }
-        while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
-            physics.searchContacts(world);
-            if(!physics.getContacts().empty()){
-                physics.resolveContacts(dt);
-            }
-            else{
-                break;
-            }
-        }
+//        physics.searchContacts(world);
+//        if(!physics.getContacts().empty()){
+//            physics.initFrameContactResolver(physics.getContacts().size());
+//            physics.resolveContacts(dt);
+//        }
+//        while(physics.getContactResolver().getConsumedIterations()<physics.getContactResolver().getIterationsMax()){
+//            physics.searchContacts(world);
+//            if(!physics.getContacts().empty()){
+//                physics.resolveContacts(dt);
+//            }
+//            else{
+//                break;
+//            }
+//        }
     }
 
     fps(); // Appelé une fois par calcul d'image pour afficher le nombre d'IPS
