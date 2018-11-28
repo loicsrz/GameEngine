@@ -7,7 +7,7 @@ set(SOURCE_FILES main.cpp Particle.cpp ../include/2B3_Engine/Particle.h Vector3D
     ParticleContact.cpp ../include/2B3_Engine/ParticleContact.h ParticleContactResolver.cpp ../include/2B3_Engine/ParticleContactResolver.h
     World.cpp ../include/2B3_Engine/World.h ParticleContactGenerator.cpp ../include/2B3_Engine/ParticleContactGenerator.h 
     ParticleLink.cpp ../include/2B3_Engine/ParticleLink.h ParticleCable.cpp ../include/2B3_Engine/ParticleCable.h ParticleRod.cpp ../include/2B3_Engine/ParticleRod.h WorldPhysics.cpp ../include/2B3_Engine/WorldPhysics.h Quaternion.cpp ../include/2B3_Engine/Quaternion.h RigidBody.cpp ../include/2B3_Engine/RigidBody.h
-    Matrix3.cpp ../include/2B3_Engine/Matrix3.h Matrix4.cpp ../include/2B3_Engine/Matrix4.h)
+    Matrix3.cpp ../include/2B3_Engine/Matrix3.h Matrix4.cpp ../include/2B3_Engine/Matrix4.h ../include/2B3_Engine/Sphere.cpp ../include/2B3_Engine/Sphere.h ../include/2B3_Engine/Box.cpp ../include/2B3_Engine/Box.h)
 
 # Création de l'exécutable pour le projet
 add_executable(2Be3_Engine ${SOURCE_FILES})

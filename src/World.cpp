@@ -5,6 +5,19 @@
 #include "../include/2B3_Engine/ParticleCable.h"
 #include "../include/2B3_Engine/ParticleRod.h"
 #include "../include/2B3_Engine/RigidBody.h"
+#include "../include/2B3_Engine/Box.h"
+
+struct Plane{
+    Vector3D * position;
+    Vector3D * n;
+};
+
+struct BSPNode{
+    Plane * plane;
+    BSPNode * front;
+    BSPNode * back;
+};
+
 
 ///Constructeur par défaut
 World::World() {}
@@ -338,5 +351,9 @@ void World::initWorld2() {
     worldRigidBodies.push_back(rb2);
 }
 
-
 ///------------------------------------------------------------------------------------------------------------------
+
+BSPNode * createRoomColliders(Box * box,float offset){
+    BSPNode * test =  new BSPNode();
+
+}
