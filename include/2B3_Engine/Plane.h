@@ -9,6 +9,20 @@
 #include "Primitive.h"
 
 class Plane : public Primitive{
+public:
+    Plane(Vector3D *perpendicularAngle, float offset);
+
+    Vector3D *getPerpendicularAngle() const;
+
+    void setPerpendicularAngle(Vector3D *perpendicularAngle);
+
+    float getOffset() const;
+
+    void setOffset(float offset);
+
+    virtual ~Plane();
+
+private:
 
     Vector3D * perpendicularAngle;
     float offset;
