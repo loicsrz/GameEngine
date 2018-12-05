@@ -7,8 +7,9 @@
 
 
 #include "Vector3D.h"
+#include "Primitive.h"
 
-class Sphere {
+class Sphere : Primitive{
 
 protected:
     Vector3D * center;

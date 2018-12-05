@@ -9,6 +9,8 @@
 #include "Particle.h"
 #include "ParticleLink.h"
 #include "RigidBody.h"
+#include "Plane.h"
+#include "BSPNode.h"
 
 /// Classe World
     /// Classe qui contient tout ce qui appartient au monde en terme d'objet et de structure
@@ -21,6 +23,8 @@ protected:
     vector<float> grounds;
     vector<float> groundSeparations;
     vector<ParticleLink*> particleLinks;
+    vector<Plane*> walls;
+    BSPNode* root;
 
 public:
     ///Constructeur par défaut
