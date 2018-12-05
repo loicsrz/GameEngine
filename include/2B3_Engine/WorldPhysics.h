@@ -12,6 +12,7 @@
 #include "RegisterForces.h"
 #include "ParticleContactResolver.h"
 #include "RigidBody.h"
+#include "CollisionData.h"
 
 using namespace std;
 
@@ -58,6 +59,8 @@ public:
 
     ///Méthode de mise à jour des forceAccum de tous les rigidBody
     void updateAllRigidBodiesAccum(vector<Primitive*> objects);
+
+    void GenerateContacts(Primitive prim1, Primitive prim2, CollisionData * data);
 
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;
