@@ -4,7 +4,8 @@
 
 #include "../include/2B3_Engine/Sphere.h"
 
-Sphere::Sphere(Vector3D *center, float radius) : center(center), radius(radius) {}
+Sphere::Sphere(RigidBody *body, Matrix4 *offset, Vector3D *center, float radius) : Primitive(body, offset),
+                                                                                   center(center), radius(radius) {}
 
 Sphere::~Sphere() {
 

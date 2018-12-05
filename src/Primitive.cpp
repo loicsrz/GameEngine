@@ -4,6 +4,13 @@
 
 #include "../include/2B3_Engine/Primitive.h"
 
+Primitive::Primitive(RigidBody *body, Matrix4 *offset) : body(body), offset(offset) {}
+
+Primitive::~Primitive() {
+    delete body;
+    delete offset;
+}
+
 RigidBody *Primitive::getBody() const {
     return body;
 }

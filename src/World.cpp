@@ -16,7 +16,9 @@ World::World() {}
 World::World(const vector<Particle*> &worldParticles) : worldParticles(worldParticles) {}
 
 ///Destruteur
-World::~World() {}
+World::~World() {
+    delete root;
+}
 
 /// Méthode d'ajout d'une Particle au World
 void World::addParticleToWorld(Particle *particle) {
@@ -38,14 +40,14 @@ void World::eraseParticle(Particle *particle) {
 void World::eraseWorld() {
     worldParticles.clear();
     particleLinks.clear();
-    worldRigidBodies.clear();
+    worldObjects.clear();
     grounds.clear();
 }
 
 /// Méthode de réinitialisation des forces accumulées par les Particle du World
 void World::clearAccums() {
-    for(vector<RigidBody*>::iterator it = getWorldRigidBodies().begin();it != getWorldRigidBodies().end();++it){
-        (*it)->clearAccumulator();
+    for(vector<Primitive*>::iterator it = getWorldObjects().begin();it != getWorldObjects().end();++it){
+        (*it)->getBody()->clearAccumulator();
     }
 }
 
@@ -79,12 +81,12 @@ void World::setGrounds(const vector<float> &grounds) {
     World::grounds = grounds;
 }
 
-vector<RigidBody *> &World::getWorldRigidBodies(){
-    return worldRigidBodies;
+vector<Primitive *> &World::getWorldObjects(){
+    return worldObjects;
 }
 
-void World::setWorldRigidBodies(vector<RigidBody *> &worldRigidBodies) {
-    World::worldRigidBodies = worldRigidBodies;
+void World::setWorldObjects(vector<Primitive *> &worldObjects) {
+    World::getWorldObjects() = worldObjects;
 }
 
 float World::distanceBetweenParticles(Particle* a, Particle* b)
@@ -176,24 +178,26 @@ void World::initWorld1() {
 
     rb->setParticleObjectPositions(particleObjectPositions);
 
-    worldRigidBodies.push_back(rb);
+    Box* box = new Box(rb, nullptr, rb->getMassCenter()->getPosition(), 0.0f, 0.0f, 0.0f, new Sphere(nullptr, nullptr, rb->getMassCenter()->getPosition(), distanceBetweenParticles(rb->getMassCenter(), rb->getBodyParticles()[0])));
+
+    worldObjects.push_back(box);
 
     //Walls creation
-    walls.push_back(new Plane(new Vector3D(1,0,0), 300)); //Right wall
-    walls.push_back(new Plane(new Vector3D(-1,0,0), 300)); //Left wall
-    walls.push_back(new Plane(new Vector3D(0,1,0), 300)); //Top wall
-    walls.push_back(new Plane(new Vector3D(0,-1,0), 300)); //Bottom wall
-    walls.push_back(new Plane(new Vector3D(0,0,1), 300)); //Front wall
-    walls.push_back(new Plane(new Vector3D(0,0,-1), 300)); //Back wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), 300)); //Right wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), 300)); //Left wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), 300)); //Top wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), 300)); //Bottom wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), 300)); //Front wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), 300)); //Back wall
 
-    BSPNode* backNode = new BSPNode(new Plane(new Vector3D(0,0,-1), 299),nullptr, nullptr);
-    BSPNode* frontNode = new BSPNode(new Plane(new Vector3D(0,0,1), 299),nullptr, backNode);
-    BSPNode* bottomNode = new BSPNode(new Plane(new Vector3D(0,-1,0), 299),nullptr, frontNode);
-    BSPNode* topNode = new BSPNode(new Plane(new Vector3D(0,1,0), 299),nullptr, bottomNode);
-    BSPNode* leftNode = new BSPNode(new Plane(new Vector3D(-1,0,0), 299),nullptr, topNode);
-    root = new BSPNode(new Plane(new Vector3D(1,0,0), 299),nullptr, leftNode); //Right node
+    BSPNode* backNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), 299), nullptr, nullptr);
+    BSPNode* frontNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), 299), nullptr, backNode);
+    BSPNode* bottomNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), 299), nullptr, frontNode);
+    BSPNode* topNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), 299), nullptr, bottomNode);
+    BSPNode* leftNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), 299), nullptr, topNode);
+    root = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), 299), nullptr, leftNode); //Right node
 
-    
+
 }
 
 void World::initWorld2() {

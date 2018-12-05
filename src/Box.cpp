@@ -4,9 +4,9 @@
 
 #include "../include/2B3_Engine/Box.h"
 
-Box::Box(Vector3D *center, float semiWidth, float semiHeight, float semiDepth) : center(center), semiWidth(semiWidth),
-                                                                                 semiHeight(semiHeight),
-                                                                                 semiDepth(semiDepth) {}
+Box::Box(RigidBody *body, Matrix4 *offset, Vector3D *center, float semiWidth, float semiHeight, float semiDepth,
+         Sphere *sphere) : Primitive(body, offset), center(center), semiWidth(semiWidth), semiHeight(semiHeight),
+                           semiDepth(semiDepth), sphere(sphere) {}
 
 Box::~Box() {
     delete center;
@@ -44,6 +44,14 @@ void Box::setSemiDepth(float semiDepth) {
     Box::semiDepth = semiDepth;
 }
 
+Sphere *Box::getSphere() const {
+    return sphere;
+}
+
+void Box::setSphere(Sphere *sphere) {
+    Box::sphere = sphere;
+}
+
 vector<Vector3D *> Box::getBoxVertices() {
     vector<Vector3D*> vertices;
 
@@ -67,3 +75,5 @@ vector<Vector3D *> Box::getBoxVertices() {
 
     return vertices;
 }
+
+

@@ -16,7 +16,7 @@ protected:
     float radius;
 
 public:
-    Sphere(Vector3D *center, float radius);
+    Sphere(RigidBody *body, Matrix4 *offset, Vector3D *center, float radius);
 
     virtual ~Sphere();
 

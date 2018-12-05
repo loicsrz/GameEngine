@@ -10,7 +10,7 @@
 
 class Plane : public Primitive{
 public:
-    Plane(Vector3D *perpendicularAngle, float offset);
+    Plane(RigidBody *body, Matrix4 *offset1, Vector3D *perpendicularAngle, float offset);
 
     Vector3D *getPerpendicularAngle() const;
 

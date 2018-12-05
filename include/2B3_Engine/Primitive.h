@@ -10,6 +10,8 @@
 
 class Primitive {
 public:
+    Primitive(RigidBody *body, Matrix4 *offset);
+
     RigidBody *getBody() const;
 
     void setBody(RigidBody *body);
@@ -17,6 +19,8 @@ public:
     Matrix4 *getOffset() const;
 
     void setOffset(Matrix4 *offset);
+
+    virtual ~Primitive();
 
 private:
     RigidBody* body;

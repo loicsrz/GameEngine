@@ -8,6 +8,7 @@
 
 #include "Vector3D.h"
 #include "Primitive.h"
+#include "Sphere.h"
 
 class Box : public Primitive{
 protected:
@@ -15,9 +16,11 @@ protected:
     float semiWidth; //semiX
     float semiHeight; //semiY
     float semiDepth; //semiZ
+    Sphere* sphere; //Broad volume
 
 public:
-    Box(Vector3D *center, float semiWidth, float semiHeight, float semiDepth);
+    Box(RigidBody *body, Matrix4 *offset, Vector3D *center, float semiWidth, float semiHeight, float semiDepth,
+        Sphere *sphere);
 
     virtual ~Box();
 
@@ -38,6 +41,10 @@ public:
     float getSemiDepth() const;
 
     void setSemiDepth(float semiDepth);
+
+    Sphere *getSphere() const;
+
+    void setSphere(Sphere *sphere);
 };
 
 

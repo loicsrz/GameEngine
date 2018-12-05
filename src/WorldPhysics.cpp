@@ -111,16 +111,16 @@ void WorldPhysics::initFrameContactResolver(int nbIterMax) {
 }
 
 /// Méthode d'intégration permettant de mettre à jour les informations des RigidBody du World
-void WorldPhysics::rigidBodyIntegrator(vector<RigidBody *> rigidBodies, float deltaTime) {
-    for (auto &rigidBody : rigidBodies) {
-        rigidBody->integrator(deltaTime);
+void WorldPhysics::rigidBodyIntegrator(vector<Primitive *> objects, float deltaTime) {
+    for (auto &object : objects) {
+        object->getBody()->integrator(deltaTime);
     }
 }
 
 ///Méthode de mise à jour des forceAccum de tous les rigidBody
-void WorldPhysics::updateAllRigidBodiesAccum(vector<RigidBody *> rigidBodies) {
-    for(RigidBody* &rigidBody : rigidBodies){
-        rigidBody->updateAllAccum();
+void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
+    for(Primitive* &object : objects){
+        object->getBody()->updateAllAccum();
     }
 }
 
@@ -153,7 +153,7 @@ void WorldPhysics::initWorldPhysics1(World world) {
 //    dynamic_cast<DragGenerator*>(drag)->setK1(0.04f);
 //    dynamic_cast<DragGenerator*>(drag)->setK2(0);
 
-    SaveForce grav1{world.getWorldRigidBodies()[0]->getMassCenter(),grav};
+    SaveForce grav1{world.getWorldObjects()[0]->getBody()->getMassCenter(),grav};
 
     registerForces.addRegister(grav1);
 }

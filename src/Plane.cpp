@@ -4,7 +4,9 @@
 
 #include "../include/2B3_Engine/Plane.h"
 
-Plane::Plane(Vector3D *perpendicularAngle, float offset) : perpendicularAngle(perpendicularAngle), offset(offset)
+Plane::Plane(RigidBody *body, Matrix4 *offset1, Vector3D *perpendicularAngle, float offset) : Primitive(body, offset1),
+                                                                                              perpendicularAngle(perpendicularAngle),
+                                                                                              offset(offset)
 {
 
 }

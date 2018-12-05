@@ -7,7 +7,9 @@
 BSPNode::BSPNode(Plane *plane, BSPNode *front, BSPNode *back) : plane(plane), front(front), back(back) {}
 
 BSPNode::~BSPNode() {
-
+    delete plane;
+    delete front;
+    delete back;
 }
 
 Plane *BSPNode::getPlane() const {

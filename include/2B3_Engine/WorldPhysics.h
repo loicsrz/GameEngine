@@ -54,10 +54,10 @@ public:
     void initFrameContactResolver(int nbIterMax);
 
     ///Méthode d'intégration permettant de mettre à jour les informations des RigidBody du World
-    void rigidBodyIntegrator(vector<RigidBody*> rigidBodies, float deltaTime);
+    void rigidBodyIntegrator(vector<Primitive*> objects, float deltaTime);
 
     ///Méthode de mise à jour des forceAccum de tous les rigidBody
-    void updateAllRigidBodiesAccum(vector<RigidBody*> rigidBodies);
+    void updateAllRigidBodiesAccum(vector<Primitive*> objects);
 
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;

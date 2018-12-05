@@ -19,7 +19,7 @@ class World {
     ///Attributs
 protected:
     vector<Particle*> worldParticles;
-    vector<RigidBody*> worldRigidBodies;
+    vector<Primitive*> worldObjects;
     vector<float> grounds;
     vector<float> groundSeparations;
     vector<ParticleLink*> particleLinks;
@@ -63,9 +63,9 @@ public:
 
     vector<ParticleLink*> getParticleLinks();
 
-    vector<RigidBody *> &getWorldRigidBodies();
+    vector<Primitive *> &getWorldObjects();
 
-    void setWorldRigidBodies(vector<RigidBody *> &worldRigidBodies);
+    void setWorldObjects(vector<Primitive *> &worldObjects);
 
     float distanceBetweenParticles(Particle* a, Particle* b);
     ///-------------------------------------------------------------------------
