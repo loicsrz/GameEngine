@@ -7,8 +7,9 @@
 
 
 #include "Vector3D.h"
+#include "Primitive.h"
 
-class Box {
+class Box : public Primitive{
 protected:
     Vector3D * center;
     float semiWidth; //semiX

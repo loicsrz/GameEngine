@@ -2,7 +2,7 @@
 // Created by totoa on 28/11/2018.
 //
 
-#include "Box.h"
+#include "../include/2B3_Engine/Box.h"
 
 Box::Box(Vector3D *center, float semiWidth, float semiHeight, float semiDepth) : center(center), semiWidth(semiWidth),
                                                                                  semiHeight(semiHeight),
