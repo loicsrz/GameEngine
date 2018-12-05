@@ -13,6 +13,7 @@
 #include "ParticleContactResolver.h"
 #include "RigidBody.h"
 #include "CollisionData.h"
+#include "Primitive.h"
 
 using namespace std;
 

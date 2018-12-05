@@ -124,6 +124,12 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
     }
 }
 
+void WorldPhysics::GenerateContacts(Primitive prim1, Primitive prim2, CollisionData *data) {
+
+    
+}
+
+
 /// Getters - Setters -----------------------------------------------------------------------------------------------
 
 const vector<ParticleContact *> &WorldPhysics::getContacts() const {
