@@ -63,8 +63,6 @@ public:
 
     void GenerateContacts(Primitive prim1, Primitive prim2, CollisionData * data);
 
-    void GenerateContacts(Primitive prim1, Primitive prim2, CollisionData * data);
-
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;
 
