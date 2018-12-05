@@ -12,6 +12,7 @@
 #include "../include/2B3_Engine/ParticleAnchoredSpring.h"
 #include "../include/2B3_Engine/ParticleStiffSpring.h"
 #include "../include/2B3_Engine/ParticleSpring.h"
+#include "../include/2B3_Engine/Box.h"
 
 /// Constructeur par défaut
 WorldPhysics::WorldPhysics() {
@@ -124,9 +125,12 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
     }
 }
 
-void WorldPhysics::GenerateContacts(Primitive prim1, Primitive prim2, CollisionData *data) {
+void WorldPhysics::GenerateContacts(Primitive* prim1, Primitive *prim2, CollisionData *data) {
 
-    
+    //TODO : obtenir la fonction qui renvoie l'ensemble des coins.
+
+    dynamic_cast<Plane*>(prim1)->;
+    dynamic_cast<Box*>(prim2);
 }
 
 
