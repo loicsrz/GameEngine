@@ -206,6 +206,22 @@ void World::initWorld2() {
 
 }
 
+const vector<Plane *> &World::getWalls() const {
+    return walls;
+}
+
+void World::setWalls(const vector<Plane *> &walls) {
+    World::walls = walls;
+}
+
+BSPNode *World::getRoot() const {
+    return root;
+}
+
+void World::setRoot(BSPNode *root) {
+    World::root = root;
+}
+
 ///------------------------------------------------------------------------------------------------------------------
 
 BSPNode * createRoomColliders(Box * box,float offset){

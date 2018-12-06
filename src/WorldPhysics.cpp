@@ -125,12 +125,12 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
     }
 }
 
-void WorldPhysics::GenerateContacts(Primitive* prim1, Primitive *prim2, CollisionData *data) {
+void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2, CollisionData *data) {
 
     //TODO : obtenir la fonction qui renvoie l'ensemble des coins.
 
-    dynamic_cast<Plane*>(prim1)->;
-    dynamic_cast<Box*>(prim2);
+    /*dynamic_cast<Plane*>(prim1).;
+    dynamic_cast<Box*>(prim2);*/
 }
 
 
@@ -166,10 +166,47 @@ void WorldPhysics::initWorldPhysics1(World world) {
     SaveForce grav1{world.getWorldObjects()[0]->getBody()->getMassCenter(),grav};
 
     registerForces.addRegister(grav1);
+
 }
 
 void WorldPhysics::initWorldPhysics2(World world) {
     //Empty
+}
+
+void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNode * root) {
+    BSPNode * currentNode = root;
+    Sphere * currentSphere;
+    for(Primitive* & object : objects){
+        Box * box = dynamic_cast<Box *>(object);
+        currentSphere = box->getSphere();
+        Vector3D * planeLimit;
+        while(currentNode->getBack() != nullptr){
+            planeLimit = currentNode->getPlane()->getPerpendicularAngle()->scalarMultiplier(currentNode->getPlane()->getOffset());
+            if(planeLimit->getX()!=0){
+                if(currentSphere->getCenter()->getX()+currentSphere->getRadius()>planeLimit->getX() || currentSphere->getCenter()->getX()-currentSphere->getRadius()<planeLimit->getX()){
+                    potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
+                }
+            }
+            else if(planeLimit->getY()!=0){
+                if(currentSphere->getCenter()->getY()+currentSphere->getRadius()>planeLimit->getY() || currentSphere->getCenter()->getY()-currentSphere->getRadius()<planeLimit->getY()){
+                    potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
+                }
+            }
+            else{
+                if(currentSphere->getCenter()->getZ()+currentSphere->getRadius()>planeLimit->getZ() || currentSphere->getCenter()->getZ()-currentSphere->getRadius()<planeLimit->getZ()){
+                    potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
+                }
+            }
+
+            currentNode = currentNode->getBack();
+        }
+    }
+}
+
+void WorldPhysics::generateAllContacts(vector<pair<Primitive *, Primitive *>> potentialCollisions, CollisionData *data) {
+    for(pair<Primitive*, Primitive*> &potentialCollision : potentialCollisions){
+        generateContacts(potentialCollision.first,potentialCollision.second,data);
+    }
 }
 
 

@@ -67,6 +67,14 @@ public:
 
     void setWorldObjects(vector<Primitive *> &worldObjects);
 
+    const vector<Plane *> &getWalls() const;
+
+    void setWalls(const vector<Plane *> &walls);
+
+    BSPNode *getRoot() const;
+
+    void setRoot(BSPNode *root);
+
     float distanceBetweenParticles(Particle* a, Particle* b);
     ///-------------------------------------------------------------------------
 

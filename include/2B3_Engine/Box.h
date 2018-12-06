@@ -24,6 +24,8 @@ public:
 
     virtual ~Box();
 
+    vector<Vector3D*> getAllCorners();
+
     vector<Vector3D*> getBoxVertices();
 
     Vector3D *getCenter() const;

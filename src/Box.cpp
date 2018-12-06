@@ -76,4 +76,12 @@ vector<Vector3D *> Box::getBoxVertices() {
     return vertices;
 }
 
+vector<Vector3D *> Box::getAllCorners() {
+    vector<Vector3D*> corners;
+    for(Particle* & particle: getBody()->getBodyParticles()){
+        corners.push_back(particle->getPosition());
+    }
+    return corners;
+}
+
 
