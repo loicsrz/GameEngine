@@ -30,3 +30,4 @@ float Plane::getOffset() const {
 void Plane::setOffset(float offset) {
     Plane::offset = offset;
 }
+

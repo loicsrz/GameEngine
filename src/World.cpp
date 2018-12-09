@@ -183,19 +183,19 @@ void World::initWorld1() {
     worldObjects.push_back(box);
 
     //Walls creation
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), 300)); //Right wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), 300)); //Left wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), 300)); //Top wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), 300)); //Bottom wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), 300)); //Front wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), 300)); //Back wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -300)); //Right wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -300)); //Left wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -300)); //Top wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -300)); //Bottom wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), -300)); //Front wall
+    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), -300)); //Back wall
 
-    BSPNode* backNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), 299), nullptr, nullptr);
-    BSPNode* frontNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), 299), nullptr, backNode);
-    BSPNode* bottomNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), 299), nullptr, frontNode);
-    BSPNode* topNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), 299), nullptr, bottomNode);
-    BSPNode* leftNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), 299), nullptr, topNode);
-    root = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), 299), nullptr, leftNode); //Right node
+    BSPNode* backNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), -299), nullptr, nullptr);
+    BSPNode* frontNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), -299), nullptr, backNode);
+    BSPNode* bottomNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -299), nullptr, frontNode);
+    BSPNode* topNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -299), nullptr, bottomNode);
+    BSPNode* leftNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -299), nullptr, topNode);
+    root = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -299), nullptr, leftNode); //Right node
 
 
 }
