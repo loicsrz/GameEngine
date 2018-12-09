@@ -15,6 +15,8 @@ private:
     vector<Contact*> contacts;
 
 public:
+    void resetCollisionData();
+
     int getContactLeft() const;
 
     void setContactLeft(int contactLeft);

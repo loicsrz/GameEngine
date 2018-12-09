@@ -23,3 +23,9 @@ void CollisionData::setContacts(const vector<Contact *> &contacts) {
 void CollisionData::Addcontact(Contact *contact) {
     contacts.push_back(contact);
 }
+
+void CollisionData::resetCollisionData() {
+    contactLeft = 0;
+    contacts.clear();
+
+}

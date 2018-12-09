@@ -28,6 +28,16 @@ protected:
     RegisterForces registerForces;
     ParticleContactResolver contactResolver;
     vector<pair<Primitive*,Primitive*>> potentialCollisions;
+    CollisionData * data;
+public:
+    const vector<pair<Primitive *, Primitive *>> &getPotentialCollisions() const;
+
+    void setPotentialCollisions(const vector<pair<Primitive *, Primitive *>> &potentialCollisions);
+
+    CollisionData *getData() const;
+
+    void setData(CollisionData *data);
+
 public:
 
     /// Constructeur par défaut
@@ -63,13 +73,15 @@ public:
     ///Méthode de mise à jour des forceAccum de tous les rigidBody
     void updateAllRigidBodiesAccum(vector<Primitive*> objects);
 
-    void generateContacts(Primitive *prim1, Primitive *prim2, CollisionData *data);
+    void generateContacts(Primitive *prim1, Primitive *prim2);
 
     void searchAllPotentialContacts(vector<Primitive*> objects, BSPNode* root);
 
-    void generateAllContacts(vector<pair<Primitive*,Primitive*>> potentialCollisions, CollisionData *data);
+    void generateAllContacts();
 
-    void contactType(CollisionData * data);
+    void contactType();
+
+    void resetAllCollisions();
 
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;

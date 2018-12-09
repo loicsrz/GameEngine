@@ -22,6 +22,7 @@ World world;
 WorldPhysics physics;
 bool isSceneLoaded;
 bool runScenario;
+bool collisionDetected;
 Particle massCenter;
 Particle Vertices [3];
 int scene=0;
@@ -464,7 +465,7 @@ void timer(int value) {
     dt = static_cast<float>(gFramesPerSecond > 0 ? 1.0 / static_cast<float>(gFramesPerSecond) : 1.0);
 
     //Boucle de calculs physiques en cas de Scene de jeu chargée
-    if(runScenario){
+    if(runScenario && !collisionDetected){
         // Application des forces et torques aux rigidBodies
         physics.applyForces(dt);
         physics.updateAllRigidBodiesAccum(world.getWorldObjects());
@@ -475,6 +476,7 @@ void timer(int value) {
         // Réinitialisation des forces accumulées
         world.clearAccums();
 
+        //TODO : Que fait-on de ça ?
         if(scene == 2)
         {
             RigidBody* rb1 = world.getWorldObjects()[0]->getBody();
@@ -486,6 +488,15 @@ void timer(int value) {
                 rb1->setRotation(new Vector3D(0.0f, 0.09f, 0.0f));
                 rb2->setRotation(new Vector3D(0.0f, 0.09f, 0.0f));
             }
+        }
+
+        physics.searchAllPotentialContacts(world.getWorldObjects(),world.getRoot());
+
+        physics.generateAllContacts();
+
+        if(physics.getData()->getContacts().size() != 0){
+            collisionDetected = true;
+            physics.contactType();
         }
         // Résolution de contacts avec le sol
 //        physics.searchAndResolveContactsWithGround(world);
@@ -527,6 +538,7 @@ void glutDisplayInit(int argc, char **argv) {
 int main(int argc, char **argv) {
     isSceneLoaded=false;
     runScenario = false;
+    collisionDetected = false;
 
     displayChoice();
     glutDisplayInit(argc, argv);

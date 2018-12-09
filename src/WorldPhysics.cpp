@@ -125,7 +125,7 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
     }
 }
 
-void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2, CollisionData *data) {
+void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2) {
 
     float equation;
     Plane * plane = dynamic_cast<Plane*>(prim1);
@@ -143,7 +143,7 @@ void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2, Collisio
     }
 }
 
-void WorldPhysics::contactType(CollisionData *data) {
+void WorldPhysics::contactType() {
     if(data->getContacts().size() == 1)
     {
         cout << "Sommet - Face" << endl;
@@ -181,21 +181,37 @@ const ParticleContactResolver &WorldPhysics::getContactResolver() const {
 void WorldPhysics::setContactResolver(const ParticleContactResolver &contactResolver) {
     WorldPhysics::contactResolver = contactResolver;
 }
+
+const vector<pair<Primitive *, Primitive *>> &WorldPhysics::getPotentialCollisions() const {
+    return potentialCollisions;
+}
+
+void WorldPhysics::setPotentialCollisions(const vector<pair<Primitive *, Primitive *>> &potentialCollisions) {
+    WorldPhysics::potentialCollisions = potentialCollisions;
+}
+
+CollisionData *WorldPhysics::getData() const {
+    return data;
+}
+
+void WorldPhysics::setData(CollisionData *data) {
+    WorldPhysics::data = data;
+}
 ///------------------------------------------------------------------------------------------------------------------
 
 /// Génération de la physique de chacun des World de démonstration --------------------------------------------------
 void WorldPhysics::initWorldPhysics1(World world) {
-    ParticleForceGenerator* grav = new GravityGenerator();
-    Vector3D * gravity = new Vector3D(0,-0.003f,0);
-    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
-
-//    ParticleForceGenerator* drag = new DragGenerator();
-//    dynamic_cast<DragGenerator*>(drag)->setK1(0.04f);
-//    dynamic_cast<DragGenerator*>(drag)->setK2(0);
-
-    SaveForce grav1{world.getWorldObjects()[0]->getBody()->getMassCenter(),grav};
-
-    registerForces.addRegister(grav1);
+//    ParticleForceGenerator* grav = new GravityGenerator();
+//    Vector3D * gravity = new Vector3D(0,-0.003f,0);
+//    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
+//
+////    ParticleForceGenerator* drag = new DragGenerator();
+////    dynamic_cast<DragGenerator*>(drag)->setK1(0.04f);
+////    dynamic_cast<DragGenerator*>(drag)->setK2(0);
+//
+//    SaveForce grav1{world.getWorldObjects()[0]->getBody()->getMassCenter(),grav};
+//
+//    registerForces.addRegister(grav1);
 
 }
 
@@ -222,11 +238,18 @@ void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNo
     }
 }
 
-void WorldPhysics::generateAllContacts(vector<pair<Primitive *, Primitive *>> potentialCollisions, CollisionData *data) {
+void WorldPhysics::generateAllContacts() {
     for(pair<Primitive*, Primitive*> &potentialCollision : potentialCollisions){
-        generateContacts(potentialCollision.first,potentialCollision.second,data);
+        generateContacts(potentialCollision.first,potentialCollision.second);
     }
 }
+
+void WorldPhysics::resetAllCollisions() {
+    data->resetCollisionData();
+    potentialCollisions.clear();
+}
+
+
 
 
 
