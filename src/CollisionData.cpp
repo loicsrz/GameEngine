@@ -4,18 +4,22 @@
 
 #include "../include/2B3_Engine/CollisionData.h"
 
-Contact *CollisionData::getContact() const {
-    return contact;
-}
-
-void CollisionData::setContact(Contact *contact) {
-    CollisionData::contact = contact;
-}
-
 int CollisionData::getContactLeft() const {
     return contactLeft;
 }
 
 void CollisionData::setContactLeft(int contactLeft) {
     CollisionData::contactLeft = contactLeft;
+}
+
+const vector<Contact *> &CollisionData::getContacts() const {
+    return contacts;
+}
+
+void CollisionData::setContacts(const vector<Contact *> &contacts) {
+    CollisionData::contacts = contacts;
+}
+
+void CollisionData::Addcontact(Contact *contact) {
+    contacts.push_back(contact);
 }

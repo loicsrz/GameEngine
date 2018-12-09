@@ -10,6 +10,10 @@
 
 class Contact {
 public:
+    Contact(Vector3D * contactpoint, Vector3D * perpendicularangle, float inter);
+
+    ~Contact();
+
     Vector3D *getContactPoint() const;
 
     void setContactPoint(Vector3D *contactPoint);

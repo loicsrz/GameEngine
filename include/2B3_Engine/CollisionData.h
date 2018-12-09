@@ -10,20 +10,23 @@
 
 class CollisionData {
 
-    Contact * contact;
+private:
+    int contactLeft;
+    vector<Contact*> contacts;
+
 public:
-    Contact *getContact() const;
-
-    void setContact(Contact *contact);
-
     int getContactLeft() const;
 
     void setContactLeft(int contactLeft);
 
-private:
-    int contactLeft;
+    const vector<Contact *> &getContacts() const;
 
+    void setContacts(const vector<Contact *> &contacts);
+
+    void Addcontact(Contact *contact);
 };
+
+
 
 
 #endif //GAMEENGINE_COLLISIONDATA_H

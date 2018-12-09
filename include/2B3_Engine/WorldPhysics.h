@@ -69,6 +69,8 @@ public:
 
     void generateAllContacts(vector<pair<Primitive*,Primitive*>> potentialCollisions, CollisionData *data);
 
+    void contactType(CollisionData * data);
+
     /// Getters - Setters -------------------------------------------------------------------
     const ParticleContactResolver &getContactResolver() const;
 

@@ -27,3 +27,13 @@ float Contact::getInterpenetration() const {
 void Contact::setInterpenetration(float interpenetration) {
     Contact::interpenetration = interpenetration;
 }
+
+Contact::Contact(Vector3D *contactpoint, Vector3D *perpendicularangle, float inter) : contactPoint(contactpoint),
+perpendicularAngle(perpendicularangle), interpenetration(inter){
+
+}
+
+Contact::~Contact() {
+    delete  contactPoint;
+    delete perpendicularAngle;
+}

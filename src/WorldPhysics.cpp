@@ -127,10 +127,40 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
 
 void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2, CollisionData *data) {
 
-    //TODO : obtenir la fonction qui renvoie l'ensemble des coins.
+    float equation;
+    Plane * plane = dynamic_cast<Plane*>(prim1);
+    Box * box = dynamic_cast<Box*>(prim2);
+    for (Vector3D * & corner : box->getAllCorners())
+    {
+        equation = plane->getPerpendicularAngle()->getX()*corner->getX()+plane->getPerpendicularAngle()->getY()*corner->getY()
+                + plane->getPerpendicularAngle()->getZ()*corner->getZ() + plane->getOffset();
+        if(equation < 0)
+        {
+            Contact * contact = new Contact(corner,plane->getPerpendicularAngle(),equation);
+            data->Addcontact(contact);
+            break;
+        }
+    }
+}
 
-    /*dynamic_cast<Plane*>(prim1).;
-    dynamic_cast<Box*>(prim2);*/
+void WorldPhysics::contactType(CollisionData *data) {
+    if(data->getContacts().size() == 1)
+    {
+        cout << "Sommet - Face" << endl;
+    }
+    else if (data->getContacts().size() == 2)
+    {
+        cout << "Arête - Face" << endl;
+    }
+    else if (data->getContacts().size() == 4)
+    {
+        cout << "Face - Face" << endl;
+    }
+    else
+    {
+        cout << "No contact" << endl;
+    }
+
 }
 
 
