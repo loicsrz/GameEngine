@@ -425,7 +425,7 @@ void keyboard(unsigned char c) {
         switch (c) {
             case '1':
                 world.initWorld1();
-                physics.initWorldPhysics1(world);
+                //physics.initWorldPhysics1(world);
                 isSceneLoaded = true;
                 scene = 1;
 
@@ -472,7 +472,6 @@ void timer(int value) {
 
         // Intégration
         physics.rigidBodyIntegrator(world.getWorldObjects(),dt);
-
         // Réinitialisation des forces accumulées
         world.clearAccums();
 
@@ -491,9 +490,7 @@ void timer(int value) {
         }
 
         physics.searchAllPotentialContacts(world.getWorldObjects(),world.getRoot());
-
         physics.generateAllContacts();
-
         if(physics.getData()->getContacts().size() != 0){
             collisionDetected = true;
             physics.contactType();

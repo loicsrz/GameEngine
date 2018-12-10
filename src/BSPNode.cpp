@@ -13,7 +13,7 @@ BSPNode::~BSPNode() {
     delete back;
 }
 
-Plane *BSPNode::getPlane() const {
+Plane *BSPNode::getPlane() {
     return plane;
 }
 
@@ -21,7 +21,7 @@ void BSPNode::setPlane(Plane *plane) {
     BSPNode::plane = plane;
 }
 
-BSPNode *BSPNode::getFront() const {
+BSPNode *BSPNode::getFront() {
     return front;
 }
 
@@ -29,7 +29,7 @@ void BSPNode::setFront(BSPNode *front) {
     BSPNode::front = front;
 }
 
-BSPNode *BSPNode::getBack() const {
+BSPNode *BSPNode::getBack() {
     return back;
 }
 
@@ -37,12 +37,17 @@ void BSPNode::setBack(BSPNode *back) {
     BSPNode::back = back;
 }
 
-Plane *BSPNode::getCollider() const {
+Plane *BSPNode::getCollider() {
     return collider;
 }
 
 void BSPNode::setCollider(Plane *collider) {
     BSPNode::collider = collider;
+}
+
+void BSPNode::toString() {
+    cout << "plane: " << this->plane << " collider: " << this->collider << " front: " << this->front << " back: "
+       << this->back;
 }
 
 

@@ -71,7 +71,7 @@ public:
 
     void setWalls(const vector<Plane *> &walls);
 
-    BSPNode *getRoot() const;
+    BSPNode *getRoot();
 
     void setRoot(BSPNode *root);
 

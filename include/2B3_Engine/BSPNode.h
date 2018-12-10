@@ -6,6 +6,7 @@
 #define GAMEENGINE_BSP_H
 
 
+#include <ostream>
 #include "Plane.h"
 
 class BSPNode {
@@ -14,19 +15,21 @@ public:
 
     virtual ~BSPNode();
 
-    Plane *getPlane() const;
+    void toString();
+
+    Plane *getPlane();
 
     void setPlane(Plane *plane);
 
-    BSPNode *getFront() const;
+    BSPNode *getFront();
 
     void setFront(BSPNode *front);
 
-    BSPNode *getBack() const;
+    BSPNode *getBack();
 
     void setBack(BSPNode *back);
 
-    Plane *getCollider() const;
+    Plane *getCollider();
 
     void setCollider(Plane *collider);
 

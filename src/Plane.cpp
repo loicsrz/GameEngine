@@ -31,3 +31,7 @@ void Plane::setOffset(float offset) {
     Plane::offset = offset;
 }
 
+void Plane::toString() {
+    cout<< "perpendicular angle : "<<perpendicularAngle<<", offset : "<<offset<<endl;
+}
+

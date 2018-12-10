@@ -12,6 +12,8 @@ class Plane : public Primitive{
 public:
     Plane(RigidBody *body, Matrix4 *offset1, Vector3D *perpendicularAngle, float offset);
 
+    virtual ~Plane();
+
     Vector3D *getPerpendicularAngle() const;
 
     void setPerpendicularAngle(Vector3D *perpendicularAngle);
@@ -20,7 +22,7 @@ public:
 
     void setOffset(float offset);
 
-    virtual ~Plane();
+    void toString();
 
 private:
 

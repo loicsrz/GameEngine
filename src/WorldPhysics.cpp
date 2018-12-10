@@ -225,15 +225,24 @@ void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNo
     for(Primitive* & object : objects){
         Box * box = dynamic_cast<Box *>(object);
         currentSphere = box->getSphere();
+        Plane * collider;
+        float distance;
         while(currentNode->getBack() != nullptr){
-            Plane * collider = currentNode->getCollider();
-            float distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
+            collider = currentNode->getCollider();
+            distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
             distance = distance / sqrtf(powf(collider->getPerpendicularAngle()->getX(),2)+powf(collider->getPerpendicularAngle()->getY(),2)+powf(collider->getPerpendicularAngle()->getZ(),2));
             if(currentSphere->getRadius()<distance){
                 potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
             }
 
             currentNode = currentNode->getBack();
+        }
+
+        collider = currentNode->getCollider();
+        distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
+        distance = distance / sqrtf(powf(collider->getPerpendicularAngle()->getX(),2)+powf(collider->getPerpendicularAngle()->getY(),2)+powf(collider->getPerpendicularAngle()->getZ(),2));
+        if(currentSphere->getRadius()<distance){
+            potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
         }
 
         currentNode = root;

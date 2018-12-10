@@ -203,9 +203,8 @@ void World::initWorld1() {
     BSPNode* bottomNode = new BSPNode(plane4,new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -299), nullptr, frontNode);
     BSPNode* topNode = new BSPNode(plane3,new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -299), nullptr, bottomNode);
     BSPNode* leftNode = new BSPNode(plane2,new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -299), nullptr, topNode);
-    root = new BSPNode(plane1,new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -299), nullptr, leftNode); //Right node
-
-
+    this->root = new BSPNode(plane1,new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -299), nullptr, leftNode); //Right node
+    
 }
 
 void World::initWorld2() {
@@ -222,7 +221,8 @@ void World::setWalls(const vector<Plane *> &walls) {
     World::walls = walls;
 }
 
-BSPNode *World::getRoot() const {
+BSPNode *World::getRoot() {
+    root->toString();
     return root;
 }
 
