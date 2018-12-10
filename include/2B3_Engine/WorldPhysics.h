@@ -15,6 +15,7 @@
 #include "CollisionData.h"
 #include "Primitive.h"
 #include "Plane.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -79,7 +80,7 @@ public:
 
     void generateAllContacts();
 
-    void contactType();
+    vector<Vector3D*> contactType();
 
     void resetAllCollisions();
 

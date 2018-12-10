@@ -147,23 +147,71 @@ void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2) {
 
 }
 
-void WorldPhysics::contactType() {
-    if(data->getContacts().size() == 1)
-    {
-        cout << "Sommet - Face" << endl;
+vector<Vector3D*> WorldPhysics::contactType() {
+    vector<Vector3D*> perpendicularAngles;
+    vector<Plane*> contactedWalls = data->getPlanes();
+    vector<Contact*> contacts = data->getContacts();
+    vector<int> indexes;
+    int occurrenceNb;
+    int indexNb;
+    int collisionNumber = 1;
+    Plane* currentContactedWall;
+    while(contactedWalls.size()>0){
+        cout<<"Collision "<<collisionNumber<<endl;
+        currentContactedWall = contactedWalls[0];
+        occurrenceNb = 0;
+        indexNb = 0;
+        for(vector<Plane*>::iterator it = contactedWalls.begin();it != contactedWalls.end(); it++){
+            if((*it)==currentContactedWall){
+                indexes.push_back(indexNb);
+                occurrenceNb++;
+            }
+            indexNb++;
+        }
+
+        if(occurrenceNb == 1)
+        {
+            cout << "\t\tSommet - Face : " << endl;
+        }
+        else if (occurrenceNb == 2)
+        {
+            cout << "\t\tArête - Face : " << endl;
+        }
+        else if (occurrenceNb == 4)
+        {
+            cout << "\t\tFace - Face : " << endl;
+        }
+        else
+        {
+            cout << "\t\tErreur ! Nombre de contacts : " << data->getContacts().size() << endl;
+        }
+
+        int summitNumber = 1;
+        vector<Contact*> contactToErase;
+        for(vector<int>::iterator it = indexes.begin(); it != indexes.end(); it++){
+            cout<<"\t Sommet "<<summitNumber<<" : "<<endl;
+            cout<<"\t\t Point : ("<<contacts[*it]->getContactPoint()->getX()<<"; "<<contacts[*it]->getContactPoint()->getY()<<"; "<<contacts[*it]->getContactPoint()->getZ()<<")"<<endl;
+            cout<<"\t\t Normale au contact : ("<<contacts[*it]->getPerpendicularAngle()->getX()<<"; "<<contacts[*it]->getPerpendicularAngle()->getY()<<"; "<<contacts[*it]->getPerpendicularAngle()->getZ()<<")"<<endl;
+            cout<<"\t\t Interpenetration : "<<contacts[*it]->getInterpenetration()<<endl;
+            contactToErase.push_back(contacts[*it]);
+        }
+
+        for(vector<Contact*>::iterator it = contactToErase.begin();it != contactToErase.end(); it++){
+            for(vector<Contact*>::iterator it2 = contacts.begin();it2 != contacts.end();it2++){
+                if(*it2 == *it){
+                    contacts.erase(it2);
+                }
+            }
+        }
+
+        contactToErase.clear();
+        perpendicularAngles.push_back(currentContactedWall->getPerpendicularAngle());
+        contactedWalls.erase(remove(contactedWalls.begin(),contactedWalls.end(),currentContactedWall),contactedWalls.end());
+        collisionNumber++;
     }
-    else if (data->getContacts().size() == 2)
-    {
-        cout << "Arête - Face" << endl;
-    }
-    else if (data->getContacts().size() == 4)
-    {
-        cout << "Face - Face" << endl;
-    }
-    else
-    {
-        cout << "Erreur ! Nombre de contacts : " << data->getContacts().size() << endl;
-    }
+
+    return perpendicularAngles;
+
 }
 
 
