@@ -15,8 +15,6 @@ public:
 
     virtual ~BSPNode();
 
-    void toString();
-
     Plane *getPlane();
 
     void setPlane(Plane *plane);
@@ -32,8 +30,6 @@ public:
     Plane *getCollider();
 
     void setCollider(Plane *collider);
-
-    void toString();
 
 private:
 

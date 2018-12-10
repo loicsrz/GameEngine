@@ -222,7 +222,6 @@ void World::setWalls(const vector<Plane *> &walls) {
 }
 
 BSPNode *World::getRoot() {
-    root->toString();
     return root;
 }
 

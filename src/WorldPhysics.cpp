@@ -230,6 +230,8 @@ void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNo
         Box * box = dynamic_cast<Box *>(object);
         currentSphere = box->getSphere();
         currentSphere->setCenter(box->getBody()->getMassCenter()->getPosition());
+        Plane * collider;
+        float distance;
         while(currentNode->getBack() != nullptr){
             collider = currentNode->getCollider();
             distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
