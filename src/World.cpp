@@ -101,9 +101,10 @@ void World::initWorld1() {
     //init world for test 1
 
     //Init Particles
-    auto * massCenter = new Particle(new Vector3D(0.0f, 0.0f, 0.0f),new Vector3D(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX)),
-            static_cast <float> (rand()) / (static_cast <float> (RAND_MAX)),
-                    static_cast <float> (rand()) / (static_cast <float> (RAND_MAX))), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * massCenter = new Particle(new Vector3D(0.0f, 0.0f, 0.0f),new Vector3D(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/2))-1.0f,
+                                                                                static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/2))-1.0f,
+                                                                                static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/2))-1.0f),
+                                                                                        new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
                                                -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex1 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()-20.0f,
