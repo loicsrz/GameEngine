@@ -208,64 +208,62 @@ void render() {
         //DESSIN DES FACES TOUCHÉES
         if(collisionDetected)
         {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glColor3f(0.0f,1.0f,0.0f);
+            for(Vector3D * & perpAngle : walls)
+            {
+                glBegin(GL_POLYGON);
 
-//            cout << "zboub" << endl;
-//            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-//            glColor3f(0.0f,1.0f,0.0f);
-//            for(Vector3D * & perpAngle : walls)
-//            {
-//                glBegin(GL_POLYGON);
-//
-//                if((int)perpAngle->getX() == 1)     //RIGHT PLANE
-//                {
-//                    glVertex3f(300,-300,-300);
-//                    glVertex3f(300,-300,300);
-//                    glVertex3f(300,300,300);x
-//                    glVertex3f(300,300,-300);
-//                }
-//                else if ((int)perpAngle->getX() == -1)      //LEFT PLANE
-//                {
-//                    glVertex3f(-300,-300,300);
-//                    glVertex3f(-300,-300,-300);
-//                    glVertex3f(-300,300,-300);
-//                    glVertex3f(-300,300,300);
-//                }
-//                else
-//                {
-//                    if ((int)perpAngle->getY() == 1)      //TOP PLANE
-//                    {
-//                        glVertex3f(-300,300,-300);
-//                        glVertex3f(300,300,-300);
-//                        glVertex3f(300,300,300);
-//                        glVertex3f(-300,300,300);
-//                    }
-//                    else if ((int)perpAngle->getY() == -1)      //BOTTOM PLANE
-//                    {
-//                        glVertex3f(-300,-300,-300);
-//                        glVertex3f(300,-300,-300);
-//                        glVertex3f(300,-300,300);
-//                        glVertex3f(-300,-300,300);
-//                    }
-//                    else
-//                    {
-//                        if((int)perpAngle->getZ() == 1)      //FRONT PLANE
-//                        {
-//                            glVertex3f(-300,-300,-300);
-//                            glVertex3f(300,-300,-300);
-//                            glVertex3f(300,300,-300);
-//                            glVertex3f(-300,300,-300);
-//                        }
-//                        else      //BACK PLANE
-//                        {
-//                            glVertex3f(-300,-300,300);
-//                            glVertex3f(300,-300,300);
-//                            glVertex3f(300,300,300);
-//                            glVertex3f(-300,300,300);
-//                        }
-//                    }
-//                }
-//                glEnd();
-//            }
+                if((int)perpAngle->getX() == 1)     //RIGHT PLANE
+                {
+                    glVertex3f(300,-300,-300);
+                    glVertex3f(300,-300,300);
+                    glVertex3f(300,300,300);
+                    glVertex3f(300,300,-300);
+                }
+                else if ((int)perpAngle->getX() == -1)      //LEFT PLANE
+                {
+                    glVertex3f(-300,-300,300);
+                    glVertex3f(-300,-300,-300);
+                    glVertex3f(-300,300,-300);
+                    glVertex3f(-300,300,300);
+                }
+                else
+                {
+                    if ((int)perpAngle->getY() == 1)      //TOP PLANE
+                    {
+                        glVertex3f(-300,300,-300);
+                        glVertex3f(300,300,-300);
+                        glVertex3f(300,300,300);
+                        glVertex3f(-300,300,300);
+                    }
+                    else if ((int)perpAngle->getY() == -1)      //BOTTOM PLANE
+                    {
+                        glVertex3f(-300,-300,-300);
+                        glVertex3f(300,-300,-300);
+                        glVertex3f(300,-300,300);
+                        glVertex3f(-300,-300,300);
+                    }
+                    else
+                    {
+                        if((int)perpAngle->getZ() == 1)      //FRONT PLANE
+                        {
+                            glVertex3f(-300,-300,-300);
+                            glVertex3f(300,-300,-300);
+                            glVertex3f(300,300,-300);
+                            glVertex3f(-300,300,-300);
+                        }
+                        else      //BACK PLANE
+                        {
+                            glVertex3f(-300,-300,300);
+                            glVertex3f(300,-300,300);
+                            glVertex3f(300,300,300);
+                            glVertex3f(-300,300,300);
+                        }
+                    }
+                }
+                glEnd();
+            }
 
             if(contactPoints.size()!=0)
             {
@@ -380,8 +378,7 @@ void timer(int value) {
                 contactPoints.push_back(contact->getContactPoint());
             }
 
-//            walls = physics.contactType();
-            cout << "zboubB" <<endl;
+            walls = physics.contactType();
         }
         physics.resetAllCollisions();
     }

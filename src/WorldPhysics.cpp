@@ -186,25 +186,21 @@ vector<Vector3D*> WorldPhysics::contactType() {
         }
 
         int summitNumber = 1;
-        vector<Contact*> contactToErase;
+
+        int currentIndex;
         for(vector<int>::iterator it = indexes.begin(); it != indexes.end(); it++){
+            currentIndex = *it;
             cout<<"\t Sommet "<<summitNumber<<" : "<<endl;
             cout<<"\t\t Point : ("<<contacts[*it]->getContactPoint()->getX()<<"; "<<contacts[*it]->getContactPoint()->getY()<<"; "<<contacts[*it]->getContactPoint()->getZ()<<")"<<endl;
             cout<<"\t\t Normale au contact : ("<<contacts[*it]->getPerpendicularAngle()->getX()<<"; "<<contacts[*it]->getPerpendicularAngle()->getY()<<"; "<<contacts[*it]->getPerpendicularAngle()->getZ()<<")"<<endl;
             cout<<"\t\t Interpenetration : "<<contacts[*it]->getInterpenetration()<<endl;
-
-            contactToErase.push_back(contacts[*it]);
-        }
-
-        for(vector<Contact*>::iterator it = contactToErase.begin();it != contactToErase.end(); it++){
-            for(vector<Contact*>::iterator it2 = contacts.begin();it2 != contacts.end();it2++){
-                if(*it2 == *it){
-                    contacts.erase(it2);
+            contacts.erase( remove( contacts.begin(), contacts.end(), contacts[*it] ), contacts.end() );
+            for(vector<int>::iterator it2 = it+1; it2 != indexes.end(); it2++){
+                if(*it2>currentIndex){
+                    *it2--;
                 }
             }
         }
-
-        contactToErase.clear();
         perpendicularAngles.push_back(currentContactedWall->getPerpendicularAngle());
         contactedWalls.erase(remove(contactedWalls.begin(),contactedWalls.end(),currentContactedWall),contactedWalls.end());
         collisionNumber++;
