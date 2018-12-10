@@ -168,7 +168,6 @@ vector<Vector3D*> WorldPhysics::contactType() {
             }
             indexNb++;
         }
-
         if(occurrenceNb == 1)
         {
             cout << "\t\tSommet - Face : " << endl;
@@ -193,6 +192,7 @@ vector<Vector3D*> WorldPhysics::contactType() {
             cout<<"\t\t Point : ("<<contacts[*it]->getContactPoint()->getX()<<"; "<<contacts[*it]->getContactPoint()->getY()<<"; "<<contacts[*it]->getContactPoint()->getZ()<<")"<<endl;
             cout<<"\t\t Normale au contact : ("<<contacts[*it]->getPerpendicularAngle()->getX()<<"; "<<contacts[*it]->getPerpendicularAngle()->getY()<<"; "<<contacts[*it]->getPerpendicularAngle()->getZ()<<")"<<endl;
             cout<<"\t\t Interpenetration : "<<contacts[*it]->getInterpenetration()<<endl;
+
             contactToErase.push_back(contacts[*it]);
         }
 

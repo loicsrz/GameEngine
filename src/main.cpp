@@ -26,7 +26,9 @@ bool collisionDetected;
 Particle massCenter;
 Particle Vertices [3];
 int scene=0;
-vector<Plane*> walls;
+vector<Vector3D*> walls;
+vector<Vector3D*> contactPoints;
+vector<Contact*> contacts;
 int i = 0;
 bool stopDrawing = false;
 
@@ -162,7 +164,7 @@ void render() {
         //DESSIN DE LA CAGE
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-
+        glLineWidth(1.0f);
         glColor3f(0.0f,1.0f,0.0f);
         //FRONT
         glBegin(GL_POLYGON);
@@ -181,7 +183,6 @@ void render() {
         glEnd();
 
         //EDGES BETWEEN FRONT & BACK
-        glLineWidth(1.0f);
 
         glBegin(GL_LINES);
         glVertex3f(-300, -300,-300);
@@ -205,29 +206,88 @@ void render() {
 
 
         //DESSIN DES FACES TOUCHÉES
-        if(collisionDetected && !stopDrawing)
+        if(collisionDetected)
         {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-            glColor3f(1.0f,0.0f,0.0f);
-            for(Plane * plane : walls)
+//            cout << "zboub" << endl;
+//            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//            glColor3f(0.0f,1.0f,0.0f);
+//            for(Vector3D * & perpAngle : walls)
+//            {
+//                glBegin(GL_POLYGON);
+//
+//                if((int)perpAngle->getX() == 1)     //RIGHT PLANE
+//                {
+//                    glVertex3f(300,-300,-300);
+//                    glVertex3f(300,-300,300);
+//                    glVertex3f(300,300,300);x
+//                    glVertex3f(300,300,-300);
+//                }
+//                else if ((int)perpAngle->getX() == -1)      //LEFT PLANE
+//                {
+//                    glVertex3f(-300,-300,300);
+//                    glVertex3f(-300,-300,-300);
+//                    glVertex3f(-300,300,-300);
+//                    glVertex3f(-300,300,300);
+//                }
+//                else
+//                {
+//                    if ((int)perpAngle->getY() == 1)      //TOP PLANE
+//                    {
+//                        glVertex3f(-300,300,-300);
+//                        glVertex3f(300,300,-300);
+//                        glVertex3f(300,300,300);
+//                        glVertex3f(-300,300,300);
+//                    }
+//                    else if ((int)perpAngle->getY() == -1)      //BOTTOM PLANE
+//                    {
+//                        glVertex3f(-300,-300,-300);
+//                        glVertex3f(300,-300,-300);
+//                        glVertex3f(300,-300,300);
+//                        glVertex3f(-300,-300,300);
+//                    }
+//                    else
+//                    {
+//                        if((int)perpAngle->getZ() == 1)      //FRONT PLANE
+//                        {
+//                            glVertex3f(-300,-300,-300);
+//                            glVertex3f(300,-300,-300);
+//                            glVertex3f(300,300,-300);
+//                            glVertex3f(-300,300,-300);
+//                        }
+//                        else      //BACK PLANE
+//                        {
+//                            glVertex3f(-300,-300,300);
+//                            glVertex3f(300,-300,300);
+//                            glVertex3f(300,300,300);
+//                            glVertex3f(-300,300,300);
+//                        }
+//                    }
+//                }
+//                glEnd();
+//            }
+
+            if(contactPoints.size()!=0)
             {
-                glBegin(GL_POLYGON);
-                glVertex3f(plane->getBody()->getBodyParticles()[0]->getPosition()->getX(),
-                           plane->getBody()->getBodyParticles()[0]->getPosition()->getY(),
-                           plane->getBody()->getBodyParticles()[0]->getPosition()->getZ());
-                glVertex3f(plane->getBody()->getBodyParticles()[1]->getPosition()->getX(),
-                           plane->getBody()->getBodyParticles()[1]->getPosition()->getY(),
-                           plane->getBody()->getBodyParticles()[1]->getPosition()->getZ());
-                glVertex3f(plane->getBody()->getBodyParticles()[2]->getPosition()->getX(),
-                           plane->getBody()->getBodyParticles()[2]->getPosition()->getY(),
-                           plane->getBody()->getBodyParticles()[2]->getPosition()->getZ());
-                glVertex3f(plane->getBody()->getBodyParticles()[3]->getPosition()->getX(),
-                           plane->getBody()->getBodyParticles()[3]->getPosition()->getY(),
-                           plane->getBody()->getBodyParticles()[3]->getPosition()->getZ());
-                glEnd();
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                glDisable(GL_DEPTH_TEST);
+                glColor3f(1.0f,0.0f,0.0f);
+                glLineWidth(2.0f);
+                glPointSize(2.0f);
+                for(Vector3D * & point : contactPoints)
+                {
+                    glBegin(GL_POLYGON);
+                    glVertex3f(point->getX()-10,point->getY()-10,point->getZ());
+                    glVertex3f(point->getX()+10,point->getY()+-10,point->getZ());
+                    glVertex3f(point->getX()+10,point->getY()+10,point->getZ());
+                    glVertex3f(point->getX()-10,point->getY()+10,point->getZ());
+                    glEnd();
+                    glBegin(GL_POINTS);
+                    glVertex3f(point->getX(),point->getY(),point->getZ());
+                    glEnd();
+                }
+                glEnable(GL_DEPTH_TEST);
             }
-            stopDrawing = true;
         }
 
         glFlush();
@@ -254,6 +314,9 @@ void keyboard(unsigned char c) {
                 scene = 0;
                 world.eraseWorld();
                 physics.erasePhysics();
+                contactPoints.clear();
+                walls.clear();
+                collisionDetected = false;
                 displayChoice();
                 break;
             default:
@@ -312,8 +375,13 @@ void timer(int value) {
         physics.generateAllContacts();
         if(physics.getData()->getContacts().size() != 0){
             collisionDetected = true;
-            physics.contactType();
-            walls = physics.getData()->getPlanes();
+            contacts = physics.getData()->getContacts();
+            for (Contact * & contact : contacts) {
+                contactPoints.push_back(contact->getContactPoint());
+            }
+
+//            walls = physics.contactType();
+            cout << "zboubB" <<endl;
         }
         physics.resetAllCollisions();
     }

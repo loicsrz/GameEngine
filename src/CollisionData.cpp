@@ -14,7 +14,7 @@ void CollisionData::setContactLeft(int contactLeft) {
     CollisionData::contactLeft = contactLeft;
 }
 
-const vector<Contact *> &CollisionData::getContacts() const {
+ vector<Contact *> &CollisionData::getContacts()  {
     return contacts;
 }
 

@@ -25,7 +25,7 @@ public:
 
     void setContactLeft(int contactLeft);
 
-    const vector<Contact *> &getContacts() const;
+     vector<Contact *> &getContacts() ;
 
     void setContacts(const vector<Contact *> &contacts);
 
