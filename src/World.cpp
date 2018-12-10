@@ -177,7 +177,7 @@ void World::initWorld1() {
     Matrix3 * invertedInertiaMatrix = new Matrix3(coefInert);
     invertedInertiaMatrix = invertedInertiaMatrix->invert();
 
-    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.09f), transformMatrix, invertedInertiaMatrix,0.99f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
 
     rb->setParticleObjectPositions(particleObjectPositions);
 

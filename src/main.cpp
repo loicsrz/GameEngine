@@ -166,20 +166,21 @@ void render() {
 
         glLineWidth(1.0f);
         glColor3f(0.0f,1.0f,0.0f);
-        //FRONT
-        glBegin(GL_POLYGON);
-        glVertex3f(-300, -300,-300);
-        glVertex3f(300,-300,-300);
-        glVertex3f(300,300,-300);
-        glVertex3f(-300,300,-300);
-        glEnd();
 
-        //BACK
+        //FRONT
         glBegin(GL_POLYGON);
         glVertex3f(-300, -300,300);
         glVertex3f(300,-300,300);
         glVertex3f(300,300,300);
         glVertex3f(-300,300,300);
+        glEnd();
+
+        //BACK
+        glBegin(GL_POLYGON);
+        glVertex3f(-300, -300,-300);
+        glVertex3f(300,-300,-300);
+        glVertex3f(300,300,-300);
+        glVertex3f(-300,300,-300);
         glEnd();
 
         //EDGES BETWEEN FRONT & BACK
@@ -209,7 +210,7 @@ void render() {
         if(collisionDetected)
         {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glColor3f(0.0f,1.0f,0.0f);
+            glColor4f(0.0f,1.0f,0.0f,0.5f);
             for(Vector3D * & perpAngle : walls)
             {
                 glBegin(GL_POLYGON);
@@ -248,17 +249,17 @@ void render() {
                     {
                         if((int)perpAngle->getZ() == 1)      //FRONT PLANE
                         {
-                            glVertex3f(-300,-300,-300);
-                            glVertex3f(300,-300,-300);
-                            glVertex3f(300,300,-300);
-                            glVertex3f(-300,300,-300);
-                        }
-                        else      //BACK PLANE
-                        {
                             glVertex3f(-300,-300,300);
                             glVertex3f(300,-300,300);
                             glVertex3f(300,300,300);
                             glVertex3f(-300,300,300);
+                        }
+                        else      //BACK PLANE
+                        {
+                            glVertex3f(-300,-300,-300);
+                            glVertex3f(300,-300,-300);
+                            glVertex3f(300,300,-300);
+                            glVertex3f(-300,300,-300);
                         }
                     }
                 }
@@ -393,6 +394,9 @@ void glutDisplayInit(int argc, char **argv) {
     glutInitWindowSize(960, 960);
     glutInitWindowPosition(900, 0);
     glutCreateWindow("2Be3_Engine");
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable( GL_BLEND );
+    glClearColor(0.0,0.0,0.0,0.0);
     glEnable(GL_DEPTH_TEST);
     glutTimerFunc(0, timer, 0);
     glutDisplayFunc(render);
