@@ -33,6 +33,8 @@ public:
 
     void setCollider(Plane *collider);
 
+    void toString();
+
 private:
 
     Plane* plane;

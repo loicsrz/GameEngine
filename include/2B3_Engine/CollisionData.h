@@ -7,14 +7,18 @@
 
 
 #include "Contact.h"
+#include "Plane.h"
 
 class CollisionData {
 
 private:
     int contactLeft;
     vector<Contact*> contacts;
+    vector<Plane*> planes;
 
 public:
+    CollisionData();
+
     void resetCollisionData();
 
     int getContactLeft() const;
@@ -25,7 +29,13 @@ public:
 
     void setContacts(const vector<Contact *> &contacts);
 
-    void Addcontact(Contact *contact);
+    void addContact(Contact *contact);
+
+    const vector<Plane *> &getPlanes() const;
+
+    void setPlanes(const vector<Plane *> &planes);
+
+    void addPlanes(Plane *plane);
 };
 
 

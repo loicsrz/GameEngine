@@ -101,7 +101,7 @@ void World::initWorld1() {
     //init world for test 1
 
     //Init Particles
-    auto * massCenter = new Particle(new Vector3D(-200.0f, 10.0f, 0.0f),new Vector3D(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX)),
+    auto * massCenter = new Particle(new Vector3D(0.0f, 0.0f, 0.0f),new Vector3D(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX)),
             static_cast <float> (rand()) / (static_cast <float> (RAND_MAX)),
                     static_cast <float> (rand()) / (static_cast <float> (RAND_MAX))), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
@@ -203,8 +203,8 @@ void World::initWorld1() {
     BSPNode* bottomNode = new BSPNode(plane4,new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -299), nullptr, frontNode);
     BSPNode* topNode = new BSPNode(plane3,new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -299), nullptr, bottomNode);
     BSPNode* leftNode = new BSPNode(plane2,new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -299), nullptr, topNode);
-    this->root = new BSPNode(plane1,new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -299), nullptr, leftNode); //Right node
-    
+    root = new BSPNode(plane1,new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -299), nullptr, leftNode); //Right node
+
 }
 
 void World::initWorld2() {

@@ -126,21 +126,25 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
 }
 
 void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2) {
-
+    static int i = 0;
     float equation;
-    Plane * plane = dynamic_cast<Plane*>(prim1);
-    Box * box = dynamic_cast<Box*>(prim2);
+
+    Box * box = dynamic_cast<Box *>(prim1);
+    Plane * plane = dynamic_cast<Plane *>(prim2);
+
     for (Vector3D * & corner : box->getAllCorners())
     {
         equation = plane->getPerpendicularAngle()->getX()*corner->getX()+plane->getPerpendicularAngle()->getY()*corner->getY()
                 + plane->getPerpendicularAngle()->getZ()*corner->getZ() + plane->getOffset();
-        if(equation < 0)
+        if(equation > 0)
         {
             Contact * contact = new Contact(corner,plane->getPerpendicularAngle(),equation);
-            data->Addcontact(contact);
+            data->addContact(contact);
+            data->addPlanes(plane);
             break;
         }
     }
+
 }
 
 void WorldPhysics::contactType() {
@@ -158,9 +162,8 @@ void WorldPhysics::contactType() {
     }
     else
     {
-        cout << "No contact" << endl;
+        cout << "Erreur ! Nombre de contacts : " << data->getContacts().size() << endl;
     }
-
 }
 
 
@@ -200,7 +203,8 @@ void WorldPhysics::setData(CollisionData *data) {
 ///------------------------------------------------------------------------------------------------------------------
 
 /// Génération de la physique de chacun des World de démonstration --------------------------------------------------
-void WorldPhysics::initWorldPhysics1(World world) {
+void WorldPhysics::initWorldPhysics1() {
+    data = new CollisionData();
 //    ParticleForceGenerator* grav = new GravityGenerator();
 //    Vector3D * gravity = new Vector3D(0,-0.003f,0);
 //    dynamic_cast<GravityGenerator*>(grav)->setGravity(gravity);
@@ -225,13 +229,13 @@ void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNo
     for(Primitive* & object : objects){
         Box * box = dynamic_cast<Box *>(object);
         currentSphere = box->getSphere();
-        Plane * collider;
-        float distance;
+        currentSphere->setCenter(box->getBody()->getMassCenter()->getPosition());
         while(currentNode->getBack() != nullptr){
             collider = currentNode->getCollider();
             distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
             distance = distance / sqrtf(powf(collider->getPerpendicularAngle()->getX(),2)+powf(collider->getPerpendicularAngle()->getY(),2)+powf(collider->getPerpendicularAngle()->getZ(),2));
-            if(currentSphere->getRadius()<distance){
+
+            if(currentSphere->getRadius() > distance){
                 potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
             }
 

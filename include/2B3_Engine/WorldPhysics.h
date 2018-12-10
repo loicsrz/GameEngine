@@ -95,7 +95,7 @@ public:
     ///--------------------------------------------------------------------------------------
 
     /// Génération de la physique de chacun des World de démonstration ----------------------
-    void initWorldPhysics1(World world);
+    void initWorldPhysics1();
 
     void initWorldPhysics2(World world);
     ///--------------------------------------------------------------------------------------

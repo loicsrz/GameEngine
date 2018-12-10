@@ -4,6 +4,8 @@
 
 #include "../include/2B3_Engine/CollisionData.h"
 
+CollisionData::CollisionData() {}
+
 int CollisionData::getContactLeft() const {
     return contactLeft;
 }
@@ -20,12 +22,23 @@ void CollisionData::setContacts(const vector<Contact *> &contacts) {
     CollisionData::contacts = contacts;
 }
 
-void CollisionData::Addcontact(Contact *contact) {
+void CollisionData::addContact(Contact *contact) {
     contacts.push_back(contact);
 }
 
 void CollisionData::resetCollisionData() {
     contactLeft = 0;
     contacts.clear();
+}
 
+const vector<Plane *> &CollisionData::getPlanes() const {
+    return planes;
+}
+
+void CollisionData::setPlanes(const vector<Plane *> &planes) {
+    CollisionData::planes = planes;
+}
+
+void CollisionData::addPlanes(Plane *plane) {
+    planes.push_back(plane);
 }

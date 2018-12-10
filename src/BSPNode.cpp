@@ -45,9 +45,5 @@ void BSPNode::setCollider(Plane *collider) {
     BSPNode::collider = collider;
 }
 
-void BSPNode::toString() {
-    cout << "plane: " << this->plane << " collider: " << this->collider << " front: " << this->front << " back: "
-       << this->back;
-}
 
 
