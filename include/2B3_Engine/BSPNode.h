@@ -10,7 +10,7 @@
 
 class BSPNode {
 public:
-    BSPNode(Plane *plane, BSPNode *front, BSPNode *back);
+    BSPNode(Plane *plane, Plane *collider, BSPNode *front, BSPNode *back);
 
     virtual ~BSPNode();
 
@@ -26,9 +26,14 @@ public:
 
     void setBack(BSPNode *back);
 
+    Plane *getCollider() const;
+
+    void setCollider(Plane *collider);
+
 private:
 
     Plane* plane;
+    Plane* collider;
     BSPNode* front;
     BSPNode* back;
 

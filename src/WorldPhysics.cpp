@@ -226,15 +226,17 @@ void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNo
         Box * box = dynamic_cast<Box *>(object);
         currentSphere = box->getSphere();
         while(currentNode->getBack() != nullptr){
-            Plane * plane = currentNode->getPlane();
-            float distance = abs(plane->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+plane->getOffset());
-            distance = distance / sqrtf(powf(plane->getPerpendicularAngle()->getX(),2)+powf(plane->getPerpendicularAngle()->getY(),2)+powf(plane->getPerpendicularAngle()->getZ(),2));
+            Plane * collider = currentNode->getCollider();
+            float distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
+            distance = distance / sqrtf(powf(collider->getPerpendicularAngle()->getX(),2)+powf(collider->getPerpendicularAngle()->getY(),2)+powf(collider->getPerpendicularAngle()->getZ(),2));
             if(currentSphere->getRadius()<distance){
                 potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
             }
 
             currentNode = currentNode->getBack();
         }
+
+        currentNode = root;
     }
 }
 

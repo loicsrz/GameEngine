@@ -176,7 +176,7 @@ void World::initWorld1() {
     Matrix3 * invertedInertiaMatrix = new Matrix3(coefInert);
     invertedInertiaMatrix = invertedInertiaMatrix->invert();
 
-    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.09f), transformMatrix, invertedInertiaMatrix,0.99,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.09f), transformMatrix, invertedInertiaMatrix,0.99f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
 
     rb->setParticleObjectPositions(particleObjectPositions);
 
@@ -184,20 +184,26 @@ void World::initWorld1() {
 
     worldObjects.push_back(box);
 
+    Plane * plane1 = new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -300);
+    Plane * plane2 = new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -300);
+    Plane * plane3 = new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -300);
+    Plane * plane4 = new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -300);
+    Plane * plane5 = new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), -300);
+    Plane * plane6 = new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), -300);
     //Walls creation
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -300)); //Right wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -300)); //Left wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -300)); //Top wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -300)); //Bottom wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), -300)); //Front wall
-    walls.push_back(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), -300)); //Back wall
+    walls.push_back(plane1); //Right wall
+    walls.push_back(plane2); //Left wall
+    walls.push_back(plane3); //Top wall
+    walls.push_back(plane4); //Bottom wall
+    walls.push_back(plane5); //Front wall
+    walls.push_back(plane6); //Back wall
 
-    BSPNode* backNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), -299), nullptr, nullptr);
-    BSPNode* frontNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), -299), nullptr, backNode);
-    BSPNode* bottomNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -299), nullptr, frontNode);
-    BSPNode* topNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -299), nullptr, bottomNode);
-    BSPNode* leftNode = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -299), nullptr, topNode);
-    root = new BSPNode(new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -299), nullptr, leftNode); //Right node
+    BSPNode* backNode = new BSPNode(plane6,new Plane(nullptr, nullptr, new Vector3D(0, 0, -1), -299), nullptr, nullptr);
+    BSPNode* frontNode = new BSPNode(plane5,new Plane(nullptr, nullptr, new Vector3D(0, 0, 1), -299), nullptr, backNode);
+    BSPNode* bottomNode = new BSPNode(plane4,new Plane(nullptr, nullptr, new Vector3D(0, -1, 0), -299), nullptr, frontNode);
+    BSPNode* topNode = new BSPNode(plane3,new Plane(nullptr, nullptr, new Vector3D(0, 1, 0), -299), nullptr, bottomNode);
+    BSPNode* leftNode = new BSPNode(plane2,new Plane(nullptr, nullptr, new Vector3D(-1, 0, 0), -299), nullptr, topNode);
+    root = new BSPNode(plane1,new Plane(nullptr, nullptr, new Vector3D(1, 0, 0), -299), nullptr, leftNode); //Right node
 
 
 }
@@ -225,8 +231,3 @@ void World::setRoot(BSPNode *root) {
 }
 
 ///------------------------------------------------------------------------------------------------------------------
-
-BSPNode * createRoomColliders(Box * box,float offset){
-    BSPNode * test =  new BSPNode(nullptr, nullptr, nullptr);
-    return test;
-}

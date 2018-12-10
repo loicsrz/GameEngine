@@ -4,7 +4,8 @@
 
 #include "../include/2B3_Engine/BSPNode.h"
 
-BSPNode::BSPNode(Plane *plane, BSPNode *front, BSPNode *back) : plane(plane), front(front), back(back) {}
+BSPNode::BSPNode(Plane *plane, Plane *collider, BSPNode *front, BSPNode *back) : plane(plane), collider(collider),
+                                                                                 front(front), back(back) {}
 
 BSPNode::~BSPNode() {
     delete plane;
@@ -35,3 +36,13 @@ BSPNode *BSPNode::getBack() const {
 void BSPNode::setBack(BSPNode *back) {
     BSPNode::back = back;
 }
+
+Plane *BSPNode::getCollider() const {
+    return collider;
+}
+
+void BSPNode::setCollider(Plane *collider) {
+    BSPNode::collider = collider;
+}
+
+
