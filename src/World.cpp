@@ -101,9 +101,9 @@ void World::initWorld1() {
     //init world for test 1
 
     //Init Particles
-    auto * massCenter = new Particle(new Vector3D(0.0f, 0.0f, 0.0f),new Vector3D(((float) (rand() % 100 + 1)/5)-10,
-                                                                                 ((float) (rand() % 100 + 1)/5)-10,
-                                                                                 ((float) (rand() % 100 + 1)/5)-10),
+    auto * massCenter = new Particle(new Vector3D(290.01f, 290.01f, 0.0f),new Vector3D(0.0f, //((float) (rand() % 100 + 1)/5)-10
+                                                                                        0.0f,
+                                                                                        0.0f),
                                                                                         new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
                                                -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
@@ -177,7 +177,7 @@ void World::initWorld1() {
     Matrix3 * invertedInertiaMatrix = new Matrix3(coefInert);
     invertedInertiaMatrix = invertedInertiaMatrix->invert();
 
-    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
+    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.0f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles);
 
     rb->setParticleObjectPositions(particleObjectPositions);
 
