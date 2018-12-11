@@ -9,11 +9,26 @@
 #include "Primitive.h"
 
 class Plane : public Primitive{
+
+private:
+    ///Attributs
+
+    /// Normale
+    Vector3D * perpendicularAngle;
+
+    /// Offset
+    float offset;
+
 public:
+
+    /// Constructeur
     Plane(RigidBody *body, Matrix4 *offset1, Vector3D *perpendicularAngle, float offset);
 
+    /// Destructeur
     virtual ~Plane();
 
+
+/// Getters - Setters ----------------------------------------------------------------------------------------------
     Vector3D *getPerpendicularAngle() const;
 
     void setPerpendicularAngle(Vector3D *perpendicularAngle);
@@ -22,12 +37,9 @@ public:
 
     void setOffset(float offset);
 
+    /// Méthode utilisé pour débugguer
     void toString();
 
-private:
-
-    Vector3D * perpendicularAngle;
-    float offset;
 
 };
 

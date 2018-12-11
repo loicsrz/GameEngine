@@ -74,14 +74,19 @@ public:
     ///Méthode de mise à jour des forceAccum de tous les rigidBody
     void updateAllRigidBodiesAccum(vector<Primitive*> objects);
 
+    ///Méthode qui permet de générer les contacts réelles à partir des contacts potentielles
     void generateContacts(Primitive *prim1, Primitive *prim2);
 
+    /// Méthode qui permet de déterminer l'ensemble des contacts potentielles
     void searchAllPotentialContacts(vector<Primitive*> objects, BSPNode* root);
 
+    ///Méthode qui permet de générer les paires de contacts.
     void generateAllContacts();
 
+    ///Méthode qui permet de trouver le type de contact à partir de CollisionData
     vector<Vector3D*> contactType();
 
+    ///Méthode qui permet de reset l'ensemble des collisions
     void resetAllCollisions();
 
     /// Getters - Setters -------------------------------------------------------------------

@@ -4,6 +4,19 @@
 
 #include "../include/2B3_Engine/Contact.h"
 
+///Constructeur
+Contact::Contact(Vector3D *contactpoint, Vector3D *perpendicularangle, float inter) : contactPoint(contactpoint),
+perpendicularAngle(perpendicularangle), interpenetration(inter){
+
+}
+///Destructeur
+Contact::~Contact() {
+    delete  contactPoint;
+    delete perpendicularAngle;
+}
+
+/// Getters - Setters ----------------------------------------------------------------------------------------------
+
 Vector3D *Contact::getContactPoint() const {
     return contactPoint;
 }
@@ -28,12 +41,4 @@ void Contact::setInterpenetration(float interpenetration) {
     Contact::interpenetration = interpenetration;
 }
 
-Contact::Contact(Vector3D *contactpoint, Vector3D *perpendicularangle, float inter) : contactPoint(contactpoint),
-perpendicularAngle(perpendicularangle), interpenetration(inter){
 
-}
-
-Contact::~Contact() {
-    delete  contactPoint;
-    delete perpendicularAngle;
-}

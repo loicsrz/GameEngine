@@ -4,13 +4,17 @@
 
 #include "../include/2B3_Engine/Box.h"
 
+/// Constructeur
 Box::Box(RigidBody *body, Matrix4 *offset, Vector3D *center, float semiWidth, float semiHeight, float semiDepth,
          Sphere *sphere) : Primitive(body, offset), center(center), semiWidth(semiWidth), semiHeight(semiHeight),
                            semiDepth(semiDepth), sphere(sphere) {}
 
+/// Destructeur
 Box::~Box() {
     delete center;
 }
+
+/// Getters - Setters ----------------------------------------------------------------------------------------------
 
 Vector3D *Box::getCenter() const {
     return center;
@@ -76,6 +80,7 @@ vector<Vector3D *> Box::getBoxVertices() {
     return vertices;
 }
 
+/// Méthode permettant d'obtenir l'ensemble des sommets
 vector<Vector3D *> Box::getAllCorners() {
     vector<Vector3D*> corners;
     for(Particle* & particle: getBody()->getBodyParticles()){
