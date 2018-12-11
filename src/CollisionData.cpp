@@ -6,6 +6,23 @@
 
 CollisionData::CollisionData() {}
 
+/// Méthode qui permet d'ajouter un contact au vecteur
+void CollisionData::addContact(Contact *contact) {
+    contacts.push_back(contact);
+}
+
+/// Méthode qui reset CollisionData
+void CollisionData::resetCollisionData() {
+    contactLeft = 0;
+    contacts.clear();
+}
+
+/// Méthode qui permet d'ajouter des plans au vecteur
+void CollisionData::addPlanes(Plane *plane) {
+    planes.push_back(plane);
+}
+
+/// Getters - Setters ------------------------------------------------------------------------------------------
 int CollisionData::getContactLeft() const {
     return contactLeft;
 }
@@ -22,14 +39,6 @@ void CollisionData::setContacts(const vector<Contact *> &contacts) {
     CollisionData::contacts = contacts;
 }
 
-void CollisionData::addContact(Contact *contact) {
-    contacts.push_back(contact);
-}
-
-void CollisionData::resetCollisionData() {
-    contactLeft = 0;
-    contacts.clear();
-}
 
 const vector<Plane *> &CollisionData::getPlanes() const {
     return planes;
@@ -37,8 +46,4 @@ const vector<Plane *> &CollisionData::getPlanes() const {
 
 void CollisionData::setPlanes(const vector<Plane *> &planes) {
     CollisionData::planes = planes;
-}
-
-void CollisionData::addPlanes(Plane *plane) {
-    planes.push_back(plane);
 }

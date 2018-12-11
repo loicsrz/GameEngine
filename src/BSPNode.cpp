@@ -4,6 +4,7 @@
 
 #include "../include/2B3_Engine/BSPNode.h"
 
+/// Contructeur
 BSPNode::BSPNode(Plane *plane, Plane *collider, BSPNode *front, BSPNode *back) : plane(plane), collider(collider),
                                                                                  front(front), back(back) {}
 
@@ -13,6 +14,7 @@ BSPNode::~BSPNode() {
     delete back;
 }
 
+/// Getters - Setters ----------------------------------------------------------------------------------------------
 Plane *BSPNode::getPlane() {
     return plane;
 }

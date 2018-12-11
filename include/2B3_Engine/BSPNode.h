@@ -10,11 +10,32 @@
 #include "Plane.h"
 
 class BSPNode {
+
+private:
+    ///Attributs
+
+    ///Plan
+    Plane* plane;
+
+    ///Collider
+    Plane* collider;
+
+    /// Noeud du haut
+    BSPNode* front;
+
+    ///Noeud du bas
+    BSPNode* back;
+
+
 public:
+
+    ///Constructeur
     BSPNode(Plane *plane, Plane *collider, BSPNode *front, BSPNode *back);
 
+    ///Destructeur
     virtual ~BSPNode();
 
+ /// Getters - Setters ----------------------------------------------------------------------------------------------
     Plane *getPlane();
 
     void setPlane(Plane *plane);
@@ -31,12 +52,7 @@ public:
 
     void setCollider(Plane *collider);
 
-private:
 
-    Plane* plane;
-    Plane* collider;
-    BSPNode* front;
-    BSPNode* back;
 
 
 };

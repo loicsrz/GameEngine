@@ -124,7 +124,7 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
         object->getBody()->updateAllAccum();
     }
 }
-
+///Méthode qui permet de générer les contacts réelles à partir des contacts potentielles
 void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2) {
     static int i = 0;
     float equation;
@@ -146,7 +146,7 @@ void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2) {
     }
 
 }
-
+///Méthode qui permet de trouver le type de contact à partir de CollisionData
 vector<Vector3D*> WorldPhysics::contactType() {
     vector<Vector3D*> perpendicularAngles;
     vector<Plane*> contactedWalls = data->getPlanes();
@@ -266,7 +266,7 @@ void WorldPhysics::initWorldPhysics1() {
 void WorldPhysics::initWorldPhysics2(World world) {
     //Empty
 }
-
+/// Méthode qui permet de déterminer l'ensemble des contacts potentielles
 void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNode * root) {
     BSPNode * currentNode = root;
     Sphere * currentSphere;
@@ -298,13 +298,13 @@ void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNo
         currentNode = root;
     }
 }
-
+///Méthode qui permet de générer les paires de contacts.
 void WorldPhysics::generateAllContacts() {
     for(pair<Primitive*, Primitive*> &potentialCollision : potentialCollisions){
         generateContacts(potentialCollision.first,potentialCollision.second);
     }
 }
-
+///Méthode qui permet de reset l'ensemble des collisions
 void WorldPhysics::resetAllCollisions() {
     data->resetCollisionData();
     potentialCollisions.clear();

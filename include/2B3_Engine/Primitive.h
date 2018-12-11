@@ -9,8 +9,23 @@
 #include "RigidBody.h"
 
 class Primitive {
+
+private:
+    ///Attributs
+
+    RigidBody* body;
+    Matrix4* offset;
+
+
 public:
+
+    /// Constructeur
     Primitive(RigidBody *body, Matrix4 *offset);
+
+    /// Destructeur
+    virtual ~Primitive();
+
+    /// Getters - Setters ----------------------------------------------------------------------------------------------
 
     RigidBody *getBody() const;
 
@@ -20,11 +35,9 @@ public:
 
     void setOffset(Matrix4 *offset);
 
-    virtual ~Primitive();
 
-private:
-    RigidBody* body;
-    Matrix4* offset;
+
+
 };
 
 
