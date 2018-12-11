@@ -126,7 +126,6 @@ void WorldPhysics::updateAllRigidBodiesAccum(vector<Primitive *> objects) {
 }
 
 void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2) {
-    static int i = 0;
     float equation;
 
     Box * box = dynamic_cast<Box *>(prim1);
@@ -141,7 +140,6 @@ void WorldPhysics::generateContacts(Primitive *prim1, Primitive *prim2) {
             Contact * contact = new Contact(corner,plane->getPerpendicularAngle(),equation);
             data->addContact(contact);
             data->addPlanes(plane);
-            break;
         }
     }
 
@@ -168,13 +166,14 @@ vector<Vector3D*> WorldPhysics::contactType() {
             }
             indexNb++;
         }
+
         if(occurrenceNb == 1)
         {
             cout << "\t\tSommet - Face : " << endl;
         }
         else if (occurrenceNb == 2)
         {
-            cout << "\t\tArête - Face : " << endl;
+            cout << "\t\tArete - Face : " << endl;
         }
         else if (occurrenceNb == 4)
         {
@@ -195,15 +194,17 @@ vector<Vector3D*> WorldPhysics::contactType() {
             cout<<"\t\t Normale au contact : ("<<contacts[*it]->getPerpendicularAngle()->getX()<<"; "<<contacts[*it]->getPerpendicularAngle()->getY()<<"; "<<contacts[*it]->getPerpendicularAngle()->getZ()<<")"<<endl;
             cout<<"\t\t Interpenetration : "<<contacts[*it]->getInterpenetration()<<endl;
             contacts.erase( remove( contacts.begin(), contacts.end(), contacts[*it] ), contacts.end() );
-            for(vector<int>::iterator it2 = it+1; it2 != indexes.end(); it2++){
-                if(*it2>currentIndex){
-                    *it2--;
+            for(vector<int>::iterator it2 = it; it2 != indexes.end(); it2++){
+                if((*it2)>currentIndex){
+                    (*it2)--;
                 }
             }
+            summitNumber++;
         }
         perpendicularAngles.push_back(currentContactedWall->getPerpendicularAngle());
         contactedWalls.erase(remove(contactedWalls.begin(),contactedWalls.end(),currentContactedWall),contactedWalls.end());
         collisionNumber++;
+        indexes.clear();
     }
 
     return perpendicularAngles;
@@ -280,18 +281,16 @@ void WorldPhysics::searchAllPotentialContacts(vector<Primitive *> objects, BSPNo
             collider = currentNode->getCollider();
             distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
             distance = distance / sqrtf(powf(collider->getPerpendicularAngle()->getX(),2)+powf(collider->getPerpendicularAngle()->getY(),2)+powf(collider->getPerpendicularAngle()->getZ(),2));
-
             if(currentSphere->getRadius() > distance){
                 potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
             }
-
             currentNode = currentNode->getBack();
         }
 
         collider = currentNode->getCollider();
         distance = abs(collider->getPerpendicularAngle()->scalarProduct(currentSphere->getCenter())+collider->getOffset());
         distance = distance / sqrtf(powf(collider->getPerpendicularAngle()->getX(),2)+powf(collider->getPerpendicularAngle()->getY(),2)+powf(collider->getPerpendicularAngle()->getZ(),2));
-        if(currentSphere->getRadius()<distance){
+        if(currentSphere->getRadius()>distance){
             potentialCollisions.push_back(pair<Primitive *, Primitive *>(object,currentNode->getPlane()));
         }
 

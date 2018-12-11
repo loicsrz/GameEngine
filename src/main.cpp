@@ -378,7 +378,6 @@ void timer(int value) {
             for (Contact * & contact : contacts) {
                 contactPoints.push_back(contact->getContactPoint());
             }
-
             walls = physics.contactType();
         }
         physics.resetAllCollisions();
