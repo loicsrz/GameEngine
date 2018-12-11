@@ -34,7 +34,10 @@ bool stopDrawing = false;
 
 void displayChoice() {
     cout << "Please choose a scenario by pressing one of the following keys : " << endl;
-    cout << '\t' << "Recherche de contact : [1]" << endl;
+    cout << '\t' << "Contact aléatoire (souvent Sommet - Face) : [1]" << endl;
+    cout << '\t' << "Contact Arete - Face : [2]" << endl;
+    cout << '\t' << "Contact Face - Face : [3]" << endl;
+    cout << '\t' << "Contact double Face - Face : [4]" << endl;
     cout << '\t' << "Sortie : [x]" << endl;
     cout << endl;
 }
@@ -325,12 +328,36 @@ void keyboard(unsigned char c) {
     else if(!isSceneLoaded){
         switch (c) {
             case '1':
-                world.initWorld1();
+                world.initWorld1(new Particle(new Vector3D(0.0f, 0.0f, 0.0f),
+                        new Vector3D(((float) (rand() % 100 + 1)/5)-10, ((float) (rand() % 100 + 1)/5)-10,
+                                ((float) (rand() % 100 + 1)/5)-10), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f),
+                                        new Vector3D(0.01f, 0.0f, 0.09f));
                 physics.initWorldPhysics1();
                 isSceneLoaded = true;
-                scene = 1;
+                break;
 
+            case '2':
+                world.initWorld1(new Particle(new Vector3D(100.01f, 190.01f, 0.0f),new Vector3D(1.0f, 0.0f, 0.0f),
+                                              new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f),
+                                                      new Vector3D(0.0f, 0.0f, 0.09f));
+                physics.initWorldPhysics1();
+                isSceneLoaded = true;
+                break;
 
+            case '3':
+                world.initWorld1(new Particle(new Vector3D(250.0f, 0.0f, 0.0f),new Vector3D(1.0f, 0.0f, 0.0f),
+                                              new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f),
+                                                      new Vector3D(0.0f, 0.0f, 0.0f));
+                physics.initWorldPhysics1();
+                isSceneLoaded = true;
+                break;
+
+            case '4':
+                world.initWorld1(new Particle(new Vector3D(0.f, 200.0f, 200.0f),new Vector3D(0.0f, 1.0f, -3.5f),
+                                              new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f),
+                                                      new Vector3D(0.0f, 0.0f, 0.0f));
+                physics.initWorldPhysics1();
+                isSceneLoaded = true;
                 break;
             case 'x':
                 exit(0);

@@ -79,7 +79,7 @@ public:
     ///-------------------------------------------------------------------------
 
     /// Créations des World de démonstration -----------------------------------
-    void initWorld1();
+    void initWorld1(Particle * massCenter, Vector3D * rotation);
 
     void initWorld2();
 

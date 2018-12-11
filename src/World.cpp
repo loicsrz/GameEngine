@@ -97,7 +97,7 @@ float World::distanceBetweenParticles(Particle* a, Particle* b)
 ///------------------------------------------------------------------------------------------------------------------
 
 /// Créations des World de démonstration ----------------------------------------------------------------------------
-void World::initWorld1() {
+void World::initWorld1(Particle * center, Vector3D * rotation) {
     //init world for test 1
 
     //Init Particles
@@ -105,10 +105,8 @@ void World::initWorld1() {
 //                                                                                        0.0f,
 //                                                                                        0.0f),
 //                                                                                        new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
-    auto * massCenter = new Particle(new Vector3D(100.01f, 190.01f, 0.0f),new Vector3D(1.0f, //((float) (rand() % 100 + 1)/5)-10
-                                                                                        0.0f,
-                                                                                        0.0f),
-                                                                                        new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
+    auto * massCenter = center;
+//            new Particle(new Vector3D(100.01f, 190.01f, 0.0f),new Vector3D(1.0f, 0.0f, 0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex0 = new Particle(new Vector3D(massCenter->getPosition()->getX()-10.0f, massCenter->getPosition()->getY()-20.0f,
                                                -20.0f),new Vector3D(0.0f,0.0f,0.0f), new Vector3D(0.0f,0.0f,0.0f), 1.0f, 1.0f);
     auto * vertex1 = new Particle(new Vector3D(massCenter->getPosition()->getX()+10.0f, massCenter->getPosition()->getY()-20.0f,
@@ -183,7 +181,7 @@ void World::initWorld1() {
 
 //    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.0f, 0.0f), transformMatrix, invertedInertiaMatrix,0.0f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles); //Face - Face * 2
 //    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.0f, 0.09f, 0.0f), transformMatrix, invertedInertiaMatrix,0.99f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles); //Arete-Face * 1
-    RigidBody* rb = new RigidBody(massCenter, qt, new Vector3D(0.01f, 0.0f, 0.09f), transformMatrix, invertedInertiaMatrix,0.99f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles); // Sommet - Face * 1
+    RigidBody* rb = new RigidBody(massCenter, qt, rotation, transformMatrix, invertedInertiaMatrix,0.99f,new Vector3D(0.0f,0.0f,0.0f),new Vector3D(0.0f,0.0f,0.0f),bodyParticles); // Sommet - Face * 1
 
     rb->setParticleObjectPositions(particleObjectPositions);
 
